@@ -31,7 +31,7 @@
             android:inputType="textEmailAddress"
             android:ems="10"
             android:id="@+id/email"
-            android:hint="E-Mail" android:text="E-Mail" app:layout_constraintStart_toStartOf="parent"
+            android:hint="E-Mail" app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="24dp"
             app:layout_constraintBottom_toTopOf="@+id/dateofbirth"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="292dp" android:autofillHints=""/>
@@ -62,5 +62,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="148dp" android:background="#00FFFFFF" android:onClick="userRegister"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/pwError"
+            app:layout_constraintBottom_toTopOf="@+id/email"
+            app:layout_constraintTop_toBottomOf="@+id/password" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Please input a stronger password" tools:visibility="invisible"
+            android:visibility="invisible" android:textColor="#FF0000" android:autoText="false"
+            android:password="false" android:textSize="10sp" app:layout_constraintHorizontal_bias="0.373"
+    />
+    <TextView
+            android:text="E-mail is invalid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/mailError"
+            app:layout_constraintBottom_toTopOf="@+id/dateofbirth"
+            app:layout_constraintTop_toBottomOf="@+id/email" android:textColor="#FF0000" android:textSize="10sp"
+            android:visibility="invisible" app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.287"
+            tools:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
