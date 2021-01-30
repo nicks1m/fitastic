@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean userRegister(View v) {
+        // arbitary comment
         //1.Check if fields are meet requirements if not throw error
         pwCheck = pwIn.getText().toString();
         mailCheck = mailIn.getText().toString();
