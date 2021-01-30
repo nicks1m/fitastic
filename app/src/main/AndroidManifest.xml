@@ -11,8 +11,8 @@
             android:theme="@style/AppTheme">
 
         <activity android:name=".RunActivity"/>
-        <activity android:name=".MainActivity"/>
-        <activity android:name=".MainActivity2">
+        <activity android:name=".LoginActivity"/>
+        <activity android:name=".MainActivity">d
         </activity>
     <activity android:name=".NavPage">
         <intent-filter>
