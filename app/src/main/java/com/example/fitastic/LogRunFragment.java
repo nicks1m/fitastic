@@ -92,6 +92,7 @@ public class LogRunFragment extends Fragment {
             // validate inputs
             if (validateForm(speed, distance, time)) {
                 // parse data to sql from here
+
             }
         });
 
