@@ -5,8 +5,8 @@
             app:startDestination="@id/homeFrag">
 
 
-    <activity android:id="@+id/loginActivity" android:name="com.example.fitastic.LoginActivity"
-              android:label="activity_main" tools:layout="@layout/activity_login"/>
+    <activity android:id="@+id/loginActivity" android:name="com.example.fitastic.RegisterActivity"
+              android:label="activity_main" tools:layout="@layout/activity_register"/>
     <fragment android:id="@+id/homeFrag" android:name="com.example.fitastic.homeFrag" android:label="fragment_home"
               tools:layout="@layout/fragment_home"/>
     <fragment android:id="@+id/workoutFrag" android:name="com.example.fitastic.workoutFrag"

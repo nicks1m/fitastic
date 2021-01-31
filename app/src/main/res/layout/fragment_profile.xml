@@ -13,4 +13,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" android:textSize="36sp"
     />
+    <Button
+            android:text="Login Page"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:id="@+id/btn_login" tools:layout_editor_absoluteY="58dp"
+            tools:layout_editor_absoluteX="33dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
