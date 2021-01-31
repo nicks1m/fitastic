@@ -31,8 +31,8 @@
     <!-- FrameLayout hides fragment area allocate fragment tag at runTime to make dynamic -->
     <FrameLayout
         android:id="@+id/flPlaceholder"
-        android:layout_width="354dp"
-        android:layout_height="630dp"
+        android:layout_width="329dp"
+        android:layout_height="566dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
