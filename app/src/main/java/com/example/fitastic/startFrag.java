@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,7 +57,27 @@ public class startFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        View root = inflater.inflate(R.layout.fragment_start, container, false);
+
+        LogRunFragment log = new LogRunFragment();
+        RunHistoryFragment history = new RunHistoryFragment();
+
+        // get log button
+        root.findViewById(R.id.run_logBtn2).setOnClickListener(v -> {// begin transaction
+            FragmentTransaction ft1 = getChildFragmentManager().beginTransaction();
+            ft1.replace(R.id.flPlaceholder, log);
+            ft1.commit();
+        });
+
+        // get run history button
+        root.findViewById(R.id.run_historyBtn2).setOnClickListener(v -> {
+            FragmentTransaction ft2 = getChildFragmentManager().beginTransaction();
+            ft2.replace(R.id.flPlaceholder, history);
+            ft2.commit();
+        });
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_start, container, false);
+        return root;
     }
 }
