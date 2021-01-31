@@ -16,9 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".RunActivity"/>
+        <activity android:name=".NavPage"/>
         <activity android:name=".RegisterActivity"/>
-        <activity android:name=".NavPage">
+        <activity android:name=".RunActivity">
 
         </activity>
     </application>
