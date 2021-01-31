@@ -1,17 +1,17 @@
 package com.example.fitastic;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.fragment.app.Fragment;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link SecondFrag#newInstance} factory method to
+ * Use the {@link startFrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SecondFrag extends Fragment {
+public class startFrag extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,7 +22,7 @@ public class SecondFrag extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public SecondFrag() {
+    public startFrag() {
         // Required empty public constructor
     }
 
@@ -32,11 +32,11 @@ public class SecondFrag extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment SecondFrag.
+     * @return A new instance of fragment thirdFrag.
      */
     // TODO: Rename and change types and number of parameters
-    public static SecondFrag newInstance(String param1, String param2) {
-        SecondFrag fragment = new SecondFrag();
+    public static startFrag newInstance(String param1, String param2) {
+        startFrag fragment = new startFrag();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -57,6 +57,6 @@ public class SecondFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_second, container, false);
+        return inflater.inflate(R.layout.fragment_start, container, false);
     }
 }

@@ -2,15 +2,19 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/my_nav"
-            app:startDestination="@id/firstFrag">
+            app:startDestination="@id/homeFrag">
 
 
-    <activity android:id="@+id/mainActivity" android:name="com.example.fitastic.LoginActivity"
+    <activity android:id="@+id/loginActivity" android:name="com.example.fitastic.LoginActivity"
               android:label="activity_main" tools:layout="@layout/activity_login"/>
-    <fragment android:id="@+id/firstFrag" android:name="com.example.fitastic.FirstFrag" android:label="fragment_first"
-              tools:layout="@layout/fragment_first"/>
-    <fragment android:id="@+id/secondFrag" android:name="com.example.fitastic.SecondFrag"
-              android:label="fragment_second" tools:layout="@layout/fragment_second"/>
-    <fragment android:id="@+id/thirdFrag" android:name="com.example.fitastic.thirdFrag" android:label="fragment_third"
-              tools:layout="@layout/fragment_third"/>
+    <fragment android:id="@+id/homeFrag" android:name="com.example.fitastic.homeFrag" android:label="fragment_home"
+              tools:layout="@layout/fragment_home"/>
+    <fragment android:id="@+id/workoutFrag" android:name="com.example.fitastic.workoutFrag"
+              android:label="fragment_workout" tools:layout="@layout/fragment_workout"/>
+    <fragment android:id="@+id/startFrag" android:name="com.example.fitastic.startFrag" android:label="fragment_start"
+              tools:layout="@layout/fragment_start"/>
+    <fragment android:id="@+id/dietFrag" android:name="com.example.fitastic.dietFrag" android:label="fragment_diet"
+              tools:layout="@layout/fragment_diet"/>
+    <fragment android:id="@+id/profileFrag" android:name="com.example.fitastic.profileFrag"
+              android:label="fragment_profile" tools:layout="@layout/fragment_profile"/>
 </navigation>

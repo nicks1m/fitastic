@@ -2,13 +2,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:title="Home"
-          android:id="@+id/firstFrag"
+          android:id="@+id/homeFrag"
           android:icon="@drawable/ic_home_black_24dp"/>
-    <item android:title="Activity"
-          android:id="@+id/thirdFrag"
+    <item android:title="Workout"
+          android:id="@+id/workoutFrag"
           android:icon="@drawable/ic_baseline_history"/>
-    <item android:title="Register"
-          android:id="@+id/secondFrag"
+    <item android:title="Start"
+          android:id="@+id/startFrag"
+          android:icon="@drawable/ic_baseline_record"/>
+    <item android:title="Diet"
+          android:id="@+id/dietFrag"
+          android:icon="@drawable/ic_dashboard_black_24dp"/>
+    <item android:title="Profile"
+          android:id="@+id/profileFrag"
           android:icon="@drawable/ic_baseline"/>
+
 
 </menu>
