@@ -6,6 +6,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -35,12 +36,31 @@ public class RegisterActivity extends AppCompatActivity {
         dobIn = (EditText) findViewById(R.id.dateofbirth);
         pwError = (TextView) findViewById(R.id.pwError);
         mailError = (TextView) findViewById(R.id.mailError);
-//        btnReg = (Button) findViewById(R.id.btnRegister);
+        btnReg = (Button) findViewById(R.id.btnReg);
 //        btnReg.setOnClickListener(new View.OnClickListener(){
 //            public void onClick(View v){
 //                userRegister();
 //            }
 //        });
+        btnReg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RegisterUser user;
+                try {
+                    user = new RegisterUser(-1, userIn.getText().toString(), pwIn.getText().toString(), mailIn.getText().toString(), dobIn.getText().toString());
+                    Toast.makeText(RegisterActivity.this, user.toString(), Toast.LENGTH_SHORT).show();
+                }catch (Exception e){
+                    Toast.makeText(RegisterActivity.this, "Error creating user", Toast.LENGTH_SHORT).show();
+                    user = new RegisterUser(-1, "error", "error", "error", "error");
+                }
+
+                DatabaseHelper databaseHelper = new DatabaseHelper(RegisterActivity.this);
+
+                boolean success = databaseHelper.addOne(user);
+
+                Toast.makeText(RegisterActivity.this, "Success " + success, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public boolean userRegister(View v) {
