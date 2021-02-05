@@ -17,6 +17,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
         regButton = (Button) findViewById(R.id.btn_goto_register);
         regButton.setOnClickListener(new View.OnClickListener() {
             @Override
