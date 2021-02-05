@@ -63,4 +63,15 @@
         app:layout_constraintStart_toStartOf="@+id/userHeight"
         app:layout_constraintTop_toBottomOf="@+id/userHeight" />
 
+    <!-- FrameLayout hides fragment area allocate fragment tag at runTime to make dynamic -->
+    <FrameLayout
+        android:id="@+id/bmiFlplaceholder"
+        android:layout_width="378dp"
+        android:layout_height="714dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout="@layout/fragment_b_m_i" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
