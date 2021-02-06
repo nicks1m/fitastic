@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import java.math.*;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class BMIActivity extends AppCompatActivity {
 
@@ -33,7 +35,24 @@ public class BMIActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //To implement once able to open fragment from bmi activity. Numberformatexception being thrown, resolve it.
                 // Use bundle to send data to next fragment
+
+                // Toast.maketoast Error if fields are blank
+
+
+
+
                 initializeDetails();
+
+                if(weight <= 0 || height <= 0 || textUserWeight == null || textUserHeight == null ){
+                    Context context = getApplicationContext();
+                    CharSequence text = "Input is invalid, please enter an appropriate Height and Weight";
+                    int duration = Toast.LENGTH_SHORT;
+
+                    Toast toast = Toast.makeText(context, text, duration);
+                    toast.show();
+                    return;
+                }
+
                 calculateBMI(getWeight(),getHeight());
                 //Create Fragment, bundle (to pass data to fragment)
                 BMIFrag bmi = new BMIFrag();
@@ -50,13 +69,18 @@ public class BMIActivity extends AppCompatActivity {
 
     public void initializeDetails(){
         //Get User Weight
-        textUserWeight = (findViewById(R.id.userWeight));
-        weight = Double.parseDouble(textUserWeight.getText().toString());
-        //Get User Height
-        textUserHeight = (findViewById(R.id.userHeight));
-        height = Double.parseDouble(textUserHeight.getText().toString());
-        setWeight(weight);
-        setHeight(height);
+        try {
+            textUserWeight = (findViewById(R.id.userWeight));
+            weight = Double.parseDouble(textUserWeight.getText().toString());
+            //Get User Height
+            textUserHeight = (findViewById(R.id.userHeight));
+            height = Double.parseDouble(textUserHeight.getText().toString());
+            setWeight(weight);
+            setHeight(height);
+        } catch(NumberFormatException e){
+
+        }
+
     }
 
 

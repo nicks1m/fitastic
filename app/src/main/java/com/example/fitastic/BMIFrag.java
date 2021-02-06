@@ -1,5 +1,6 @@
 package com.example.fitastic;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,6 +8,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -22,7 +24,11 @@ import java.text.DecimalFormat;
 public class BMIFrag extends Fragment {
 
     private TextView bmiText;
+    private TextView bmiMsg;
     private String strBmi;
+    private double BMI;
+    private Button go_nav;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -74,15 +80,45 @@ public class BMIFrag extends Fragment {
         View v = inflater.inflate(R.layout.fragment_b_m_i, container, false);
 
         //Get "BMI" from activity
-        double BMI = getArguments().getDouble("BMI");
+        BMI = getArguments().getDouble("BMI");
         //Get BMI (2dp) convert to string
-        DecimalFormat f = new DecimalFormat("##.00");
+        DecimalFormat f = new DecimalFormat("##.0");
         strBmi = "" + f.format(BMI);
         bmiText = (TextView)v.findViewById(R.id.bmiText);
+        bmiMsg = (TextView)v.findViewById(R.id.bmiMsg);
         bmiText.setText(strBmi);
+        bmiMsg.setText(bmiRange(BMI));
         //Doesnt work not sure why..
 //        bmiText.setText(Double.toString(BMI));
 
+
+        go_nav = v.findViewById(R.id.go_nav);
+        go_nav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),NavPage.class);
+                startActivity(intent);
+            }
+        });
+
         return v;
     }
+
+    //If else healthy range
+    public String bmiRange(double BMI) {
+        if (BMI > 30.0) {
+            return "You are Obese!";
+        } else if (BMI > 25.0 && BMI < 29.9) {
+            return "You are Overweight!";
+        } else if (BMI > 18.5 && BMI < 24.9) {
+            return "You are Healthy!";
+        } else {
+            return "You are Underweight!";
+        }
+    }
+
+
+
+
+
 }
