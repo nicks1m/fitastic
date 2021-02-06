@@ -59,6 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
         android:text="Next"
+        android:stateListAnimator="@null"
         app:layout_constraintEnd_toEndOf="@+id/userHeight"
         app:layout_constraintStart_toStartOf="@+id/userHeight"
         app:layout_constraintTop_toBottomOf="@+id/userHeight" />
