@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:ems="10"
+        android:hint="0.0"
         android:inputType="numberDecimal"
-        android:text="0.0"
         app:layout_constraintEnd_toEndOf="@+id/textView4"
         app:layout_constraintStart_toStartOf="@+id/textView4"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
@@ -24,8 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:ems="10"
+        android:hint="0.0"
         android:inputType="numberDecimal"
-        android:text="0.0"
         app:layout_constraintEnd_toEndOf="@+id/textView7"
         app:layout_constraintStart_toStartOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -58,8 +58,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="56dp"
-        android:text="Next"
+        android:onClick="calculateBMI"
         android:stateListAnimator="@null"
+        android:text="Next"
         app:layout_constraintEnd_toEndOf="@+id/userHeight"
         app:layout_constraintStart_toStartOf="@+id/userHeight"
         app:layout_constraintTop_toBottomOf="@+id/userHeight" />
@@ -67,8 +68,8 @@
     <!-- FrameLayout hides fragment area allocate fragment tag at runTime to make dynamic -->
     <FrameLayout
         android:id="@+id/bmiFlplaceholder"
-        android:layout_width="378dp"
-        android:layout_height="714dp"
+        android:layout_width="415dp"
+        android:layout_height="732dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

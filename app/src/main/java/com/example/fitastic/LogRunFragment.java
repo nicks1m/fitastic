@@ -37,7 +37,7 @@ public class LogRunFragment extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
             /* In future Latitudes and Longitudes would need to be retrieved from the users
-            * location to map their run */
+             * location to map their run */
             // create a latitude and longitude object for london's location
             LatLng london = new LatLng(51.5074, - 0.1278);
             // add marker to googleMap instance

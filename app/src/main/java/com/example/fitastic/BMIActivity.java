@@ -14,8 +14,8 @@ import android.widget.Button;
 public class BMIActivity extends AppCompatActivity {
 
     Button calculateBMI;
-    private double userWeight;
-    private double userHeight;
+    private EditText textUserWeight;
+    private EditText textUserHeight;
     private double weight;
     private double height;
     private double userBMI;
@@ -25,6 +25,7 @@ public class BMIActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_b_m_i);
 
+        //BMI button init
         calculateBMI = (Button) findViewById(R.id.calculate_bmi);
 
         calculateBMI.setOnClickListener(new View.OnClickListener(){
@@ -32,10 +33,14 @@ public class BMIActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //To implement once able to open fragment from bmi activity. Numberformatexception being thrown, resolve it.
                 // Use bundle to send data to next fragment
-
-                //initializeDetails();
-                //userBMI = calculateBMI(getWeight(),getHeight());
+                initializeDetails();
+                calculateBMI(getWeight(),getHeight());
+                //Create Fragment, bundle (to pass data to fragment)
                 BMIFrag bmi = new BMIFrag();
+                Bundle bundle = new Bundle();
+                bundle.putDouble("BMI", userBMI);
+                bmi.setArguments(bundle);
+                //Begin Fragment Transact
                 androidx.fragment.app.FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
                 ft1.replace(R.id.bmiFlplaceholder, bmi);
                 ft1.commit();
@@ -45,20 +50,29 @@ public class BMIActivity extends AppCompatActivity {
 
     public void initializeDetails(){
         //Get User Weight
-        userWeight = Double.parseDouble(String.valueOf(findViewById(R.id.userWeight))) ;
+        textUserWeight = (findViewById(R.id.userWeight));
+        weight = Double.parseDouble(textUserWeight.getText().toString());
         //Get User Height
-        userHeight = Double.parseDouble(String.valueOf(findViewById(R.id.userHeight)));
-        setWeight(userWeight);
-        setHeight(userHeight);
+        textUserHeight = (findViewById(R.id.userHeight));
+        height = Double.parseDouble(textUserHeight.getText().toString());
+        setWeight(weight);
+        setHeight(height);
     }
 
 
     //gets weight and height and calculate BMI of user
-    public double calculateBMI(double weight, double height){
+    public void calculateBMI(double weight, double height){
         double bmi = 0;
         bmi = (weight/(Math.pow(height,2)))*10000;
-        return bmi;
+        userBMI = bmi;
+        System.out.println(userBMI);
     }
+
+
+
+
+
+    //getters and setters
 
     public double getWeight(){
         return this.weight;

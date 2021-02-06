@@ -7,6 +7,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +20,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class BMIFrag extends Fragment {
+
+    private TextView bmiText;
+    private String strBmi;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -53,12 +62,27 @@ public class BMIFrag extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_b_m_i, container, false);
+        View v = inflater.inflate(R.layout.fragment_b_m_i, container, false);
+
+        //Get "BMI" from activity
+        double BMI = getArguments().getDouble("BMI");
+        //Get BMI (2dp) convert to string
+        DecimalFormat f = new DecimalFormat("##.00");
+        strBmi = "" + f.format(BMI);
+        bmiText = (TextView)v.findViewById(R.id.bmiText);
+        bmiText.setText(strBmi);
+        //Doesnt work not sure why..
+//        bmiText.setText(Double.toString(BMI));
+
+        return v;
     }
 }
