@@ -25,6 +25,11 @@ import java.util.ArrayList;
  */
 public class RunHistoryFragment extends Fragment {
 
+    /* Run history fragment provides users a fragment to look at all past runs and statistics
+    from specific runs. To achieve this, this frag would need to communicate with the Database to
+    retrieve this data and display it on the frag
+     */
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -65,19 +70,22 @@ public class RunHistoryFragment extends Fragment {
         }
     }
 
-    // method to get sql data (speed distance time)
+    // returns array list of int[] holding average run stats
     public ArrayList<int[]> getRunStats() {
+        /* Database data should be inputted in this method, its been encapsulated in an arraylist
+        * just as an example of how the process will work */
         ArrayList<int[]> statistics = new ArrayList<>();
 
-        // generate stats as an example (this should be retrieved from sql)
+        // generate stats as an example (this should be retrieved from database)
         int[] a = {10, 10, 10};
         int[] b = {5, 5, 5};
         int[] c = {7, 7, 7};
 
+        // add to arrayList
         statistics.add(a);
         statistics.add(b);
         statistics.add(c);
-
+        // return arrayList
         return statistics;
     }
 
@@ -95,7 +103,7 @@ public class RunHistoryFragment extends Fragment {
         return stat;
     }
 
-    // handle creating dynamic elements
+    // creates views depending on the data parsed from getRunStats()
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -14,6 +14,10 @@ import androidx.fragment.app.FragmentTransaction;
  */
 public class startFrag extends Fragment {
 
+    /* start frag is the home page of the run page, it encapsulates log run and run history
+    fragments
+     */
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -69,6 +73,8 @@ public class startFrag extends Fragment {
             ft1.replace(R.id.flPlaceholder, log);
             ft1.commit();
         });
+        // click button to make log run page load by default
+        root.findViewById(R.id.run_logBtn2).performClick();
 
         // get run history button
         root.findViewById(R.id.run_historyBtn2).setOnClickListener(v -> {

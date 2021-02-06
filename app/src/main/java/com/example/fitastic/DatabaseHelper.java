@@ -41,6 +41,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         long insert = db.insert(REGISTER_TABLE, null, cv);
 
+
         if(insert == -1){
             return false;
         }else{
