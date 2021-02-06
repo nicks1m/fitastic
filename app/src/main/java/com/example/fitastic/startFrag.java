@@ -1,11 +1,21 @@
 package com.example.fitastic;
 
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -13,10 +23,6 @@ import androidx.fragment.app.FragmentTransaction;
  * create an instance of this fragment.
  */
 public class startFrag extends Fragment {
-
-    /* start frag is the home page of the run page, it encapsulates log run and run history
-    fragments
-     */
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,7 +43,7 @@ public class startFrag extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment thirdFrag.
+     * @return A new instance of fragment startFrag.
      */
     // TODO: Rename and change types and number of parameters
     public static startFrag newInstance(String param1, String param2) {
@@ -61,29 +67,37 @@ public class startFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View root = inflater.inflate(R.layout.fragment_start, container, false);
-
-        LogRunFragment log = new LogRunFragment();
-        RunHistoryFragment history = new RunHistoryFragment();
-
-        // get log button
-        root.findViewById(R.id.run_logBtn2).setOnClickListener(v -> {// begin transaction
-            FragmentTransaction ft1 = getChildFragmentManager().beginTransaction();
-            ft1.replace(R.id.flPlaceholder, log);
-            ft1.commit();
-        });
-        // click button to make log run page load by default
-        root.findViewById(R.id.run_logBtn2).performClick();
-
-        // get run history button
-        root.findViewById(R.id.run_historyBtn2).setOnClickListener(v -> {
-            FragmentTransaction ft2 = getChildFragmentManager().beginTransaction();
-            ft2.replace(R.id.flPlaceholder, history);
-            ft2.commit();
-        });
-
         // Inflate the layout for this fragment
-        return root;
+        return inflater.inflate(R.layout.fragment_start, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        if (mapFragment != null) {
+            mapFragment.getMapAsync(callback);
+        }
+    }
+
+    private OnMapReadyCallback callback = new OnMapReadyCallback() {
+        /**
+         * Manipulates the map once available.
+         * This callback is triggered when the map is ready to be used.
+         * This is where we can add markers or lines, add listeners or move the camera.
+         * In this case, we just add a marker near Sydney, Australia.
+         * If Google Play services is not installed on the device, the user will be prompted to
+         * install it inside the SupportMapFragment. This method will only be triggered once the
+         * user has installed Google Play services and returned to the app.
+         */
+        @Override
+        public void onMapReady(GoogleMap googleMap) {
+            LatLng sydney = new LatLng(-34, 151);
+            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        }
+    };
+
+
 }
