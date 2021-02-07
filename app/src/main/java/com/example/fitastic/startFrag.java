@@ -88,7 +88,7 @@ public class startFrag extends Fragment {
 
         distanceView = getActivity().findViewById(R.id.distanceData);
         averagePaceView = getActivity().findViewById(R.id.averagePaceData);
-        fragmentContainer = getActivity().findViewById(R.id.runLayout);
+        //fragmentContainer = getActivity().findViewById(R.id.runLayout);
         logsBtn = getActivity().findViewById(R.id.runLogsBtn);
         startBtn = getActivity().findViewById(R.id.runStartBtn);
         statsBtn = getActivity().findViewById(R.id.runStatBtn);
