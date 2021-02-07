@@ -5,10 +5,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +28,23 @@ import com.google.android.gms.maps.model.MarkerOptions;
  * create an instance of this fragment.
  */
 public class startFrag extends Fragment {
+
+    /* start Frag contains the start run page of the app. Contains a google maps and means of
+    * navigation to run logs fragment. This page allows users to start a run, view their route on
+    * the map, end their run and visit the run logs showing their run history.
+    */
+
+    private final Bundle arg = getArguments();
+
+    private FrameLayout fragmentContainer;
+
+    private TextView distanceView;
+    private TextView averagePaceView;
+
+    private Button logsBtn;
+    private Button startBtn;
+    private Button statsBtn;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,6 +77,7 @@ public class startFrag extends Fragment {
         return fragment;
     }
 
+    // initialise non graphical components
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,13 +85,29 @@ public class startFrag extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        distanceView = getActivity().findViewById(R.id.distanceData);
+        averagePaceView = getActivity().findViewById(R.id.averagePaceData);
+        fragmentContainer = getActivity().findViewById(R.id.runLayout);
+        logsBtn = getActivity().findViewById(R.id.runLogsBtn);
+        startBtn = getActivity().findViewById(R.id.runStartBtn);
+        statsBtn = getActivity().findViewById(R.id.runStatBtn);
+
     }
 
+    // initialise graphical components
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_start, container, false);
+        View root = inflater.inflate(R.layout.fragment_start, container, false);
+        root.findViewById(R.id.runLogsBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openLogs();
+            }
+        });
+        return root;
     }
 
     @Override
@@ -81,6 +120,29 @@ public class startFrag extends Fragment {
         }
     }
 
+    // opens run history fragment
+    public void openLogs() {
+
+
+        RunHistoryFragment logs = new RunHistoryFragment();
+
+        FragmentManager manager = getChildFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+
+        // add animations
+        transaction.setCustomAnimations(R.anim.enter_from_right, R.anim.exit_to_right,
+                R.anim.enter_from_right, R.anim.exit_to_right);
+
+        // prevent adding to back stack
+        transaction.addToBackStack(null);
+
+        //transaction.add(R.id.runLayout, logs, "RUN_LOGS_FRAGMENT");
+        transaction.replace(R.id.startRunPlaceholder, logs);
+        transaction.commit();
+    }
+
+
+    /* Map functionality */
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         /**
          * Manipulates the map once available.
