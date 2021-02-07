@@ -2,19 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/runLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".startFrag">
 
-    <!-- TODO: Update blank fragment layout -->
-
     <TextView
-        android:id="@+id/averagePaceData"
+        android:id="@+id/distanceData"
         android:layout_width="69dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:text="0.0km"
-        app:layout_constraintBottom_toBottomOf="@+id/DistanceLabel"
+        app:layout_constraintBottom_toBottomOf="@+id/distanceLabel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,20 +24,20 @@
         android:layout_height="494dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AveragePaceLabel"
+        app:layout_constraintTop_toBottomOf="@+id/averagePaceLabel"
         app:layout_constraintVertical_bias="0.031"
         tools:context=".MapsFragment" />
 
     <TextView
-        android:id="@+id/DistanceLabel"
+        android:id="@+id/distanceLabel"
         android:layout_width="103dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -46,8 +45,8 @@
         android:layout_alignParentTop="true"
         android:text="Distance:"
         app:layout_constraintBottom_toTopOf="@+id/map"
-        app:layout_constraintEnd_toStartOf="@+id/averagePaceData"
-        app:layout_constraintStart_toEndOf="@+id/AveragePaceData"
+        app:layout_constraintEnd_toStartOf="@+id/distanceData"
+        app:layout_constraintStart_toEndOf="@+id/averagePaceData"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -61,6 +60,9 @@
         android:layout_marginRight="32dp"
         android:layout_marginBottom="76dp"
         android:text="Stats"
+        android:stateListAnimator="@null"
+        android:focusable="true"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/runStartBtn" />
 
@@ -73,28 +75,16 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="56dp"
+        android:stateListAnimator="@null"
         android:text="Run"
+        android:focusable="true"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/runHistoryBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="36dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:text="Logs"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
-        android:id="@+id/AveragePaceLabel"
+        android:id="@+id/averagePaceLabel"
         android:layout_width="103dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -106,7 +96,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/AveragePaceData"
+        android:id="@+id/averagePaceData"
         android:layout_width="69dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -116,7 +106,39 @@
         app:layout_constraintBottom_toTopOf="@+id/map"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.133"
-        app:layout_constraintStart_toEndOf="@+id/AveragePaceLabel"
+        app:layout_constraintStart_toEndOf="@+id/averagePaceLabel"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/runLogsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:focusable="true"
+        android:clickable="true"
+        android:stateListAnimator="@null"
+        android:text="Logs"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/startRunPlaceholder"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+
+    </FrameLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

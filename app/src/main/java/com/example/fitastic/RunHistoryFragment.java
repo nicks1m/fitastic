@@ -8,11 +8,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import org.w3c.dom.Text;
 
@@ -29,6 +35,12 @@ public class RunHistoryFragment extends Fragment {
     from specific runs. To achieve this, this frag would need to communicate with the Database to
     retrieve this data and display it on the frag
      */
+
+    private FrameLayout fragmentContainer;
+    private Button backBtn;
+    private Button startBtn;
+    private Button statsBtn;
+    private Button logsBtn;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -61,6 +73,7 @@ public class RunHistoryFragment extends Fragment {
         return fragment;
     }
 
+    // non graphical initialisations done here
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +81,12 @@ public class RunHistoryFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        fragmentContainer = (FrameLayout) getActivity().findViewById(R.id.startRunPlaceholder);
+
+        startBtn = getActivity().findViewById(R.id.runStartBtn);
+        logsBtn = getActivity().findViewById(R.id.runLogsBtn);
+        statsBtn = getActivity().findViewById(R.id.runStatBtn);
     }
 
     // returns array list of int[] holding average run stats
@@ -112,17 +131,40 @@ public class RunHistoryFragment extends Fragment {
                 LinearLayout.LayoutParams.WRAP_CONTENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
-
         View rootView = inflater.inflate(R.layout.fragment_history_run, container, false);
-
         LinearLayout myLayout = (LinearLayout)rootView.findViewById(R.id.runHistoryRLayout);
-
         for (int i = 0; i < getRunStats().size(); i++) {
             TextView myStat = generateStat(getContext(), i);
             myLayout.addView(myStat, buttonParams);
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        startBtn.setVisibility(View.INVISIBLE);
+        logsBtn.setVisibility(View.INVISIBLE);
+        statsBtn.setVisibility(View.INVISIBLE);
+
+        backBtn = getActivity().findViewById(R.id.runLogsBackBtn);
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //openStart();
+            }
+        });
+
+    }
+
+    public void openStart() {
+        startFrag sF = new startFrag();
+        FragmentManager manager = getChildFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        transaction.replace(R.id.startRunPlaceholder, sF);
+        transaction.commit();
     }
 }
 
