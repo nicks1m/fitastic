@@ -33,16 +33,9 @@ public class BMIActivity extends AppCompatActivity {
         calculateBMI.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                //To implement once able to open fragment from bmi activity. Numberformatexception being thrown, resolve it.
-                // Use bundle to send data to next fragment
-
-                // Toast.maketoast Error if fields are blank
-
-
-
 
                 initializeDetails();
-
+                //Show error if input is invalid
                 if(weight <= 0 || height <= 0 || textUserWeight == null || textUserHeight == null ){
                     Context context = getApplicationContext();
                     CharSequence text = "Input is invalid, please enter an appropriate Height and Weight";

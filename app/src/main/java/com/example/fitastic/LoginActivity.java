@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //Opens Home Activity Page
     public void openNewActivity2(){
-        Intent intent = new Intent(this, BMIActivity.class);
+        Intent intent = new Intent(this, NavPage.class);
         startActivity(intent);
     }
 

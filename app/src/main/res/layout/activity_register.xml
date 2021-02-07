@@ -35,17 +35,20 @@
             app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="24dp"
             app:layout_constraintBottom_toTopOf="@+id/dateofbirth"
             app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="292dp" android:autofillHints=""/>
+
     <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:text="Username"
-            android:ems="10"
-            android:id="@+id/username"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginBottom="20dp" app:layout_constraintBottom_toTopOf="@+id/password"
-            app:layout_constraintTop_toTopOf="parent" android:layout_marginTop="152dp"/>
+        android:id="@+id/username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="152dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/dateofbirth"
@@ -53,39 +56,89 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="364dp"
         android:ems="10"
+        android:hint="Date of Birth"
         android:inputType="date"
-        android:text="Date Of Birth"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/pwError"
-            app:layout_constraintBottom_toTopOf="@+id/email"
-            app:layout_constraintTop_toBottomOf="@+id/password" app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="Please input a stronger password" tools:visibility="invisible"
-            android:visibility="invisible" android:textColor="#FF0000" android:autoText="false"
-            android:password="false" android:textSize="10sp" app:layout_constraintHorizontal_bias="0.373"
-    />
+        android:id="@+id/pwError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoText="false"
+        android:password="false"
+        android:text="Please input a stronger password"
+        android:textColor="#FF0000"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/email"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password"
+        tools:visibility="invisible" />
+
     <TextView
-            android:text="E-mail is invalid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/mailError"
-            app:layout_constraintBottom_toTopOf="@+id/dateofbirth"
-            app:layout_constraintTop_toBottomOf="@+id/email" android:textColor="#FF0000" android:textSize="10sp"
-            android:visibility="invisible" app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.287"
-            tools:visibility="invisible"/>
+        android:id="@+id/userError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoText="false"
+        android:password="false"
+        android:text="Username is invalid"
+        android:textColor="#FF0000"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.309"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        tools:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/mailError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="E-mail is invalid"
+        android:textColor="#FF0000"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/dateofbirth"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.29"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/email"
+        tools:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/dobError"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="9dp"
+        android:layout_marginBottom="299dp"
+        android:text="D.O.B is invalid"
+        android:textColor="#FF0000"
+        android:textSize="10sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.293"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dateofbirth"
+        app:layout_constraintVertical_bias="0.0"
+        tools:visibility="invisible" />
 
     <Button
         android:id="@+id/btnReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="124dp"
+        android:layout_marginBottom="151dp"
         android:text="Register"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="532dp" />
+        app:layout_constraintTop_toBottomOf="@+id/dateofbirth" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

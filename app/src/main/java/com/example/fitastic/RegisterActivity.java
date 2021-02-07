@@ -1,5 +1,6 @@
 package com.example.fitastic;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,6 +18,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText dobIn;
     private TextView pwError;
     private TextView mailError;
+    private TextView userError;
+    private TextView dobError;
     private Button btnReg;
     private String pwCheck;
     private String mailCheck;
@@ -30,67 +33,124 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void initializeApp() {
-        userIn = (EditText) findViewById(R.id.username);
-        pwIn = (EditText) findViewById(R.id.password);
-        mailIn = (EditText) findViewById(R.id.email);
-        dobIn = (EditText) findViewById(R.id.dateofbirth);
-        pwError = (TextView) findViewById(R.id.pwError);
-        mailError = (TextView) findViewById(R.id.mailError);
-        btnReg = (Button) findViewById(R.id.btnReg);
-//        btnReg.setOnClickListener(new View.OnClickListener(){
-//            public void onClick(View v){
-//                userRegister();
-//            }
-//        });
+        userIn = findViewById(R.id.username);
+        pwIn = findViewById(R.id.password);
+        mailIn = findViewById(R.id.email);
+        dobIn = findViewById(R.id.dateofbirth);
+        pwError = findViewById(R.id.pwError);
+        mailError = findViewById(R.id.mailError);
+        userError = findViewById(R.id.userError);
+        dobError = findViewById(R.id.dobError);
+        btnReg = findViewById(R.id.btnReg);
         btnReg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RegisterUser user;
-                try {
+                if(checkDetails()){
+                    System.out.println(checkDetails());
                     user = new RegisterUser(-1, userIn.getText().toString(), pwIn.getText().toString(), mailIn.getText().toString(), dobIn.getText().toString());
-                    Toast.makeText(RegisterActivity.this, user.toString(), Toast.LENGTH_SHORT).show();
-                }catch (Exception e){
-                    Toast.makeText(RegisterActivity.this, "Error creating user", Toast.LENGTH_SHORT).show();
-                    user = new RegisterUser(-1, "error", "error", "error", "error");
+                    DatabaseHelper databaseHelper = new DatabaseHelper(RegisterActivity.this);
+
+                    boolean success = databaseHelper.addOne(user);
+
+                    Toast.makeText(RegisterActivity.this, "Successful Registration ", Toast.LENGTH_SHORT).show();
+                    openBMIactivity();
+                } else{
+                    Toast.makeText(RegisterActivity.this, "Invalid Input", Toast.LENGTH_SHORT).show();
                 }
+//                try {
+//                    user = new RegisterUser(-1, userIn.getText().toString(), pwIn.getText().toString(), mailIn.getText().toString(), dobIn.getText().toString());
+//                    Toast.makeText(RegisterActivity.this, user.toString(), Toast.LENGTH_SHORT).show();
+//                }catch (Exception e){
+//                    Toast.makeText(RegisterActivity.this, "Error creating user", Toast.LENGTH_SHORT).show();
+//                    user = new RegisterUser(-1, "error", "error", "error", "error");
+//                }
 
-                DatabaseHelper databaseHelper = new DatabaseHelper(RegisterActivity.this);
 
-                boolean success = databaseHelper.addOne(user);
-
-                Toast.makeText(RegisterActivity.this, "Success " + success, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    public boolean userRegister(View v) {
-        //1.Check if fields are meet requirements if not throw error
-        pwCheck = pwIn.getText().toString();
-        mailCheck = mailIn.getText().toString();
-        //If both requirements met, hide errors, send data to sql and proceed to next page
-        if (checkPw(pwCheck) && checkMail(mailCheck)) {
-            pwError.setVisibility(View.INVISIBLE);
-            mailError.setVisibility(View.INVISIBLE);
-            System.out.println("Successful");
-            return true;
+    public boolean checkDetails(){
+
+        //userIn, mailIn, pwIn, dobIn
+        String u = userIn.getText().toString();
+        String m = mailIn.getText().toString();
+        String p = pwIn.getText().toString();
+        String d = dobIn.getText().toString();
+
+        boolean ucheck = false;
+        boolean mcheck = false;
+        boolean pcheck = false;
+        boolean dcheck = false;
+
+
+        boolean check = true;
+
+        if(userIn == null || u.length() < 5 || !checkUser(u)){
+            userError.setVisibility(View.VISIBLE);
+            ucheck = false;
+        }else{
+            userError.setVisibility(View.INVISIBLE);
+            ucheck = true;
         }
 
-        System.out.println("Password Failed / Mail Failed");
-        return false;
+        if(!checkMail(m) || m.length()<5){
+            mailError.setVisibility(View.VISIBLE);
+            mcheck = false;
+        } else {
+            mailError.setVisibility(View.INVISIBLE);
+            mcheck = true;
 
+        }
+
+        if(!checkPw(p)){
+            pwError.setVisibility(View.VISIBLE);
+            pcheck = false;
+        } else {
+            pwError.setVisibility(View.INVISIBLE);
+            pcheck = true;
+        }
+
+        if(dobIn == null || d.length() < 6){
+            dobError.setVisibility(View.VISIBLE);
+            dcheck = false;
+        } else {
+            dobError.setVisibility(View.INVISIBLE);
+            dcheck = true;
+        }
+
+        if(pcheck == false || mcheck == false || dcheck == false || ucheck ==false){
+            return false;
+        }
+        return true;
+    }
+
+
+    public boolean checkUser(String user){
+        char[] symbolsArray = {'~','`','!','@','#','$','%','^','&','*','(',')','_','-','+','=','{','[','}',']','|',':',';','"','<','>','.','?','/'};
+        for(int i = 0; i < user.length(); i++){
+            for(int j = 0; j < symbolsArray.length; j++){
+                if(user.charAt(i) == symbolsArray[j]){
+
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     //Check Password if meet requirements
     public boolean checkPw(String password) {
 
         //Array Inits
-        char[] symbolsArray = {'!', '@', '#', '$', '%', '^', '&', '/', '?'};
-        char[] digitsArray = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+        char[] symbolsArray = {'~','`','!','@','#','$','%','^','&','*','(',')','_','-','+','=','{','[','}',']','|',':',';','"','<','>','.','?','/'};
+        char[] digitsArray = {'0','1', '2', '3', '4', '5', '6', '7', '8', '9'};
         char[] alphabetsArray = new char[52];
+
         //Populate alphabetsArray with Alphabets
         char count = 65;
         for (int i = 0; i < 52; i++) {
-
             alphabetsArray[i] = count++;
             if (i > 25) {
                 count = 97;
@@ -151,7 +211,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (password.length() >= 8 && symbolCounter >= 1 && digitCounter >= 1 && (lowerCase && upperCase)) {
             return true;
         } else
-            pwError.setVisibility(View.VISIBLE);
+//            pwError.setVisibility(View.VISIBLE);
         return false;
 
     }
@@ -159,18 +219,22 @@ public class RegisterActivity extends AppCompatActivity {
     //Check E-Mail if meet requirements(req. @ in the field, and .com .uk .sg etc..)
 
     public boolean checkMail(String mail) {
-        System.out.println("working");
         for (int i = 0; i < mail.length(); i++) {
             if (mail.charAt(i) == '@') {
                 System.out.println("Mail Pass");
                 return true;
             } else
                 System.out.println("Mail Fail");
-            mailError.setVisibility(View.VISIBLE);
+//            mailError.setVisibility(View.VISIBLE);
         }
         return false;
     }
 
     //Check Username if meet requirements (min. 5 char)
+
+    public void openBMIactivity(){
+        Intent intent = new Intent(this, BMIActivity.class);
+        startActivity(intent);
+    }
 
 }
