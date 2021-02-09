@@ -63,7 +63,7 @@
 
     <Button
         android:id="@+id/btnReg"
-        android:layout_width="250dp"
+        android:layout_width="230dp"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/custom_button_light_red_bg"
@@ -219,9 +219,9 @@
         android:id="@+id/textView9"
         android:layout_width="248dp"
         android:layout_height="78dp"
-        android:layout_marginStart="28dp"
-        android:layout_marginLeft="28dp"
-        android:layout_marginTop="84dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="56dp"
         android:fontFamily="@font/cyberpunk"
         android:rotation="-10"
         android:rotationX="0"
