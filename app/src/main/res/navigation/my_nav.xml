@@ -12,9 +12,22 @@
     <fragment android:id="@+id/workoutFrag" android:name="com.example.fitastic.workoutFrag"
               android:label="fragment_workout" tools:layout="@layout/fragment_workout"/>
     <fragment android:id="@+id/startFrag" android:name="com.example.fitastic.startFrag" android:label="fragment_start"
-              tools:layout="@layout/fragment_start"/>
+              tools:layout="@layout/fragment_start">
+        <action
+            android:id="@+id/action_startFrag_to_runHistoryFragment"
+            app:destination="@id/runHistoryFragment" />
+    </fragment>
     <fragment android:id="@+id/dietFrag" android:name="com.example.fitastic.dietFrag" android:label="fragment_diet"
               tools:layout="@layout/fragment_diet"/>
     <fragment android:id="@+id/profileFrag" android:name="com.example.fitastic.profileFrag"
               android:label="fragment_profile" tools:layout="@layout/fragment_profile"/>
+    <fragment
+        android:id="@+id/runHistoryFragment"
+        android:name="com.example.fitastic.RunHistoryFragment"
+        android:label="fragment_history_run"
+        tools:layout="@layout/fragment_history_run" >
+        <action
+            android:id="@+id/action_runHistoryFragment_to_startFrag"
+            app:destination="@id/startFrag" />
+    </fragment>
 </navigation>
