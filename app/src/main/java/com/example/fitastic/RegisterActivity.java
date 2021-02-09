@@ -14,9 +14,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     private EditText userIn;
     private EditText pwIn;
+    private EditText pwIn2;
     private EditText mailIn;
     private EditText dobIn;
     private TextView pwError;
+    private TextView pwError2;
     private TextView mailError;
     private TextView userError;
     private TextView dobError;
@@ -35,9 +37,11 @@ public class RegisterActivity extends AppCompatActivity {
     private void initializeApp() {
         userIn = findViewById(R.id.username);
         pwIn = findViewById(R.id.password);
+        pwIn2 = findViewById(R.id.password2);
         mailIn = findViewById(R.id.email);
         dobIn = findViewById(R.id.dateofbirth);
         pwError = findViewById(R.id.pwError);
+        pwError2 = findViewById(R.id.pwError2);
         mailError = findViewById(R.id.mailError);
         userError = findViewById(R.id.userError);
         dobError = findViewById(R.id.dobError);
@@ -77,16 +81,17 @@ public class RegisterActivity extends AppCompatActivity {
         String u = userIn.getText().toString();
         String m = mailIn.getText().toString();
         String p = pwIn.getText().toString();
+        String p2 = pwIn2.getText().toString();
         String d = dobIn.getText().toString();
 
         boolean ucheck = false;
         boolean mcheck = false;
         boolean pcheck = false;
+        boolean pcheck2 = false;
         boolean dcheck = false;
 
 
-        boolean check = true;
-
+        //Checks individual fields to see if meets criteria, show error if not.
         if(userIn == null || u.length() < 5 || !checkUser(u)){
             userError.setVisibility(View.VISIBLE);
             ucheck = false;
@@ -112,6 +117,14 @@ public class RegisterActivity extends AppCompatActivity {
             pcheck = true;
         }
 
+        if(!p.contentEquals(p2)){
+            pwError2.setVisibility(View.VISIBLE);
+            pcheck2 = false;
+        } else  {
+            pwError2.setVisibility(View.INVISIBLE);
+            pcheck2 = true;
+        }
+
         if(dobIn == null || d.length() < 6){
             dobError.setVisibility(View.VISIBLE);
             dcheck = false;
@@ -120,7 +133,9 @@ public class RegisterActivity extends AppCompatActivity {
             dcheck = true;
         }
 
-        if(pcheck == false || mcheck == false || dcheck == false || ucheck ==false){
+        //If one field fails the criteria, registration wont go through
+
+        if(pcheck == false || mcheck == false || dcheck == false || ucheck ==false || pcheck2 == false){
             return false;
         }
         return true;
@@ -139,6 +154,15 @@ public class RegisterActivity extends AppCompatActivity {
         }
         return true;
     }
+
+//    public boolean rePw(){
+//        if(pwIn.getText().toString() != pwIn2.getText().toString()){
+//            System.out.println(false);
+//          return false;
+//        }
+//        System.out.println(true);
+//        return true;
+//    }
 
     //Check Password if meet requirements
     public boolean checkPw(String password) {
