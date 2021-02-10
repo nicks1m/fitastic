@@ -7,6 +7,10 @@
         android:layout_height="match_parent"
         tools:context=".NavPage">
 
+<!--    <include layout="@layout/toolbar"-->
+<!--        android:id="@+id/toolbar"-->
+<!--        />-->
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:layout_width="match_parent"
             android:layout_height="150px"

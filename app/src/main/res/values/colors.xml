@@ -6,4 +6,5 @@
     <color name="mainFont">#05d9e8</color>
     <color name="pageBG">#01012b</color>
     <color name="cyberRed">#ff2a6d</color>
+    <color name="cyberYellow">#fdf800</color>
 </resources>

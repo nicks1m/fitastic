@@ -1,23 +1,18 @@
 package com.example.fitastic;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
-import androidx.navigation.NavHost;
-import androidx.navigation.Navigation;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,10 +23,10 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link startFrag#newInstance} factory method to
+ * Use the {@link onRunFrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class startFrag extends Fragment {
+public class onRunFrag extends Fragment {
 
     /* start Frag contains the start run page of the app. Contains a google maps and means of
     * navigation to run logs fragment. This page allows users to start a run, view their route on
@@ -61,7 +56,7 @@ public class startFrag extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public startFrag() {
+    public onRunFrag() {
         // Required empty public constructor
     }
 
@@ -74,8 +69,8 @@ public class startFrag extends Fragment {
      * @return A new instance of fragment startFrag.
      */
     // TODO: Rename and change types and number of parameters
-    public static startFrag newInstance(String param1, String param2) {
-        startFrag fragment = new startFrag();
+    public static onRunFrag newInstance(String param1, String param2) {
+        onRunFrag fragment = new onRunFrag();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -98,7 +93,7 @@ public class startFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View root = inflater.inflate(R.layout.fragment_start, container, false);
+        View root = inflater.inflate(R.layout.fragment_onrun, container, false);
 
         // get fragment components
         startBtn = root.findViewById(R.id.runStartBtn);
@@ -124,15 +119,15 @@ public class startFrag extends Fragment {
         controller = Navigation.findNavController(view);
 
         //
-        startBtn.setOnClickListener(v -> {
-            openRun(v);
-        });
+//        logsBtn.setOnClickListener(v -> {
+//            openLogs(v);
+//        });
     }
 
-    // opens run history fragment
-    public void openRun(View v) {
-        controller.navigate(R.id.action_startFrag_to_onRunFrag);
-    }
+//     opens run history fragment
+//    public void openLogs(View v) {
+//        controller.navigate(R.id.action_startFrag_to_runHistoryFragment);
+//    }
 
 
     /* Map functionality */

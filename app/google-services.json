@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "664221680360",
+    "project_id": "fitastic-584f7",
+    "storage_bucket": "fitastic-584f7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664221680360:android:07d43089b28b8f2abc7f5d",
+        "android_client_info": {
+          "package_name": "com.example.fitastic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "664221680360-5vq0cqp1esi04e9qm8hm0lt53ja0j92e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNsRM2N_f5pt0KvmOqPvj-sDudHs0WSHY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "664221680360-5vq0cqp1esi04e9qm8hm0lt53ja0j92e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
