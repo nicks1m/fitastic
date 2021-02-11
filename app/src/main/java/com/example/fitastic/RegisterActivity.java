@@ -1,5 +1,6 @@
 package com.example.fitastic;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -63,8 +64,15 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(RegisterActivity.this, "Please enter all the details", Toast.LENGTH_SHORT).show();
             } else {
                 registerUser(register_email, register_pw);
+//                public void onClick(View v){}
+                 openSetupActivity();
             }
         });
+    }
+
+    public void openSetupActivity(){
+        Intent intent = new Intent(this, SetupUserActivity.class);
+        startActivity(intent);
     }
 
     public void registerUser (String mailIn, String pwIn){

@@ -61,6 +61,7 @@
         android:drawableLeft="@drawable/arrow"
         android:drawableRight="@drawable/arrow_r"
         android:ems="10"
+        android:background="#27BCBABA"
         android:fontFamily="@font/play_regular"
         android:gravity="center_horizontal"
         android:hint="Password"
@@ -80,12 +81,13 @@
         android:id="@+id/editTextTextPersonName"
         android:layout_width="250dp"
         android:layout_height="40dp"
+        android:background="#27BCBABA"
         android:drawableLeft="@drawable/arrow"
         android:drawableRight="@drawable/arrow_r"
         android:ems="10"
         android:fontFamily="@font/play_regular"
         android:gravity="center_horizontal"
-        android:hint="Username"
+        android:hint="E-mail"
         android:inputType="textPersonName"
         android:padding="10dp"
         android:textColor="@color/mainFont"
@@ -97,5 +99,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.26" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="130dp"
+        android:layout_marginLeft="130dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="130dp"
+        android:layout_marginRight="130dp"
+        android:layout_marginBottom="70dp"
+        android:fontFamily="@font/cyberpunk"
+        android:text="Forget Password?"
+        android:textColor="@color/cyberYellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_goto_register" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
