@@ -1,21 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                   xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-                                                   android:layout_width="match_parent"
-                                                   android:layout_height="match_parent"
-                                                   tools:context=".profileFrag">
-    <TextView
-            android:text="Profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/textView2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" android:textSize="36sp"
-    />
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cyberYellow"
+    tools:context=".profileFrag">
+
     <Button
-            android:text="Login Page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/btn_login" tools:layout_editor_absoluteY="58dp"
-            tools:layout_editor_absoluteX="33dp"/>
+        android:id="@+id/btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="66dp"
+        android:layout_marginRight="66dp"
+        android:layout_marginBottom="53dp"
+        android:text="Logout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_pace" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="31dp"
+        android:adjustViewBounds="false"
+        android:background="#5CC1BFBF"
+        android:scaleType="fitXY"
+        android:src="@drawable/border"
+        app:layout_constraintBottom_toTopOf="@+id/data_runs"
+        app:layout_constraintEnd_toStartOf="@+id/displayPic"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/displayPic"
+        android:layout_width="120dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="31dp"
+        android:adjustViewBounds="false"
+        android:background="#5CC1BFBF"
+        android:scaleType="fitXY"
+        android:src="@drawable/border"
+        app:layout_constraintBottom_toTopOf="@+id/data_pace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="59dp"
+        android:text="IMG"
+        app:layout_constraintEnd_toEndOf="@+id/displayPic"
+        app:layout_constraintStart_toStartOf="@+id/displayPic"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/display_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DISPLAY_NAME"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/data_runs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="9dp"
+        android:layout_marginLeft="9dp"
+        android:layout_marginEnd="17dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/cataclysmo"
+        android:text="27"
+        android:textSize="128sp"
+        app:layout_constraintBottom_toTopOf="@+id/label_runs"
+        app:layout_constraintEnd_toStartOf="@+id/data_pace"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/data_dist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="59dp"
+        android:layout_marginLeft="59dp"
+        android:layout_marginBottom="11dp"
+        android:fontFamily="@font/cataclysmo"
+        android:text="108"
+        android:textSize="128sp"
+        app:layout_constraintBottom_toTopOf="@+id/label_dist"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_runs" />
+
+    <TextView
+        android:id="@+id/label_runs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="21dp"
+        android:layout_marginRight="21dp"
+        android:layout_marginBottom="45dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="RUNS"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/data_dist"
+        app:layout_constraintEnd_toStartOf="@+id/label_pace"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/data_runs" />
+
+    <TextView
+        android:id="@+id/data_pace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="@font/cataclysmo"
+        android:text='4"53'
+        android:textSize="128sp"
+        app:layout_constraintBottom_toTopOf="@+id/label_pace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/data_runs"
+        app:layout_constraintTop_toBottomOf="@+id/displayPic" />
+
+    <TextView
+        android:id="@+id/label_dist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginBottom="239dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="DISTANCE"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/data_dist"
+        app:layout_constraintTop_toBottomOf="@+id/data_dist" />
+
+    <TextView
+        android:id="@+id/label_pace"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="23dp"
+        android:layout_marginRight="23dp"
+        android:layout_marginBottom="327dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="BEST PACE"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_login"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/label_runs"
+        app:layout_constraintTop_toBottomOf="@+id/data_pace" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
