@@ -11,156 +11,160 @@
         android:id="@+id/btn_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="66dp"
-        android:layout_marginRight="66dp"
+        android:layout_marginEnd="65dp"
+        android:layout_marginRight="65dp"
         android:layout_marginBottom="53dp"
         android:text="Logout"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_pace" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="18dp"
-        android:layout_marginLeft="18dp"
-        android:layout_marginTop="17dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginBottom="31dp"
         android:adjustViewBounds="false"
         android:background="#5CC1BFBF"
         android:scaleType="fitXY"
         android:src="@drawable/border"
-        app:layout_constraintBottom_toTopOf="@+id/data_runs"
+        app:layout_constraintBottom_toBottomOf="@+id/displayPic"
+        app:layout_constraintEnd_toEndOf="@+id/data_pace"
+        app:layout_constraintStart_toStartOf="@+id/data_runs"
+        app:layout_constraintTop_toTopOf="@+id/displayPic" />
+
+    <TextView
+        android:id="@+id/img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:text="IMG"
+        app:layout_constraintEnd_toEndOf="@+id/displayPic"
+        app:layout_constraintStart_toStartOf="@+id/displayPic"
+        app:layout_constraintTop_toTopOf="@+id/displayPic" />
+
+    <TextView
+        android:id="@+id/display_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="84dp"
+        android:layout_marginLeft="84dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="91dp"
+        android:layout_marginRight="91dp"
+        android:text="DISPLAY_NAME"
         app:layout_constraintEnd_toStartOf="@+id/displayPic"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/label_friends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="7dp"
+        android:text="FRIENDS"
+        app:layout_constraintStart_toEndOf="@+id/data_friends"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/data_friends"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginLeft="17dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="12"
+        app:layout_constraintBaseline_toBaselineOf="@+id/label_friends"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/displayPic"
-        android:layout_width="120dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="15dp"
+        android:layout_width="0dp"
+        android:layout_height="109dp"
+        android:layout_marginTop="69dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginBottom="31dp"
+        android:layout_marginBottom="61dp"
         android:adjustViewBounds="false"
         android:background="#5CC1BFBF"
         android:scaleType="fitXY"
         android:src="@drawable/border"
         app:layout_constraintBottom_toTopOf="@+id/data_pace"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toEndOf="@+id/display_name"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="59dp"
-        android:text="IMG"
-        app:layout_constraintEnd_toEndOf="@+id/displayPic"
-        app:layout_constraintStart_toStartOf="@+id/displayPic"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/display_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="DISPLAY_NAME"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
-
-    <TextView
-        android:id="@+id/data_runs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="9dp"
-        android:layout_marginLeft="9dp"
-        android:layout_marginEnd="17dp"
-        android:layout_marginRight="17dp"
-        android:layout_marginBottom="16dp"
-        android:fontFamily="@font/cataclysmo"
-        android:text="27"
-        android:textSize="128sp"
-        app:layout_constraintBottom_toTopOf="@+id/label_runs"
-        app:layout_constraintEnd_toStartOf="@+id/data_pace"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <TextView
-        android:id="@+id/data_dist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="59dp"
-        android:layout_marginLeft="59dp"
-        android:layout_marginBottom="11dp"
-        android:fontFamily="@font/cataclysmo"
-        android:text="108"
-        android:textSize="128sp"
-        app:layout_constraintBottom_toTopOf="@+id/label_dist"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_runs" />
-
-    <TextView
-        android:id="@+id/label_runs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="21dp"
-        android:layout_marginRight="21dp"
-        android:layout_marginBottom="45dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="RUNS"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/data_dist"
-        app:layout_constraintEnd_toStartOf="@+id/label_pace"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/data_runs" />
 
     <TextView
         android:id="@+id/data_pace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
         android:fontFamily="@font/cataclysmo"
         android:text='4"53'
-        android:textSize="128sp"
+        android:textColor="#000000"
+        android:textSize="88sp"
         app:layout_constraintBottom_toTopOf="@+id/label_pace"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/data_runs"
-        app:layout_constraintTop_toBottomOf="@+id/displayPic" />
-
-    <TextView
-        android:id="@+id/label_dist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:layout_marginLeft="2dp"
-        android:layout_marginBottom="239dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="DISTANCE"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/data_dist"
-        app:layout_constraintTop_toBottomOf="@+id/data_dist" />
+        app:layout_constraintEnd_toEndOf="@+id/label_pace" />
 
     <TextView
         android:id="@+id/label_pace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="23dp"
-        android:layout_marginRight="23dp"
-        android:layout_marginBottom="327dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginLeft="48dp"
+        android:layout_marginBottom="35dp"
         android:fontFamily="sans-serif-medium"
         android:text="BEST PACE"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_login"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/label_runs"
-        app:layout_constraintTop_toBottomOf="@+id/data_pace" />
+        app:layout_constraintBottom_toTopOf="@+id/data_dist"
+        app:layout_constraintStart_toEndOf="@+id/label_runs" />
+
+    <TextView
+        android:id="@+id/data_runs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="239dp"
+        android:fontFamily="@font/cataclysmo"
+        android:text="27"
+        android:textColor="#000000"
+        android:textSize="88sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/label_runs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:text="RUNS"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/data_runs"
+        app:layout_constraintTop_toBottomOf="@+id/data_runs" />
+
+    <TextView
+        android:id="@+id/data_dist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="35dp"
+        android:fontFamily="@font/cataclysmo"
+        android:text="108km"
+        android:textColor="#000000"
+        android:textSize="78sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/label_runs" />
+
+    <TextView
+        android:id="@+id/label_dist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="DISTANCE"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/data_dist"
+        app:layout_constraintTop_toBottomOf="@+id/data_dist" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
