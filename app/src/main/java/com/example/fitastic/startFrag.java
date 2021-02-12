@@ -1,5 +1,7 @@
 package com.example.fitastic;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +21,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.example.fitastic.utility.PermissionUtility;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -26,18 +29,25 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link startFrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class startFrag extends Fragment {
+public class startFrag extends Fragment implements EasyPermissions.PermissionCallbacks{
 
     /* start Frag contains the start run page of the app. Contains a google maps and means of
     * navigation to run logs fragment. This page allows users to start a run, view their route on
     * the map, end their run and visit the run logs showing their run history.
     */
 
+
+    private final int LOCATION_PERMISSION_CODE = 1;
     private NavController controller;
 
     private final Bundle arg = getArguments();
@@ -148,11 +158,57 @@ public class startFrag extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            requestLocation();
         }
     };
+
+    @SuppressLint("MissingPermission")
+    public void enableUserLocation() {
+        // will obtain user location and place marker on map
+    }
+
+    public void requestLocation() {
+        if (PermissionUtility.hasLocationPermission(requireContext())) {
+            enableUserLocation();
+        }
+        else {
+            String[] perms = {
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            };
+
+            // request perms for location
+            EasyPermissions.requestPermissions(this,
+                    "Location needed for app",
+                    LOCATION_PERMISSION_CODE,
+                    perms);
+        }
+    }
+
+    // permission request callback
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // parse params to easy library to make request
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, @NonNull List<String> perms) {
+        // do nothing
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, @NonNull List<String> perms) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            // show app setting to accept perm
+            new AppSettingsDialog.Builder(this).build().show();
+        } else {
+            // otherwise request location again
+            requestLocation();
+        }
+    }
 
 
 }
