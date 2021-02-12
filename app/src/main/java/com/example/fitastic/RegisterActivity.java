@@ -38,8 +38,8 @@ public class RegisterActivity extends AppCompatActivity {
 
 
 //        userIn = (EditText) findViewById(R.id.username);
-        pwIn = (EditText) findViewById(R.id.password);
-        mailIn = (EditText) findViewById(R.id.email);
+        pwIn = findViewById(R.id.password);
+        mailIn =  findViewById(R.id.email);
 //        dobIn = (EditText) findViewById(R.id.dateofbirth);
 //        pwError = (TextView) findViewById(R.id.pwError);
 //        mailError = (TextView) findViewById(R.id.mailError);
@@ -47,17 +47,14 @@ public class RegisterActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
 
 
-        btnReg.setOnClickListener( new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String register_pw = pwIn.getText().toString();
-                String register_email = mailIn.getText().toString();
+        btnReg.setOnClickListener(v -> {
+            String register_pw = pwIn.getText().toString();
+            String register_email = mailIn.getText().toString();
 
-                if (TextUtils.isEmpty(register_email) || TextUtils.isEmpty(register_pw)) {
-                    Toast.makeText(RegisterActivity.this, "Please enter all the details", Toast.LENGTH_SHORT).show();
-                } else {
+            if (TextUtils.isEmpty(register_email) || TextUtils.isEmpty(register_pw)) {
+                Toast.makeText(RegisterActivity.this, "Please enter all the details", Toast.LENGTH_SHORT).show();
+            } else {
                     registerUser(register_email, register_pw);
-                }
             }
         });
     }

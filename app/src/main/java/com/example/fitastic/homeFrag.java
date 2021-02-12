@@ -1,10 +1,16 @@
 package com.example.fitastic;
 
+import android.Manifest;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.fitastic.utility.PermissionUtility;
+
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -12,6 +18,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class homeFrag extends Fragment {
+
+    private final int LOCATION_REQUEST_CODE = 1;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -57,6 +66,8 @@ public class homeFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        return root;
     }
+
 }

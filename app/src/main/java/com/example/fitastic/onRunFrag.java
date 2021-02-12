@@ -115,20 +115,9 @@ public class onRunFrag extends Fragment {
             mapFragment.getMapAsync(callback);
         }
 
-        // get nav controller
         controller = Navigation.findNavController(view);
 
-        //
-//        logsBtn.setOnClickListener(v -> {
-//            openLogs(v);
-//        });
     }
-
-//     opens run history fragment
-//    public void openLogs(View v) {
-//        controller.navigate(R.id.action_startFrag_to_runHistoryFragment);
-//    }
-
 
     /* Map functionality */
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
