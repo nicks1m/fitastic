@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -36,23 +37,14 @@ public class RegisterActivity extends AppCompatActivity {
     private FirebaseAuth auth;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        initializeFields();
 
 
-        userIn = findViewById(R.id.username);
-        pwIn = findViewById(R.id.password);
-        pwIn2 = findViewById(R.id.password2);
-        mailIn = findViewById(R.id.email);
-        dobIn = findViewById(R.id.dateofbirth);
-        pwError = findViewById(R.id.pwError);
-        pwError2 = findViewById(R.id.pwError2);
-        mailError = findViewById(R.id.mailError);
-        userError = findViewById(R.id.userError);
-        dobError = findViewById(R.id.dobError);
-        btnReg = findViewById(R.id.btnReg);
         auth = FirebaseAuth.getInstance();
 
 
@@ -70,17 +62,53 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    public void initializeFields(){
+        userIn = findViewById(R.id.username);
+        pwIn = findViewById(R.id.password);
+        pwIn2 = findViewById(R.id.password2);
+        mailIn = findViewById(R.id.email);
+        dobIn = findViewById(R.id.dateofbirth);
+        pwError = findViewById(R.id.pwError);
+        pwError2 = findViewById(R.id.pwError2);
+        mailError = findViewById(R.id.mailError);
+        userError = findViewById(R.id.userError);
+        dobError = findViewById(R.id.dobError);
+        btnReg = findViewById(R.id.btnReg);
+
+
+
+    }
+
     public void openSetupActivity(){
         Intent intent = new Intent(this, SetupUserActivity.class);
         startActivity(intent);
     }
 
-    public void registerUser (String mailIn, String pwIn){
+    public void registerUser (String mailInp, String pwIn){
 
-        auth.createUserWithEmailAndPassword(mailIn, pwIn).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
+        auth.createUserWithEmailAndPassword(mailInp, pwIn).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
+                    //Create new User object with data from Inputs
+                    User newUser = new User(
+                            userIn.getText().toString(),
+                            mailIn.getText().toString(),
+                            dobIn.getText().toString()
+                    );
+
+                    FirebaseDatabase.getInstance().getReference("Users")
+                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            .setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(RegisterActivity.this, "Registering user successful", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(RegisterActivity.this, "Registering user failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                     Toast.makeText(RegisterActivity.this, "Registering user successful", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
@@ -91,7 +119,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     public boolean checkDetails(){
 
-        //userIn, mailIn, pwIn, dobIn
         String u = userIn.getText().toString();
         String m = mailIn.getText().toString();
         String p = pwIn.getText().toString();
