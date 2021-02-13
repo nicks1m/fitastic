@@ -16,7 +16,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -36,6 +41,12 @@ public class RegisterActivity extends AppCompatActivity {
     private String mailCheck;
     private FirebaseAuth auth;
 
+    private String userID;
+    private DatabaseReference mDatabase;
+// ...
+
+
+
 
 
     @Override
@@ -49,6 +60,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         btnReg.setOnClickListener(v -> {
+
             String register_pw = pwIn.getText().toString();
             String register_email = mailIn.getText().toString();
 
@@ -63,6 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void initializeFields(){
+
         userIn = findViewById(R.id.username);
         pwIn = findViewById(R.id.password);
         pwIn2 = findViewById(R.id.password2);
@@ -89,32 +102,55 @@ public class RegisterActivity extends AppCompatActivity {
         auth.createUserWithEmailAndPassword(mailInp, pwIn).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+
+
                 if (task.isSuccessful()) {
-                    //Create new User object with data from Inputs
-                    User newUser = new User(
+                    System.out.println(getUserID());
+                    //Create new user
+                    writeNewUser(getUserID(),
                             userIn.getText().toString(),
                             mailIn.getText().toString(),
                             dobIn.getText().toString()
                     );
+                    //Create new User object with data from Inputs
+//                    User newUser = new User(
+//                            userIn.getText().toString(),
+//                            mailIn.getText().toString(),
+//                            dobIn.getText().toString()
+//                    );
+//
+//                    //Get firebase database
+//                    FirebaseDatabase db = FirebaseDatabase.getInstance();
+//                    DatabaseReference ref = db.getReference("Users");
+//                    ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                            .setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task task) {
+//                            if(task.isSuccessful()){
+//                                setUserID(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                                System.out.println(getUserID());
+//                                System.out.println("Registration passed");
+//                                Toast.makeText(RegisterActivity.this, "Registering user successful", Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                setUserID(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//                                System.out.println("Registration failed");
+//                                Toast.makeText(RegisterActivity.this, "Registering user failed", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });
 
-                    FirebaseDatabase.getInstance().getReference("Users")
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(RegisterActivity.this, "Registering user successful", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(RegisterActivity.this, "Registering user failed", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
                     Toast.makeText(RegisterActivity.this, "Registering user successful", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    public void writeNewUser(String userId, String name, String email, String dob) {
+        User user = new User(name, email, dob);
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("Users").child(userId).setValue(user);
     }
 
     public boolean checkDetails(){
@@ -293,6 +329,14 @@ public class RegisterActivity extends AppCompatActivity {
 //            mailError.setVisibility(View.VISIBLE);
         }
         return false;
+    }
+
+    public String getUserID(){
+        return this.userID;
+    }
+
+    public void setUserID(String id){
+        this.userID = id;
     }
 }
 
@@ -601,3 +645,16 @@ public class RegisterActivity extends AppCompatActivity {
 //    }
 //
 //}
+
+//                    FirebaseDatabase.getInstance().getReference("Users")
+//                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                            .setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                        @Override
+//                        public void onComplete(@NonNull Task task) {
+//                            if(task.isSuccessful()){
+//                                Toast.makeText(RegisterActivity.this, "Registering user successful", Toast.LENGTH_SHORT).show();
+//                            } else {
+//                                Toast.makeText(RegisterActivity.this, "Registering user failed", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//                    });

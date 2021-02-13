@@ -1,7 +1,7 @@
 package com.example.fitastic;
 
 public class User {
-    public String name, email, dob;
+    public String name, email, dob, displayname;
 
     public User(){
 
@@ -11,6 +11,7 @@ public class User {
         this.name = name;
         this.email = email;
         this.dob = dob;
+
     }
 
 

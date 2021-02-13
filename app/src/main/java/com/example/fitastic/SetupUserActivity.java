@@ -4,14 +4,24 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SetupUserActivity extends AppCompatActivity {
 
     private Button go_bmi;
     private EditText displayName;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +34,11 @@ public class SetupUserActivity extends AppCompatActivity {
 
         go_bmi.setOnClickListener(v->{
             if(!TextUtils.isEmpty(displayName.getText())){
+
+                String dName = displayName.getText().toString();
                 //to-add : pass display name into firebase database
+                writeUserDisplay(FirebaseAuth.getInstance().getCurrentUser().getUid(),dName);
+                //Open BMI Page
                 openBMI();
 
             }
@@ -32,6 +46,12 @@ public class SetupUserActivity extends AppCompatActivity {
 
 
     }
+
+    public void writeUserDisplay(String userId, String dname) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("Users").child(userId).child("displayname").setValue(dname);
+    }
+
 
     public void openBMI(){
         Intent intent = new Intent(this, BMIActivity.class);
