@@ -94,6 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void openSetupActivity(){
         Intent intent = new Intent(this, SetupUserActivity.class);
+        intent.putExtra("ID",getUserID());
         startActivity(intent);
     }
 
@@ -102,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
         auth.createUserWithEmailAndPassword(mailInp, pwIn).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-
+                setUserID(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
                 if (task.isSuccessful()) {
                     System.out.println(getUserID());

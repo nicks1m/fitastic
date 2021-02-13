@@ -27,6 +27,9 @@ public class SetupUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_user);
+        Bundle bundle = getIntent().getExtras();
+        String uid = bundle.getString("ID");
+        System.out.println("uid on setupuser" + uid);
 
         go_bmi = findViewById(R.id.go_bmi);
         displayName = findViewById(R.id.displayName);
@@ -37,7 +40,7 @@ public class SetupUserActivity extends AppCompatActivity {
 
                 String dName = displayName.getText().toString();
                 //to-add : pass display name into firebase database
-                writeUserDisplay(FirebaseAuth.getInstance().getCurrentUser().getUid(),dName);
+                writeUserDisplay(uid,dName);
                 //Open BMI Page
                 openBMI();
 
