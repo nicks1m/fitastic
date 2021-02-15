@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".LoginActivity">
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <Button
+        android:id="@+id/btn_forgotPassword"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="13dp"
+        android:layout_marginEnd="81dp"
+        android:layout_marginRight="81dp"
+        android:layout_marginBottom="34dp"
+        android:background="@drawable/custom_button_light_red_bg"
+        android:fontFamily="@font/cyberpunk"
+        android:shadowColor="#FFFFFF"
+        android:shadowDx="20"
+        android:shadowDy="20"
+        android:shadowRadius="30"
+        android:text="Forgot Password"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_goto_register" />
 
     <TextView
         android:id="@+id/textView6"
@@ -58,10 +79,10 @@
         android:id="@+id/editTextTextPassword"
         android:layout_width="250dp"
         android:layout_height="40dp"
+        android:background="#27BCBABA"
         android:drawableLeft="@drawable/arrow"
         android:drawableRight="@drawable/arrow_r"
         android:ems="10"
-        android:background="#27BCBABA"
         android:fontFamily="@font/play_regular"
         android:gravity="center_horizontal"
         android:hint="Password"
@@ -99,23 +120,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.26" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="130dp"
-        android:layout_marginLeft="130dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="130dp"
-        android:layout_marginRight="130dp"
-        android:layout_marginBottom="70dp"
-        android:fontFamily="@font/cyberpunk"
-        android:text="Forget Password?"
-        android:textColor="@color/cyberYellow"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_goto_register" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
