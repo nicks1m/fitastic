@@ -2,6 +2,7 @@ package com.example.fitastic;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.example.fitastic.services.TrackingService;
 import com.example.fitastic.utility.PermissionUtility;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -46,6 +48,9 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     * the map, end their run and visit the run logs showing their run history.
     */
 
+    private final String ACTION_START_OR_RESUME = "ACTION_START_OR_RESUME";
+    private final String ACTION_PAUSE = "ACTION_PAUSE";
+    private final String ACTION_STOP = "ACTION_STOP";
 
     private final int LOCATION_PERMISSION_CODE = 1;
     private NavController controller;
@@ -135,7 +140,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
 
         //
         startBtn.setOnClickListener(v -> {
-            openRun(v);
+            sendCommandToService(ACTION_START_OR_RESUME);
         });
     }
 
@@ -161,6 +166,12 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
             requestLocation();
         }
     };
+
+    public void sendCommandToService(String action) {
+        Intent i = new Intent(requireContext(), TrackingService.class);
+        i.putExtra("action", action);
+        requireContext().startService(i);
+    }
 
     @SuppressLint("MissingPermission")
     public void enableUserLocation() {
