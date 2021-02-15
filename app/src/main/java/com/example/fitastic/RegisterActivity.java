@@ -1,13 +1,17 @@
 package com.example.fitastic;
 
+import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -45,37 +49,34 @@ public class RegisterActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
 // ...
 
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         initializeFields();
 
-
         auth = FirebaseAuth.getInstance();
 
-
         btnReg.setOnClickListener(v -> {
-
             String register_pw = pwIn.getText().toString();
             String register_email = mailIn.getText().toString();
 
             if (!checkDetails() || TextUtils.isEmpty(register_email) || TextUtils.isEmpty(register_pw)) {
                 Toast.makeText(RegisterActivity.this, "Please enter all the details", Toast.LENGTH_SHORT).show();
             } else {
-                registerUser(register_email, register_pw);
-//                public void onClick(View v){}
-                 openSetupActivity();
+                registerUser(register_email, register_pw, 0);
+                openSetupActivity();
             }
         });
     }
 
-    public void initializeFields(){
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
+        return super.onCreateView(name, context, attrs);
+    }
 
+    public void initializeFields(){
         userIn = findViewById(R.id.username);
         pwIn = findViewById(R.id.password);
         pwIn2 = findViewById(R.id.password2);
@@ -87,9 +88,6 @@ public class RegisterActivity extends AppCompatActivity {
         userError = findViewById(R.id.userError);
         dobError = findViewById(R.id.dobError);
         btnReg = findViewById(R.id.btnReg);
-
-
-
     }
 
     public void openSetupActivity(){
@@ -98,14 +96,15 @@ public class RegisterActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void registerUser (String mailInp, String pwIn){
+    public void registerUser (String mailInp, String pwIn, int count){
 
         auth.createUserWithEmailAndPassword(mailInp, pwIn).addOnCompleteListener(RegisterActivity.this, task -> {
-                setUserID(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-            System.out.println("Go");
+            Log.i("Register", "Register started");
+            setUserID(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
             if (task.isSuccessful()) {
-                System.out.println("Writing new User to Database");
+                Log.i("Register", "Register writing new user");
                 //Create new user
                 writeNewUser(getUserID(),
                         userIn.getText().toString(),
@@ -118,7 +117,17 @@ public class RegisterActivity extends AppCompatActivity {
                 Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
             }
         });
-        System.out.println("Testing testing");
+        Log.i("Register", "Register finished");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = auth.getCurrentUser();
+        if(currentUser != null){
+            currentUser.reload();
+        }
     }
 
     public void writeNewUser(String userId, String name, String email, String dob) {
