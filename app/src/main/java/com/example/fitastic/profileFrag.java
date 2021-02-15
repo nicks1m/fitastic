@@ -8,13 +8,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link profileFrag#newInstance} factory method to
  * create an instance of this fragment.
  */
 public class profileFrag extends Fragment {
-
+    FirebaseAuth auth;
     private Button login;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -66,10 +72,16 @@ public class profileFrag extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(),LoginActivity.class);
+                signOut();
                 startActivity(intent);
             }
         });
         // Inflate the layout for this fragment
         return v;
+    }
+
+    private void signOut() {
+        auth.signOut();
+//        updateUI(null);
     }
 }

@@ -101,12 +101,12 @@ public class RegisterActivity extends AppCompatActivity {
         auth.createUserWithEmailAndPassword(mailInp, pwIn).addOnCompleteListener(RegisterActivity.this, task -> {
 
             Log.i("Register", "Register started");
-            setUserID(FirebaseAuth.getInstance().getCurrentUser().getUid());
+//            setUserID(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
             if (task.isSuccessful()) {
                 Log.i("Register", "Register writing new user");
                 //Create new user
-                writeNewUser(getUserID(),
+                writeNewUser(auth.getCurrentUser().getUid(),
                         userIn.getText().toString(),
                         mailIn.getText().toString(),
                         dobIn.getText().toString()
