@@ -4,6 +4,9 @@
             xmlns:tools="http://schemas.android.com/tools" android:id="@+id/my_nav"
             app:startDestination="@id/homeFrag">
 
+    <!-- global action for tracking service -->
+    <action android:id="@+id/action_global_to_startFrag" app:destination="@id/startFrag"
+        app:launchSingleTop="true" />
 
     <activity android:id="@+id/loginActivity" android:name="com.example.fitastic.RegisterActivity"
               android:label="activity_main" tools:layout="@layout/activity_register"/>
