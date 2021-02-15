@@ -21,15 +21,15 @@ public class SetupUserActivity extends AppCompatActivity {
 
     private Button go_bmi;
     private EditText displayName;
-    private DatabaseReference mDatabase;
+//    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup_user);
         Bundle bundle = getIntent().getExtras();
-        String uid = bundle.getString("ID");
-        System.out.println("uid on setupuser" + uid);
+//        String uid = bundle.getString("ID");
+//        System.out.println("uid on setupuser" + uid);
 
         go_bmi = findViewById(R.id.go_bmi);
         displayName = findViewById(R.id.displayName);
@@ -38,9 +38,9 @@ public class SetupUserActivity extends AppCompatActivity {
         go_bmi.setOnClickListener(v->{
             if(!TextUtils.isEmpty(displayName.getText())){
 
-                String dName = displayName.getText().toString();
+//                String dName = displayName.getText().toString();
                 //to-add : pass display name into firebase database
-                writeUserDisplay(uid,dName);
+//                writeUserDisplay(uid,dName);
                 //Open BMI Page
                 openBMI();
 
@@ -50,10 +50,10 @@ public class SetupUserActivity extends AppCompatActivity {
 
     }
 
-    public void writeUserDisplay(String userId, String dname) {
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        mDatabase.child("Users").child(userId).child("displayname").setValue(dname);
-    }
+//    public void writeUserDisplay(String userId, String dname) {
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
+//        mDatabase.child("Users").child(userId).child("displayname").setValue(dname);
+//    }
 
 
     public void openBMI(){

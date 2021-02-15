@@ -100,52 +100,25 @@ public class RegisterActivity extends AppCompatActivity {
 
     public void registerUser (String mailInp, String pwIn){
 
-        auth.createUserWithEmailAndPassword(mailInp, pwIn).addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+        auth.createUserWithEmailAndPassword(mailInp, pwIn).addOnCompleteListener(RegisterActivity.this, task -> {
                 setUserID(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                if (task.isSuccessful()) {
-                    System.out.println(getUserID());
-                    //Create new user
-                    writeNewUser(getUserID(),
-                            userIn.getText().toString(),
-                            mailIn.getText().toString(),
-                            dobIn.getText().toString()
-                    );
-                    //Create new User object with data from Inputs
-//                    User newUser = new User(
-//                            userIn.getText().toString(),
-//                            mailIn.getText().toString(),
-//                            dobIn.getText().toString()
-//                    );
-//
-//                    //Get firebase database
-//                    FirebaseDatabase db = FirebaseDatabase.getInstance();
-//                    DatabaseReference ref = db.getReference("Users");
-//                    ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                            .setValue(newUser).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                        @Override
-//                        public void onComplete(@NonNull Task task) {
-//                            if(task.isSuccessful()){
-//                                setUserID(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//                                System.out.println(getUserID());
-//                                System.out.println("Registration passed");
-//                                Toast.makeText(RegisterActivity.this, "Registering user successful", Toast.LENGTH_SHORT).show();
-//                            } else {
-//                                setUserID(FirebaseAuth.getInstance().getCurrentUser().getUid());
-//                                System.out.println("Registration failed");
-//                                Toast.makeText(RegisterActivity.this, "Registering user failed", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    });
-
-                    Toast.makeText(RegisterActivity.this, "Registering user successful", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
-                }
+            System.out.println("Go");
+            if (task.isSuccessful()) {
+                System.out.println("Writing new User to Database");
+                //Create new user
+                writeNewUser(getUserID(),
+                        userIn.getText().toString(),
+                        mailIn.getText().toString(),
+                        dobIn.getText().toString()
+                );
+                Toast.makeText(RegisterActivity.this, "Registering user successful", Toast.LENGTH_SHORT).show();
+            } else if(!task.isSuccessful()) {
+                System.out.println(task.getException().getMessage());
+                Toast.makeText(RegisterActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
             }
         });
+        System.out.println("Testing testing");
     }
 
     public void writeNewUser(String userId, String name, String email, String dob) {
@@ -323,15 +296,12 @@ public class RegisterActivity extends AppCompatActivity {
     public boolean checkMail(String mail) {
         for (int i = 0; i < mail.length(); i++) {
             if (mail.charAt(i) == '@') {
-                System.out.println("Mail Pass");
+
                 return true;
-            } else
-                System.out.println("Mail Fail");
-//            mailError.setVisibility(View.VISIBLE);
+            }
         }
         return false;
     }
-
     public String getUserID(){
         return this.userID;
     }
