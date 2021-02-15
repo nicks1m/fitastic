@@ -13,6 +13,11 @@ import java.math.*;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+
 public class BMIActivity extends AppCompatActivity {
 
     Button calculateBMI;
@@ -21,11 +26,17 @@ public class BMIActivity extends AppCompatActivity {
     private double weight;
     private double height;
     private double userBMI;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth auth;
+    private String strBMI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_b_m_i);
+
+        auth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         //BMI button init
         calculateBMI = (Button) findViewById(R.id.calculate_bmi);
@@ -47,6 +58,10 @@ public class BMIActivity extends AppCompatActivity {
                 }
 
                 calculateBMI(getWeight(),getHeight());
+
+                strBMI = "" + userBMI;
+
+                writeUserBMI(auth.getCurrentUser().getUid(), strBMI);
                 //Create Fragment, bundle (to pass data to fragment)
                 BMIFrag bmi = new BMIFrag();
                 Bundle bundle = new Bundle();
@@ -58,6 +73,10 @@ public class BMIActivity extends AppCompatActivity {
                 ft1.commit();
             }
         } );
+    }
+
+    public void writeUserBMI(String userId, String bmi) {
+        mDatabase.child("Users").child(userId).child("bmi").setValue(bmi);
     }
 
     public void initializeDetails(){
