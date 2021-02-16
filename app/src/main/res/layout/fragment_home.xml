@@ -7,16 +7,6 @@
     tools:context=".homeFrag">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Home"
-        android:textSize="36sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/home_msg"
@@ -27,57 +17,150 @@
         android:layout_marginTop="52dp"
         android:layout_marginEnd="41dp"
         android:layout_marginRight="41dp"
+        android:layout_marginBottom="79dp"
         android:fontFamily="@font/cyberpunk"
         android:gravity="center_horizontal|center_vertical"
         android:rotation="-10"
+        android:shadowColor="@color/salmon"
+        android:shadowDx="0"
+        android:shadowDy="3"
+        android:shadowRadius="2"
         android:text="Welcome Back,"
         android:textColor="@color/cyberRed"
         android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="363dp"
+        android:layout_width="match_parent"
         android:layout_height="128dp"
+        android:layout_margin="20dp"
         android:layout_marginTop="196dp"
         android:layout_marginBottom="240dp"
+        android:alpha="0.8"
         android:src="@drawable/custom_button_light_red_bg"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/home_msg" />
 
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="0dp"
+        android:layout_height="128dp"
+        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="45dp"
+        android:alpha="1"
+        android:background="@color/salmon"
+        app:layout_constraintBottom_toTopOf="@+id/textView12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="0dp"
+        android:layout_height="128dp"
+        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="106dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:alpha="0.8"
+        android:src="@drawable/custom_button_light_red_bg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="292dp"
-        android:layout_marginRight="292dp"
-        android:layout_marginBottom="17dp"
-        android:fontFamily="@font/play_regular"
-        android:text="Recent Activity"
-        android:textColor="@color/colorPrimary"
+        android:layout_marginEnd="272dp"
+        android:layout_marginRight="272dp"
+        android:layout_marginBottom="8dp"
+        android:shadowColor="@color/cyberRed"
+        android:shadowDx="1"
+        android:shadowDy="3"
+        android:shadowRadius="3"
+        android:text="RECENT ACTIVITY"
+        android:textColor="#F69191"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/textView13"
+        android:id="@+id/data_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="122dp"
-        android:layout_marginLeft="122dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="18dp"
-        android:alpha="0.6"
         android:fontFamily="@font/cataclysmo"
-        android:text="000000000000000000000000"
-        android:textColor="@color/colorPrimary"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView12" />
+        android:shadowColor="@color/cyberRed"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="5"
+        android:text="10:00PM"
+        android:textColor="@color/pageBG"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="@+id/data_date"
+        app:layout_constraintTop_toBottomOf="@+id/data_date" />
+
+    <TextView
+        android:id="@+id/data_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="42dp"
+        android:fontFamily="@font/cataclysmo"
+        android:shadowColor="@color/cyberRed"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="5"
+        android:text="16 FEB 21"
+        android:textColor="@color/pageBG"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        app:layout_constraintStart_toStartOf="@+id/imageView6" />
+
+    <TextView
+        android:id="@+id/total_points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/cataclysmo"
+        android:shadowColor="@color/cyberRed"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="5"
+        android:text="12012"
+        android:textColor="@color/pageBG"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="@+id/label_points"
+        app:layout_constraintTop_toBottomOf="@+id/label_points" />
+
+    <TextView
+        android:id="@+id/label_points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:layout_marginBottom="42dp"
+        android:fontFamily="@font/cataclysmo"
+        android:shadowColor="@color/cyberRed"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="5"
+        android:text="TOTAL POINTS"
+        android:textColor="@color/pageBG"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        app:layout_constraintEnd_toEndOf="@+id/imageView6" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

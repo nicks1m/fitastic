@@ -228,6 +228,10 @@
         android:text="JOIN THE FUN"
         android:textColor="@color/cyberRed"
         android:textSize="30sp"
+        android:shadowColor="@color/salmon"
+        android:shadowDx="0"
+        android:shadowDy="3"
+        android:shadowRadius="2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
