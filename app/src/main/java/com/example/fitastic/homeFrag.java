@@ -18,6 +18,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Time;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link homeFrag#newInstance} factory method to
@@ -25,6 +30,8 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class homeFrag extends Fragment {
 
+    private TextView time;
+    private TextView date;
     private TextView homemsg;
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
@@ -77,7 +84,15 @@ public class homeFrag extends Fragment {
         View v = inflater.inflate(R.layout.fragment_home, container, false);
 
         homemsg = v.findViewById(R.id.home_msg);
+        date = v.findViewById(R.id.data_date);
+        time = v.findViewById(R.id.data_time);
 
+        String mydate = DateFormat.getDateInstance().format(Calendar.DATE);
+        Date mytime = Calendar.getInstance().getTime();
+        String strDate = DateFormat.getDateInstance(DateFormat.MEDIUM).format(mytime);
+        String strTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(mytime);
+        date.setText(strDate);
+        time.setText(strTime);
 
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
