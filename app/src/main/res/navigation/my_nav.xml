@@ -27,7 +27,11 @@
     <fragment android:id="@+id/dietFrag" android:name="com.example.fitastic.dietFrag" android:label="fragment_diet"
               tools:layout="@layout/fragment_diet"/>
     <fragment android:id="@+id/profileFrag" android:name="com.example.fitastic.profileFrag"
-              android:label="fragment_profile" tools:layout="@layout/fragment_profile"/>
+              android:label="fragment_profile" tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFrag_to_pointsFrag"
+            app:destination="@id/pointsFrag" />
+    </fragment>
     <fragment
         android:id="@+id/runHistoryFragment"
         android:name="com.example.fitastic.RunHistoryFragment"
@@ -41,4 +45,9 @@
         android:id="@+id/onRunFrag"
         android:name="com.example.fitastic.onRunFrag"
         android:label="onRunFrag" />
+    <fragment
+        android:id="@+id/pointsFrag"
+        android:name="com.example.fitastic.pointsFrag"
+        android:label="fragment_points"
+        tools:layout="@layout/fragment_points" />
 </navigation>

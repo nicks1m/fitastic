@@ -5,9 +5,15 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
 import android.widget.Button;
+import androidx.fragment.app.Fragment;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +35,13 @@ import com.google.firebase.database.ValueEventListener;
  */
 public class profileFrag extends Fragment {
 
-   private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase;
+    private Button go_points;
     private FirebaseAuth auth;
     private Button logout;
     private String displayName;
     private TextView display_Name;
+    private NavController controller;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -68,7 +76,6 @@ public class profileFrag extends Fragment {
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,16 +92,17 @@ public class profileFrag extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_profile, container, false);
-
         display_Name = v.findViewById(R.id.display_name);
         logout = v.findViewById(R.id.btn_logout);
+        go_points = v.findViewById(R.id.btn_points);
 
+        controller = Navigation.findNavController(container);
 
         //Get display name associated with user id.
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("display name");
 
+        DatabaseReference ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("display name");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -102,23 +110,43 @@ public class profileFrag extends Fragment {
                 //Load display name into TextView
                 display_Name.setText(key);
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("Reaad Fail", "Error");
             }
         });
 
+
+
+        go_points.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick (View v){
+                pointsFrag points = new pointsFrag();
+                openPoints(v);
+//                androidx.fragment.app.FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
+//                ft1.replace(R.id.fragmentPL, points);
+//                ft1.commit();
+            }
+        });
+
+
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),LoginActivity.class);
+                Intent intent = new Intent(getActivity(), LoginActivity.class);
                 signOut();
                 startActivity(intent);
             }
         });
         // Inflate the layout for this fragment
         return v;
+
+
+    }
+
+    public void openPoints(View v) {
+        controller.navigate(R.id.action_profileFrag_to_pointsFrag);
     }
 
     private void signOut() {

@@ -20,14 +20,13 @@
         android:layout_marginBottom="79dp"
         android:fontFamily="@font/cyberpunk"
         android:gravity="center_horizontal|center_vertical"
-        android:rotation="-10"
         android:shadowColor="@color/salmon"
         android:shadowDx="0"
         android:shadowDy="3"
         android:shadowRadius="2"
-        android:text="Welcome Back,"
+        android:text="Welcome,"
         android:textColor="@color/cyberRed"
-        android:textSize="36sp"
+        android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -65,6 +64,15 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="181dp"
+        android:layout_height="139dp"
+        android:layout_marginBottom="43dp"
+        android:src="@drawable/triangle"
+        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
         android:id="@+id/imageView5"
         android:layout_width="0dp"
         android:layout_height="128dp"
@@ -85,6 +93,8 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginLeft="25dp"
         android:layout_marginEnd="272dp"
         android:layout_marginRight="272dp"
         android:layout_marginBottom="8dp"
@@ -95,7 +105,8 @@
         android:text="RECENT ACTIVITY"
         android:textColor="#F69191"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/data_time"
@@ -131,36 +142,39 @@
         app:layout_constraintStart_toStartOf="@+id/imageView6" />
 
     <TextView
-        android:id="@+id/total_points"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/cataclysmo"
-        android:shadowColor="@color/cyberRed"
-        android:shadowDx="3"
-        android:shadowDy="3"
-        android:shadowRadius="5"
-        android:text="12012"
-        android:textColor="@color/pageBG"
-        android:textSize="48sp"
-        app:layout_constraintStart_toStartOf="@+id/label_points"
-        app:layout_constraintTop_toBottomOf="@+id/label_points" />
-
-    <TextView
         android:id="@+id/label_points"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="9dp"
-        android:layout_marginRight="9dp"
-        android:layout_marginBottom="42dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
+        android:layout_marginBottom="40dp"
         android:fontFamily="@font/cataclysmo"
         android:shadowColor="@color/cyberRed"
         android:shadowDx="3"
         android:shadowDy="3"
         android:shadowRadius="5"
         android:text="TOTAL POINTS"
-        android:textColor="@color/pageBG"
+        android:textColor="@color/cyberRed"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="@+id/imageView6" />
+
+    <TextView
+        android:id="@+id/total_points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:fontFamily="@font/cataclysmo"
+        android:shadowColor="@color/cyberRed"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="5"
+        android:text="15312"
+        android:textColor="@color/cyberRed"
+        android:textSize="48sp"
+        app:layout_constraintStart_toStartOf="@+id/label_points"
+        app:layout_constraintTop_toBottomOf="@+id/label_points" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
