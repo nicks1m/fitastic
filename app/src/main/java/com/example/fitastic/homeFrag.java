@@ -96,8 +96,8 @@ public class homeFrag extends Fragment {
 
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        //DatabaseReference ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("display name");
-        /*
+        DatabaseReference ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("display name");
+
          ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -113,7 +113,7 @@ public class homeFrag extends Fragment {
             }
         });
 
-         */
+
 
 
 
