@@ -74,8 +74,6 @@ public class homeFrag extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
     }
 
     @Override
@@ -94,6 +92,7 @@ public class homeFrag extends Fragment {
         date.setText(strDate);
         time.setText(strTime);
 
+        /*
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("display name");
@@ -112,6 +111,8 @@ public class homeFrag extends Fragment {
                 Log.d("Reaad Fail", "Error");
             }
         });
+
+         */
 
 
 

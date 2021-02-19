@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,7 +40,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,10 +82,11 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     private Button startBtn;
     private Button statsBtn;
 
+    private GoogleMap map;
+
     // accessing service/binding to it
     private TrackingService mService;
     private StartFragViewModel mViewModel;
-
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -140,6 +144,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
                     // get a reference to service
                     mService = myBinder.getService();
                     mService.startForegroundService();
+                    enableUserLocation();
                 } else {
                     Log.d(TAG, "unbound from service ");
                     // otherwise destroy instance if unbound
@@ -163,7 +168,6 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         averagePaceView = root.findViewById(R.id.averagePaceData);
         startBtn = root.findViewById(R.id.runStartBtn);
         statsBtn = root.findViewById(R.id.runStatBtn);
-
         return root;
     }
 
@@ -194,15 +198,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     @Override
     public void onResume() {
         super.onResume();
-        //startService();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if (mViewModel.getBinder() != null) {
-            getActivity().unbindService(mViewModel.getServiceConnection());
-        }
+        // startService();
     }
 
     // start service from this frag
@@ -239,29 +235,66 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            map = googleMap;
             requestLocation();
         }
     };
+
+    ArrayList<ArrayList<LatLng>> polylines = new ArrayList<ArrayList<LatLng>>();
+    ArrayList<LatLng> polyline = new ArrayList<LatLng>();
+    int x = 0;
 
     // begins tracking user location using service
     @SuppressLint("MissingPermission")
     public void enableUserLocation() {
         // will obtain user location and place marker on map
         if (mService != null) {
-            mService.getPathPoints().observe(this, new Observer<ArrayList<ArrayList<LatLng>>>() {
+            mService.getPathPoints().observe(getViewLifecycleOwner(), new Observer<ArrayList<ArrayList<LatLng>>>() {
                 @Override
                 public void onChanged(ArrayList<ArrayList<LatLng>> arrayLists) {
-                    Log.i(TAG, "onChanged: Lat: " + arrayLists.get(0).get(0).latitude + " Long: " +
-                            arrayLists.get(0).get(0).latitude);
+                    Log.d(TAG, "pathPoint change");
+
+                    polyline.add(new LatLng(arrayLists.get(arrayLists.size()-1).get(arrayLists.get(arrayLists.size() -1).size() -1).latitude,
+                            arrayLists.get(arrayLists.size()-1).get(arrayLists.get(arrayLists.size() -1).size() -1).longitude));
+
+                    drawLatestPolyline();
+                    moveCameraToUser();
                 }
             });
+        }
+    }
+
+    public void drawLatestPolyline() {
+        LatLng penultimate;
+        LatLng last = null;
+        try {
+            penultimate = polyline.get(polyline.size() - 2);
+            last = polyline.get(polyline.size() - 1);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            penultimate = null;
+        }
+
+        if (penultimate != null && last != null) {
+            PolylineOptions options = new PolylineOptions()
+                    .color(Color.YELLOW)
+                    .width(8f)
+                    .add(penultimate)
+                    .add(last);
+
+            map.addPolyline(options);
+        }
+    }
+
+    public void moveCameraToUser() {
+        if (!polyline.isEmpty() && polyline.size() > 2) {
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(polyline.get(polyline.size()-1), 20f));
         }
     }
 
     // requests location permissions from user
     public void requestLocation() {
         if (PermissionUtility.hasLocationPermission(requireContext())) {
-            enableUserLocation();
+            // do nothing
         }
         else {
             String[] perms = {
