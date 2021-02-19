@@ -13,7 +13,13 @@
     <fragment android:id="@+id/homeFrag" android:name="com.example.fitastic.homeFrag" android:label="fragment_home"
               tools:layout="@layout/fragment_home"/>
     <fragment android:id="@+id/workoutFrag" android:name="com.example.fitastic.workoutFrag"
-              android:label="fragment_workout" tools:layout="@layout/fragment_workout"/>
+              android:label="fragment_workout" tools:layout="@layout/fragment_workout">
+        <action
+            android:id="@+id/action_workoutFrag_to_createCustomWorkout"
+            app:destination="@id/createCustomWorkout"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/enter_from_left" />
+    </fragment>
     <fragment android:id="@+id/startFrag" android:name="com.example.fitastic.startFrag" android:label="fragment_start"
               tools:layout="@layout/fragment_start">
         <action
@@ -50,4 +56,9 @@
         android:name="com.example.fitastic.pointsFrag"
         android:label="fragment_points"
         tools:layout="@layout/fragment_points" />
+    <fragment
+        android:id="@+id/createCustomWorkout"
+        android:name="com.example.fitastic.createCustomWorkout"
+        android:label="fragment_create_custom_workout"
+        tools:layout="@layout/fragment_create_custom_workout" />
 </navigation>

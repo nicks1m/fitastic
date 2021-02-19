@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +35,7 @@ public class workoutFrag extends Fragment {
     private Button custom_workout;
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
+    private NavController controller;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -82,6 +85,7 @@ public class workoutFrag extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_workout, container, false);
 
+        controller = Navigation.findNavController(container);
 
         loadCustomWorkout();
 
@@ -93,12 +97,21 @@ public class workoutFrag extends Fragment {
         return v;
     }
 
+    //Create a workout Class, pass it into button to be sent as bundle
     public void addButton(String title){
         LinearLayout layout = getView().findViewById(R.id.workout_layout);
         custom_workout = new Button(getContext());
         custom_workout.setText(title);
         layout.addView(custom_workout);
+        custom_workout.setOnClickListener(v->{
+        openCustomWorkout(v);
+        });
 
+
+    }
+
+    public void openCustomWorkout(View v) {
+        controller.navigate(R.id.action_workoutFrag_to_createCustomWorkout);
     }
 
     public void loadCustomWorkout(){
@@ -112,6 +125,7 @@ public class workoutFrag extends Fragment {
                 for(DataSnapshot workout_snapshot : dataSnapshot.getChildren())
                     //Adds Button with Title after retrieving data from firebase
                     addButton(workout_snapshot.getKey());
+
                 //TODO:
                 //Create array list and push children into it
                 //Pass array list into bundle to next fragment to initialize respective data
