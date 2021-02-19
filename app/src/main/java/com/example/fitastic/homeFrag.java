@@ -92,7 +92,7 @@ public class homeFrag extends Fragment {
         date.setText(strDate);
         time.setText(strTime);
 
-        /*
+
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("display name");
@@ -111,13 +111,6 @@ public class homeFrag extends Fragment {
                 Log.d("Reaad Fail", "Error");
             }
         });
-
-         */
-
-
-
-
-
 
         // Inflate the layout for this fragment
         return v;
