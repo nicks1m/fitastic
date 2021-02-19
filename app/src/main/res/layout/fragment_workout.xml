@@ -12,10 +12,13 @@
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <LinearLayout
+            android:id="@+id/workout_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -108,56 +111,10 @@
                 android:textSize="30sp" />
 
             <Button
-                android:id="@+id/btn_custom"
+                android:id="@+id/add_workout"
                 android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/box"
-                android:shadowColor="@color/cyberRed"
-                android:shadowDx="5"
-                android:shadowDy="5"
-                android:shadowRadius="10"
-                android:text="custom_workout"
-                android:textColor="#F69191" />
-
-            <Button
-                android:id="@+id/btn_custom2"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/box"
-                android:shadowColor="@color/cyberRed"
-                android:shadowDx="5"
-                android:shadowDy="5"
-                android:shadowRadius="10"
-                android:text="custom_workout"
-                android:textColor="#F69191" />
-
-            <Button
-                android:id="@+id/btn_custom3"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/box"
-                android:shadowColor="@color/cyberRed"
-                android:shadowDx="5"
-                android:shadowDy="5"
-                android:shadowRadius="10"
-                android:text="custom_workout"
-                android:textColor="#F69191" />
-
-            <Button
-                android:id="@+id/btn_custom4"
-                android:layout_width="match_parent"
-                android:layout_height="65dp"
-                android:layout_margin="10dp"
-                android:background="@drawable/box"
-                android:shadowColor="@color/cyberRed"
-                android:shadowDx="5"
-                android:shadowDy="5"
-                android:shadowRadius="10"
-                android:text="custom_workout"
-                android:textColor="#F69191" />
+                android:layout_height="wrap_content"
+                android:text="Add" />
 
         </LinearLayout>
     </ScrollView>

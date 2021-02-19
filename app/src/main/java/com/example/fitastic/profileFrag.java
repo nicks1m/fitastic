@@ -118,16 +118,9 @@ public class profileFrag extends Fragment {
 
 
 
-        go_points.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick (View v){
-                pointsFrag points = new pointsFrag();
-                openPoints(v);
-//                androidx.fragment.app.FragmentTransaction ft1 = getSupportFragmentManager().beginTransaction();
-//                ft1.replace(R.id.fragmentPL, points);
-//                ft1.commit();
-            }
+        go_points.setOnClickListener(v1 -> {
+            pointsFrag points = new pointsFrag();
+            openPoints(v1);
         });
 
 
