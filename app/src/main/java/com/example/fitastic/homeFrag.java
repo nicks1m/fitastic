@@ -74,8 +74,6 @@ public class homeFrag extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-
     }
 
     @Override
@@ -93,6 +91,7 @@ public class homeFrag extends Fragment {
         String strTime = DateFormat.getTimeInstance(DateFormat.SHORT).format(mytime);
         date.setText(strDate);
         time.setText(strTime);
+
 
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -112,11 +111,6 @@ public class homeFrag extends Fragment {
                 Log.d("Reaad Fail", "Error");
             }
         });
-
-
-
-
-
 
         // Inflate the layout for this fragment
         return v;
