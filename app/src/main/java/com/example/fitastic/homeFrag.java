@@ -93,6 +93,7 @@ public class homeFrag extends Fragment {
         time.setText(strTime);
 
 
+
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("display name");

@@ -45,7 +45,7 @@ public class TrackingService extends Service {
     private static String TAG = "TrackingService";
 
     // controls whether the service is tracking user location or not
-    private boolean isTracking = false;
+    private MutableLiveData<Boolean> isTracking = new MutableLiveData<Boolean>();
 
     // facilitates connection of client to this server, actually a nested class in this service
     private IBinder mBinder = new myBinder();
@@ -53,9 +53,16 @@ public class TrackingService extends Service {
     // used to obtain latitudes/longitudes of user location
     private FusedLocationProviderClient locationClient;
 
-    // pending intent action
+    // holds points observable this is observed from client to detect changes to this list
+    public MutableLiveData<ArrayList<ArrayList<LatLng>>> pathPoints;
+    public ArrayList<ArrayList<LatLng>> polylines;
+    public ArrayList<LatLng> polyline;
+
+    // constants
+    // pending intent action used when notification is clicked
     private final String ACTION_SHOW_STARTFRAG = "ACTION_SHOW_STARTFRAG";
 
+    // values for how frequent locations are requested (3 sec)
     private final long LOCATION_REQUEST_INTERVAL = 3000L;
     private final long FASTEST_LOCATION_REQUEST_INTERVAL = 3000L;
 
@@ -63,12 +70,6 @@ public class TrackingService extends Service {
     private final String NOTIFICATION_CHANNEL_ID = "NOTIFICATION_CHANNEL_ID";
     private final String NOTIFICATION_CHANNEL_NAME = "NOTIFICATION_CHANNEL_NAME";
     private final int NOTIFICATION_ID = 1;
-
-    // holds points observable
-    public MutableLiveData<ArrayList<ArrayList<LatLng>>> pathPoints;
-
-    public ArrayList<ArrayList<LatLng>> polylines;
-    public ArrayList<LatLng> polyline;
 
     // called whenever intent sent to this service
     @Override
@@ -80,6 +81,13 @@ public class TrackingService extends Service {
         }
 
         return super.onStartCommand(intent, flags, startId);
+    }
+
+    // when app force quit will kill service
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        super.onTaskRemoved(rootIntent);
+        stopSelf();
     }
 
     // starts the service
@@ -107,7 +115,7 @@ public class TrackingService extends Service {
 
         // start foreground service with notification
         startForeground(NOTIFICATION_ID, notification);
-        isTracking = true;
+        //isTracking = true;
         // initialise arraylists/mutableLiveData
         pathPoints = new MutableLiveData<ArrayList<ArrayList<LatLng>>>();
         polylines = new ArrayList<ArrayList<LatLng>>();
@@ -138,12 +146,13 @@ public class TrackingService extends Service {
     // cant detect EasyPermissions
     @SuppressLint("MissingPermission")
     public void locationRequest() {
+        // create a location request
         LocationRequest locationRequest = new LocationRequest()
                 .setInterval(LOCATION_REQUEST_INTERVAL) /* aprox time for request to happen (5sec) */
                 .setFastestInterval(FASTEST_LOCATION_REQUEST_INTERVAL) /* minimum time request will be received if one comes early  */
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);  /* gives accurate location result */
         if (PermissionUtility.hasLocationPermission(this)) {
-            // start location collection
+            // start location collection parse locationCallback already made
             locationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.myLooper());
         }
         else {
@@ -165,18 +174,11 @@ public class TrackingService extends Service {
         }
     };
 
-    public void addEmptyPolyline() {
-        polylines.add(new ArrayList<LatLng>());
-        polyline = new ArrayList<LatLng>();
-        polylines.add(polyline);
-        pathPoints.postValue(polylines);
-    }
-
-    // when app force quit will kill service
-    @Override
-    public void onTaskRemoved(Intent rootIntent) {
-        super.onTaskRemoved(rootIntent);
-        stopSelf();
+    // used to remove updates either when client is paused or finished run
+    public void removeLocationUpdates() {
+        if (locationClient != null) {
+            locationClient.removeLocationUpdates(locationCallback);
+        }
     }
 
     // deals with clients binding to it
@@ -192,14 +194,6 @@ public class TrackingService extends Service {
         public TrackingService getService() {
             return TrackingService.this;
         }
-    }
-
-    public boolean isTracking() {
-        return isTracking;
-    }
-
-    public void setTracking(boolean b) {
-        isTracking = b;
     }
 
     public LiveData<ArrayList<ArrayList<LatLng>>> getPathPoints() {

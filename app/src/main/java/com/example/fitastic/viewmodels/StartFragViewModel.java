@@ -19,7 +19,7 @@ public class StartFragViewModel extends ViewModel {
     // observable boolean from start frag will be used to pause service
     private MutableLiveData<Boolean> isTracking = new MutableLiveData<Boolean>();
     // observable binder from start frag used to create connection to service
-    private MutableLiveData<TrackingService.myBinder> mBinder= new MutableLiveData<TrackingService.myBinder>();
+    private MutableLiveData<TrackingService.myBinder> mBinder = new MutableLiveData<TrackingService.myBinder>();
 
     // facilitates connection between client to service
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -58,5 +58,9 @@ public class StartFragViewModel extends ViewModel {
     // get binder of tracking service binder
     public MutableLiveData<TrackingService.myBinder> getBinder() {
         return mBinder;
+    }
+
+    public void killBind() {
+        mBinder = null;
     }
 }
