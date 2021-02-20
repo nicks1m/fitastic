@@ -165,18 +165,18 @@ public class TrackingService extends Service {
         }
     };
 
-    public void addEmptyPolyline() {
-        polylines.add(new ArrayList<LatLng>());
-        polyline = new ArrayList<LatLng>();
-        polylines.add(polyline);
-        pathPoints.postValue(polylines);
-    }
-
     // when app force quit will kill service
     @Override
     public void onTaskRemoved(Intent rootIntent) {
         super.onTaskRemoved(rootIntent);
         stopSelf();
+    }
+
+    // used to remove updates either when client is paused or finished run
+    public void removeLocationUpdates() {
+        if (locationClient != null) {
+            locationClient.removeLocationUpdates(locationCallback);
+        }
     }
 
     // deals with clients binding to it
