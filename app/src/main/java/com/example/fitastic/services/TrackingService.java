@@ -135,6 +135,10 @@ public class TrackingService extends Service {
         notificationManager.createNotificationChannel(channel);
     }
 
+    private void timer() {
+        
+    }
+
     // cant detect EasyPermissions
     @SuppressLint("MissingPermission")
     public void locationRequest() {

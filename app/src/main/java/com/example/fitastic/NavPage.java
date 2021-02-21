@@ -35,6 +35,7 @@ public class NavPage extends AppCompatActivity {
         } catch (java.lang.NullPointerException e) {
 
         }
+
     }
 
     // if navPage resumed onCreated not called, check intent action
