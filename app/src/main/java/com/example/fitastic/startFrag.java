@@ -2,6 +2,7 @@ package com.example.fitastic;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -46,6 +47,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -77,6 +80,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     // UI components
     private TextView distanceView;
     private TextView averagePaceView;
+    private TextView timerView;
     private Button logsBtn;
     private Button startBtn;
     private Button statsBtn;
@@ -173,9 +177,11 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         logsBtn = root.findViewById(R.id.runLogsBtn);
         distanceView = root.findViewById(R.id.distanceData);
         averagePaceView = root.findViewById(R.id.averagePaceData);
+        timerView = root.findViewById(R.id.runTimerView);
         startBtn = root.findViewById(R.id.runStartBtn);
         statsBtn = root.findViewById(R.id.runStatBtn);
         endRunBtn = root.findViewById(R.id.runEndButton);
+
 
         return root;
     }
@@ -196,6 +202,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
 
         // set on click for button to bind this frag to tracking service
         startBtn.setOnClickListener(v -> {
+            timer = new Timer();
             toggleRun();
         });
 
@@ -311,21 +318,28 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         // bind to service if no instance detected
         if (mService == null) {
             isTracking = true;
+            isPaused = false;
             startBtn.setText("Stop");
-            //endRunBtn.setVisibility(View.VISIBLE);
+            logsBtn.setVisibility(View.INVISIBLE);
+            startTimer();
+            // endRunBtn.setVisibility(View.VISIBLE);
             startService();
         } else { /* else pause/resume location updates */
             isTracking = !isTracking;
             if (isTracking()) {
+                isPaused = false;
                 // resume tracking
                 startBtn.setText("Stop");
+                startTimer();
                 mService.locationRequest();
                 endRunBtn.setVisibility(View.INVISIBLE);
             }
             else {
+                isPaused = true;
                 // pause tracking
                 startBtn.setText("Start");
                 mService.removeLocationUpdates();
+                pauseTimer();
                 // create new index for polyline
                 polylines.add(polyline);
                 polyline = new ArrayList<LatLng>();
@@ -341,6 +355,48 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         polyline = new ArrayList<LatLng>();
         // send data navigate to next frag
         controller.navigate(R.id.action_startFrag_to_runSummary);
+    }
+
+    private Timer timer;
+    private TimerTask timerTask;
+    private Double time = 0.0;
+    private boolean isPaused = true;
+
+    public void startTimer() {
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                if (!isPaused) {
+                    time++;
+                    // set text of text view
+                    timerView.setText(getTimerText());
+                }
+            }
+        };
+        timer.scheduleAtFixedRate(timerTask, 0, 1000);
+    }
+
+    private String getTimerText() {
+        int rounded = (int) Math.round(time);
+
+        int seconds = ((rounded % 86400) % 3600) % 60;
+        int minutes = ((rounded % 86400) % 3600) / 60;
+        int hours = (rounded % 86400) / 3600;
+
+        return  String.format("%02d", hours) + ":" +
+                String.format("%02d", minutes) + ":" +
+                String.format("%02d", seconds);
+    }
+
+    public void pauseTimer() {
+        timerTask.cancel();
+        timer.cancel();
+    }
+
+    public void stopTimer() {
+        timer.cancel();
+        timerTask.cancel();
+        time = 0.0;
     }
 
     // requests location permissions from user
