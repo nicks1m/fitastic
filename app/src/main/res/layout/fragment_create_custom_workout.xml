@@ -19,7 +19,7 @@
         android:text="Customize Workout"
         android:textColor="#FFA2F0"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
+        app:layout_constraintBottom_toTopOf="@+id/workout_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -115,7 +115,7 @@
         app:layout_constraintEnd_toStartOf="@+id/btn_add_exercise" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/workout_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"

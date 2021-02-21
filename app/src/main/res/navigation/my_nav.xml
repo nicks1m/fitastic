@@ -60,5 +60,10 @@
         android:id="@+id/createCustomWorkout"
         android:name="com.example.fitastic.createCustomWorkout"
         android:label="fragment_create_custom_workout"
-        tools:layout="@layout/fragment_create_custom_workout" />
+        tools:layout="@layout/fragment_create_custom_workout" >
+        <argument
+            android:name="workout_title"
+            app:argType="string"
+            android:defaultValue="CUSTOM_WORKOUT" />
+    </fragment>
 </navigation>

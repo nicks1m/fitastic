@@ -36,6 +36,9 @@ public class workoutFrag extends Fragment {
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
     private NavController controller;
+    private LinearLayout layout;
+    private DatabaseReference ref;
+    private ValueEventListener mListener;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,6 +89,10 @@ public class workoutFrag extends Fragment {
         View v = inflater.inflate(R.layout.fragment_workout, container, false);
 
         controller = Navigation.findNavController(container);
+        auth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("custom_workout");
+        layout = v.findViewById(R.id.workout_layout);
 
         loadCustomWorkout();
 
@@ -99,27 +106,27 @@ public class workoutFrag extends Fragment {
 
     //Create a workout Class, pass it into button to be sent as bundle
     public void addButton(String title){
-        LinearLayout layout = getView().findViewById(R.id.workout_layout);
-        custom_workout = new Button(getContext());
+        custom_workout = new Button(this.getContext());
         custom_workout.setText(title);
         layout.addView(custom_workout);
         custom_workout.setOnClickListener(v->{
-        openCustomWorkout(v);
+            Bundle args = new Bundle();
+            args.putString("custom_workout_title",title);
+            controller.navigate(R.id.action_workoutFrag_to_createCustomWorkout, args);
+//        openCustomWorkout(v);
         });
 
 
     }
 
-    public void openCustomWorkout(View v) {
-        controller.navigate(R.id.action_workoutFrag_to_createCustomWorkout);
-    }
+//    public void openCustomWorkout(View v) {
+//
+//        controller.navigate(R.id.action_workoutFrag_to_createCustomWorkout);
+//    }
 
     public void loadCustomWorkout(){
-        auth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        DatabaseReference ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("custom_workout");
-        ref.addValueEventListener(new ValueEventListener() {
+        mListener = ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot workout_snapshot : dataSnapshot.getChildren())
@@ -141,6 +148,12 @@ public class workoutFrag extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroy() {
+        //Remove event listener when frag is inactive to prevent async callbacks
+        super.onDestroy();
+        ref.removeEventListener(mListener);
+    }
 }
 
 //For Reference only
