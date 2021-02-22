@@ -29,6 +29,9 @@
             android:id="@+id/action_startFrag_to_onRunFrag"
             app:destination="@id/onRunFrag"
             app:enterAnim="@anim/fragment_open_enter" />
+        <action
+            android:id="@+id/action_startFrag_to_runSummary"
+            app:destination="@id/runSummary" />
     </fragment>
     <fragment android:id="@+id/dietFrag" android:name="com.example.fitastic.dietFrag" android:label="fragment_diet"
               tools:layout="@layout/fragment_diet"/>
@@ -60,10 +63,14 @@
         android:id="@+id/createCustomWorkout"
         android:name="com.example.fitastic.createCustomWorkout"
         android:label="fragment_create_custom_workout"
-        tools:layout="@layout/fragment_create_custom_workout" >
-        <argument
-            android:name="workout_title"
-            app:argType="string"
-            android:defaultValue="CUSTOM_WORKOUT" />
+        tools:layout="@layout/fragment_create_custom_workout" />
+    <fragment
+        android:id="@+id/runSummary"
+        android:name="com.example.fitastic.RunSummary"
+        android:label="fragment_run_summary"
+        tools:layout="@layout/fragment_run_summary" >
+        <action
+            android:id="@+id/action_runSummary_to_startFrag"
+            app:destination="@id/startFrag" />
     </fragment>
 </navigation>

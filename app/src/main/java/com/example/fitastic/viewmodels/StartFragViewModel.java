@@ -4,12 +4,16 @@ import android.content.ComponentName;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.fitastic.services.TrackingService;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class StartFragViewModel extends ViewModel {
 
