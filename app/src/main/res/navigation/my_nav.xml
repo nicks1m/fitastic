@@ -25,7 +25,20 @@
             app:enterAnim="@anim/fragment_open_enter" />
     </fragment>
     <fragment android:id="@+id/dietFrag" android:name="com.example.fitastic.dietFrag" android:label="fragment_diet"
-              tools:layout="@layout/fragment_diet"/>
+              tools:layout="@layout/fragment_diet">
+        <action
+            android:id="@+id/action_dietFrag_to_gainBfast"
+            app:destination="@id/gainBfast" />
+        <action
+            android:id="@+id/action_dietFrag_to_gainLunch"
+            app:destination="@id/gainLunch" />
+        <action
+            android:id="@+id/action_dietFrag_to_lossBfast"
+            app:destination="@id/lossBfast" />
+        <action
+            android:id="@+id/action_dietFrag_to_lossLunch"
+            app:destination="@id/lossLunch" />
+    </fragment>
     <fragment android:id="@+id/profileFrag" android:name="com.example.fitastic.profileFrag"
               android:label="fragment_profile" tools:layout="@layout/fragment_profile">
         <action
@@ -50,4 +63,24 @@
         android:name="com.example.fitastic.pointsFrag"
         android:label="fragment_points"
         tools:layout="@layout/fragment_points" />
+    <fragment
+        android:id="@+id/lossLunch"
+        android:name="com.example.fitastic.lossLunch"
+        android:label="fragment_loss_lunch"
+        tools:layout="@layout/fragment_loss_lunch" />
+    <fragment
+        android:id="@+id/gainBfast"
+        android:name="com.example.fitastic.gainBfast"
+        android:label="fragment_gain_bfast"
+        tools:layout="@layout/fragment_gain_bfast" />
+    <fragment
+        android:id="@+id/lossBfast"
+        android:name="com.example.fitastic.lossBfast"
+        android:label="fragment_loss_bfast"
+        tools:layout="@layout/fragment_loss_bfast" />
+    <fragment
+        android:id="@+id/gainLunch"
+        android:name="com.example.fitastic.gainLunch"
+        android:label="fragment_gain_lunch"
+        tools:layout="@layout/fragment_gain_lunch" />
 </navigation>

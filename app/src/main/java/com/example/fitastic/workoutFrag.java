@@ -115,10 +115,6 @@ public class workoutFrag extends Fragment {
                 //TODO:
                 //Create array list and push children into it
                 //Pass array list into bundle to next fragment to initialize respective data
-
-
-
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
