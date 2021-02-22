@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,10 +46,10 @@ public class createCustomWorkout extends Fragment {
     private Button save_exercise;
     private List<EditText>custom_workout_edt;
     private List<Exercise>custom_workout;
-    private List<String>custom_workout_firebase;
     private String custom_workout_title;
     private ValueEventListener mListener;
     private DatabaseReference ref;
+    private LinearLayout layout_container;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -93,7 +94,6 @@ public class createCustomWorkout extends Fragment {
         }
 
 
-
     }
 
     @Override
@@ -103,34 +103,27 @@ public class createCustomWorkout extends Fragment {
         View v = inflater.inflate(R.layout.fragment_create_custom_workout, container, false);
 
 
+        layout_container = v.findViewById(R.id.layout_container);
 
-
-        //Initialize array to store EditTexts, and another for Strings
+        //Initialize array to store EditTexts
         custom_workout_edt = new ArrayList<>();
-        custom_workout = new ArrayList<>();
-        custom_workout_firebase = new ArrayList<>();
 
         //Firebase Init
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("custom_workout").child(custom_workout_title);
 
-        mListener = ref.addValueEventListener(new ValueEventListener() {
+        //Receives bundle from previous page which contains workout name, hence look for that path and set path.
+        ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("custom_workout").child(custom_workout_title);
+        //Single Value Event is used so it does not keep refreshing the data (This lead to duplication problems when trying to save data)
+        ref.addListenerForSingleValueEvent( new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot workout_snapshot : dataSnapshot.getChildren())
-                    for(DataSnapshot workout_snapshot2: workout_snapshot.getChildren())
-                        //Adds Button with Title after retrieving data from firebase
-                        custom_workout_firebase.add(workout_snapshot2.getValue().toString());
-                System.out.println("Add complete!");
-                System.out.println(custom_workout_firebase);
-//                System.out.println(workout_snapshot2.getValue().toString());
-//                    addExercise(workout_snapshot.getValue());
-
-                //TODO:
-                //Create array list and push children into it
-                //Pass array list into bundle to next fragment to initialize respective data
-
+                for(DataSnapshot workout_snapshot : dataSnapshot.getChildren()){
+                    //Create Exercises based on the child nodes under the path that was set.
+                   addExercise(workout_snapshot.child("title").getValue().toString(),
+                               workout_snapshot.child("reps").getValue().toString(),
+                               workout_snapshot.child("set").getValue().toString());
+                }
             }
 
             @Override
@@ -138,10 +131,7 @@ public class createCustomWorkout extends Fragment {
                 Log.d("Reaad Fail", "Error");
             }
 
-
         });
-
-//        ref.OnSuccessListener(new OnSuccessListener<Void>(){});
 
 
         edit_workout_title = v.findViewById(R.id.workout_title);
@@ -157,40 +147,38 @@ public class createCustomWorkout extends Fragment {
             addExercise("Name","Set","Reps");
         });
 
-
-
-
-        loadExercises();
         return v;
     }
 
     public void addExercise(String title, String set, String reps){
          //use array list to store EDTs and iterate to get values and push to firebasere
 
-//        LinearLayout layout = getView().findViewById(R.id.exercise_layout);
-
+        //Create layout container for the three fields ( title, set, reps )
         LinearLayout layout_box = new LinearLayout(getContext());
-        LinearLayout layout_container = getView().findViewById(R.id.layout_container);
+
+        //Create the EditTexts for the three fields and add it to the linear layout
 
         exercise_title = new EditText(getContext());
         exercise_title.setText(title);
         exercise_title.setEms(7);
         exercise_title.setTextColor(getResources().getColor(R.color.cyberYellow));
+
         exercise_set = new EditText(getContext());
         exercise_set.setText(set);
         exercise_set.setEms(7);
         exercise_set.setTextColor(getResources().getColor(R.color.cyberYellow));
+
         exercise_reps = new EditText(getContext());
         exercise_reps.setText(reps);
         exercise_reps.setEms(3);
         exercise_reps.setTextColor(getResources().getColor(R.color.cyberYellow));
 
-        //Add to arraylist
+        //Add them to ArrayList so that we can copy them into another ArrayList to hold it in String format.
         custom_workout_edt.add(exercise_title);
         custom_workout_edt.add(exercise_set);
         custom_workout_edt.add(exercise_reps);
 
-        //Create LinearLayout to store
+        //Add the EditTexts to the Layout container we created earlier
         layout_box.addView(exercise_title);
         layout_box.addView(exercise_set);
         layout_box.addView(exercise_reps);
@@ -202,46 +190,31 @@ public class createCustomWorkout extends Fragment {
 
     }
 
-    public void loadExercises(){
-
-        for(int i = 0; i < custom_workout_firebase.size(); i ++){
-            System.out.println(custom_workout_firebase.get(i)+custom_workout_firebase.get(i+1)+custom_workout_firebase.get(i+2));
-            addExercise(custom_workout_firebase.get(i),custom_workout_firebase.get(i+1),custom_workout_firebase.get(i+2));
-            i += 2;
-        }
-    }
-
     public void saveExercises(){
+        //Initialise ArrayList and push data from the EditText ArrayList to this ArrayList which holds a list of the <Exercise> objects
+        custom_workout = new ArrayList<>();
         for(int i = 0; i < custom_workout_edt.size(); i++){
-//            System.out.println(custom_workout_edt.get(i).getText().toString());
             String workout_title = custom_workout_edt.get(i).getText().toString();
             String workout_set = custom_workout_edt.get(i+1).getText().toString();
             String workout_reps = custom_workout_edt.get(i+2).getText().toString();
-            Exercise newExercise = new Exercise(workout_title,workout_reps,workout_set);
+            Exercise newExercise = new Exercise(workout_title,workout_set,workout_reps);
             custom_workout.add(newExercise);
-//            System.out.println(custom_workout.get(i).getTitle()+ custom_workout.get(i).getSet()+custom_workout.get(i).getReps());
             i = i + 2;
         }
-        for(int i = 0; i < custom_workout.size();i++){
-                        System.out.println(custom_workout.get(i).getTitle()+ custom_workout.get(i).getSet()+custom_workout.get(i).getReps());
-        }
 
+        //Push this list to the Firebase DB, for e.g if there are 3 exercises, there will be 3 child nodes, starting from 0 , 1 , 2.
         saveToFirebaseDB();
-
 
     }
 
-    public void saveToFirebaseDB(){
 
-        DatabaseReference ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("custom_workout").child(custom_workout_title);
+    public void saveToFirebaseDB(){
+        //Set path to the current title of custom Workout so it will create a new one if there isn't one that exists. (Will overwrite existing please note and implement
+        //a function check.
+        DatabaseReference ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("custom_workout").child(edit_workout_title.getText().toString());
         ref.setValue(custom_workout);
 
     }
 
-    public void onDestroy() {
-        //Remove event listener when frag is inactive to prevent async callbacks
-        super.onDestroy();
-        ref.removeEventListener(mListener);
-    }
 
 }
