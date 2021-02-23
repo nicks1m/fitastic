@@ -13,7 +13,13 @@
     <fragment android:id="@+id/homeFrag" android:name="com.example.fitastic.homeFrag" android:label="fragment_home"
               tools:layout="@layout/fragment_home"/>
     <fragment android:id="@+id/workoutFrag" android:name="com.example.fitastic.workoutFrag"
-              android:label="fragment_workout" tools:layout="@layout/fragment_workout"/>
+              android:label="fragment_workout" tools:layout="@layout/fragment_workout">
+        <action
+            android:id="@+id/action_workoutFrag_to_createCustomWorkout"
+            app:destination="@id/createCustomWorkout"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/enter_from_left" />
+    </fragment>
     <fragment android:id="@+id/startFrag" android:name="com.example.fitastic.startFrag" android:label="fragment_start"
               tools:layout="@layout/fragment_start">
         <action
@@ -23,22 +29,12 @@
             android:id="@+id/action_startFrag_to_onRunFrag"
             app:destination="@id/onRunFrag"
             app:enterAnim="@anim/fragment_open_enter" />
+        <action
+            android:id="@+id/action_startFrag_to_runSummary"
+            app:destination="@id/runSummary" />
     </fragment>
     <fragment android:id="@+id/dietFrag" android:name="com.example.fitastic.dietFrag" android:label="fragment_diet"
-              tools:layout="@layout/fragment_diet">
-        <action
-            android:id="@+id/action_dietFrag_to_gainBfast"
-            app:destination="@id/gainBfast" />
-        <action
-            android:id="@+id/action_dietFrag_to_gainLunch"
-            app:destination="@id/gainLunch" />
-        <action
-            android:id="@+id/action_dietFrag_to_lossBfast"
-            app:destination="@id/lossBfast" />
-        <action
-            android:id="@+id/action_dietFrag_to_lossLunch"
-            app:destination="@id/lossLunch" />
-    </fragment>
+              tools:layout="@layout/fragment_diet"/>
     <fragment android:id="@+id/profileFrag" android:name="com.example.fitastic.profileFrag"
               android:label="fragment_profile" tools:layout="@layout/fragment_profile">
         <action
@@ -64,23 +60,17 @@
         android:label="fragment_points"
         tools:layout="@layout/fragment_points" />
     <fragment
-        android:id="@+id/lossLunch"
-        android:name="com.example.fitastic.lossLunch"
-        android:label="fragment_loss_lunch"
-        tools:layout="@layout/fragment_loss_lunch" />
+        android:id="@+id/createCustomWorkout"
+        android:name="com.example.fitastic.createCustomWorkout"
+        android:label="fragment_create_custom_workout"
+        tools:layout="@layout/fragment_create_custom_workout" />
     <fragment
-        android:id="@+id/gainBfast"
-        android:name="com.example.fitastic.gainBfast"
-        android:label="fragment_gain_bfast"
-        tools:layout="@layout/fragment_gain_bfast" />
-    <fragment
-        android:id="@+id/lossBfast"
-        android:name="com.example.fitastic.lossBfast"
-        android:label="fragment_loss_bfast"
-        tools:layout="@layout/fragment_loss_bfast" />
-    <fragment
-        android:id="@+id/gainLunch"
-        android:name="com.example.fitastic.gainLunch"
-        android:label="fragment_gain_lunch"
-        tools:layout="@layout/fragment_gain_lunch" />
+        android:id="@+id/runSummary"
+        android:name="com.example.fitastic.RunSummary"
+        android:label="fragment_run_summary"
+        tools:layout="@layout/fragment_run_summary" >
+        <action
+            android:id="@+id/action_runSummary_to_startFrag"
+            app:destination="@id/startFrag" />
+    </fragment>
 </navigation>

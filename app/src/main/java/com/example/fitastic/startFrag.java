@@ -2,8 +2,10 @@ package com.example.fitastic;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Binder;
 import android.os.Build;
@@ -45,6 +47,8 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
@@ -57,17 +61,15 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class startFrag extends Fragment implements EasyPermissions.PermissionCallbacks{
 
     /* start Frag contains the start run page of the app. Contains a google maps and means of
-    * navigation to run logs fragment. This page allows users to start a run, view their route on
-    * the map, end their run and visit the run logs showing their run history.
-    */
+     * navigation to run logs fragment. This page allows users to start a run, view their route on
+     * the map, end their run and visit the run logs showing their run history.
+     */
 
     // debug
     private static String TAG = "StartFrag";
 
-    // actions for service
-    private final String ACTION_START_OR_RESUME = "ACTION_START_OR_RESUME";
-    private final String ACTION_PAUSE = "ACTION_PAUSE";
-    private final String ACTION_STOP = "ACTION_STOP";
+    // if fragment is tracking or not
+    private boolean isTracking = false;
 
     // permissions
     private final int LOCATION_PERMISSION_CODE = 1;
@@ -78,11 +80,18 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     // UI components
     private TextView distanceView;
     private TextView averagePaceView;
+    private TextView timerView;
     private Button logsBtn;
     private Button startBtn;
     private Button statsBtn;
+    private Button endRunBtn;
 
+    // map
     private GoogleMap map;
+
+    // hold latitudes/longitudes whilst on run
+    private ArrayList<ArrayList<LatLng>> polylines = new ArrayList<ArrayList<LatLng>>();
+    private ArrayList<LatLng> polyline = new ArrayList<LatLng>();
 
     // accessing service/binding to it
     private TrackingService mService;
@@ -152,6 +161,8 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
                 }
             }
         });
+
+
     }
 
     // initialise graphical components
@@ -166,8 +177,12 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         logsBtn = root.findViewById(R.id.runLogsBtn);
         distanceView = root.findViewById(R.id.distanceData);
         averagePaceView = root.findViewById(R.id.averagePaceData);
+        timerView = root.findViewById(R.id.runTimerView);
         startBtn = root.findViewById(R.id.runStartBtn);
         statsBtn = root.findViewById(R.id.runStatBtn);
+        endRunBtn = root.findViewById(R.id.runEndButton);
+
+
         return root;
     }
 
@@ -187,41 +202,47 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
 
         // set on click for button to bind this frag to tracking service
         startBtn.setOnClickListener(v -> {
-            if (mService == null) {
-                startService();
-            }
+            timer = new Timer();
+            toggleRun();
+        });
+
+        endRunBtn.setOnClickListener(v -> {
+            endRun();
+        });
+
+        logsBtn.setOnClickListener(v -> {
+            openLogs();
         });
     }
 
-    // start service onResume
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public void onResume() {
-        super.onResume();
-        // startService();
-    }
 
     // start service from this frag
     @RequiresApi(api = Build.VERSION_CODES.O)
-        public void startService() {
+    private void startService() {
         Intent serviceIntent = new Intent(requireContext(), TrackingService.class);
         getActivity().startService(serviceIntent);
 
         bindService();
     }
 
+    ServiceConnection localConnection;
+
     // bind this frag to service
     private void bindService() {
         Intent serviceIntent = new Intent(requireContext(), TrackingService.class);
-        getActivity().bindService(serviceIntent, mViewModel.getServiceConnection(), Context.BIND_AUTO_CREATE);
+        localConnection = mViewModel.getServiceConnection();
+        getActivity().bindService(serviceIntent, localConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    private void unBindService() {
+        requireContext().unbindService(localConnection);
     }
 
     // opens run history fragment
-    public void openRun(View v) {
-        controller.navigate(R.id.action_startFrag_to_onRunFrag);
+    private void openLogs() {
+        controller.navigate(R.id.action_startFrag_to_runHistoryFragment);
     }
 
-    /* Map functionality */
     // call back for when map is ready
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
         /**
@@ -235,18 +256,16 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            // reference map allows polylines to be drawn to it and camera manipulation
             map = googleMap;
+            // request location permissions
             requestLocation();
         }
     };
 
-    ArrayList<ArrayList<LatLng>> polylines = new ArrayList<ArrayList<LatLng>>();
-    ArrayList<LatLng> polyline = new ArrayList<LatLng>();
-    int x = 0;
-
     // begins tracking user location using service
     @SuppressLint("MissingPermission")
-    public void enableUserLocation() {
+    private void enableUserLocation() {
         // will obtain user location and place marker on map
         if (mService != null) {
             mService.getPathPoints().observe(getViewLifecycleOwner(), new Observer<ArrayList<ArrayList<LatLng>>>() {
@@ -264,7 +283,8 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         }
     }
 
-    public void drawLatestPolyline() {
+    // draw points from polyline to map
+    private void drawLatestPolyline() {
         LatLng penultimate;
         LatLng last = null;
         try {
@@ -285,10 +305,98 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         }
     }
 
-    public void moveCameraToUser() {
+    // move camera to last point in list
+    private void moveCameraToUser() {
         if (!polyline.isEmpty() && polyline.size() > 2) {
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(polyline.get(polyline.size()-1), 20f));
         }
+    }
+
+    // either starts the binding to tracking service or will pause/resume location updates
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void toggleRun() {
+        // bind to service if no instance detected
+        if (mService == null) {
+            isTracking = true;
+            isPaused = false;
+            startBtn.setText("Stop");
+            logsBtn.setVisibility(View.INVISIBLE);
+            startTimer();
+            // endRunBtn.setVisibility(View.VISIBLE);
+            startService();
+        } else { /* else pause/resume location updates */
+            isTracking = !isTracking;
+            if (isTracking()) {
+                isPaused = false;
+                // resume tracking
+                startBtn.setText("Stop");
+                startTimer();
+                mService.locationRequest();
+                endRunBtn.setVisibility(View.INVISIBLE);
+            }
+            else {
+                isPaused = true;
+                // pause tracking
+                startBtn.setText("Start");
+                mService.removeLocationUpdates();
+                pauseTimer();
+                // create new index for polyline
+                polylines.add(polyline);
+                polyline = new ArrayList<LatLng>();
+                endRunBtn.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    public void endRun() {
+        unBindService();
+        mService = null;
+        polylines = new ArrayList<ArrayList<LatLng>>();
+        polyline = new ArrayList<LatLng>();
+        // send data navigate to next frag
+        controller.navigate(R.id.action_startFrag_to_runSummary);
+    }
+
+    private Timer timer;
+    private TimerTask timerTask;
+    private Double time = 0.0;
+    private boolean isPaused = true;
+
+    public void startTimer() {
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                if (!isPaused) {
+                    time++;
+                    // set text of text view
+                    timerView.setText(getTimerText());
+                }
+            }
+        };
+        timer.scheduleAtFixedRate(timerTask, 0, 1000);
+    }
+
+    private String getTimerText() {
+        int rounded = (int) Math.round(time);
+
+        int seconds = ((rounded % 86400) % 3600) % 60;
+        int minutes = ((rounded % 86400) % 3600) / 60;
+        int hours = (rounded % 86400) / 3600;
+
+        return  String.format("%02d", hours) + ":" +
+                String.format("%02d", minutes) + ":" +
+                String.format("%02d", seconds);
+    }
+
+    public void pauseTimer() {
+        timerTask.cancel();
+        timer.cancel();
+    }
+
+    public void stopTimer() {
+        timer.cancel();
+        timerTask.cancel();
+        time = 0.0;
     }
 
     // requests location permissions from user
@@ -335,5 +443,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         }
     }
 
-
+    private boolean isTracking() {
+        return this.isTracking;
+    }
 }

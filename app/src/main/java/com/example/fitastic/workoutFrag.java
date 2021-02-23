@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +35,10 @@ public class workoutFrag extends Fragment {
     private Button custom_workout;
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
+    private NavController controller;
+    private LinearLayout layout;
+    private DatabaseReference ref;
+    private ValueEventListener mListener;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -82,39 +88,53 @@ public class workoutFrag extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_workout, container, false);
 
+        controller = Navigation.findNavController(container);
+
+
+        auth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("custom_workout");
+
+
+        layout = v.findViewById(R.id.workout_layout);
 
         loadCustomWorkout();
 
 
         btn_add =  v.findViewById(R.id.add_workout);
         btn_add.setOnClickListener(v1 -> {
-           addButton("custom workout");
+            Bundle args = new Bundle();
+            args.putString("custom_workout_title","custom_workout");
+           controller.navigate(R.id.action_workoutFrag_to_createCustomWorkout, args);
         });
         return v;
     }
 
+    //Send title of button as bundle so next fragment can set path to retrieve respective data.
     public void addButton(String title){
-        LinearLayout layout = getView().findViewById(R.id.workout_layout);
-        custom_workout = new Button(getContext());
+        custom_workout = new Button(this.getContext());
         custom_workout.setText(title);
         layout.addView(custom_workout);
+        custom_workout.setOnClickListener(v->{
+            Bundle args = new Bundle();
+            args.putString("custom_workout_title",title);
+            controller.navigate(R.id.action_workoutFrag_to_createCustomWorkout, args);
+        });
+
 
     }
 
-    public void loadCustomWorkout(){
-        auth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        DatabaseReference ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("custom_workout");
-        ref.addValueEventListener(new ValueEventListener() {
+    public void loadCustomWorkout(){
+
+        mListener = ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot workout_snapshot : dataSnapshot.getChildren())
+
                     //Adds Button with Title after retrieving data from firebase
                     addButton(workout_snapshot.getKey());
-                //TODO:
-                //Create array list and push children into it
-                //Pass array list into bundle to next fragment to initialize respective data
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -123,6 +143,12 @@ public class workoutFrag extends Fragment {
         });
     }
 
+    @Override
+    public void onDestroy() {
+        //Remove event listener when frag is inactive to prevent async callbacks and unnecessary data changes
+        super.onDestroy();
+        ref.removeEventListener(mListener);
+    }
 }
 
 //For Reference only

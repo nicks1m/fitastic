@@ -215,14 +215,7 @@ public class RegisterActivity extends AppCompatActivity {
         return true;
     }
 
-//    public boolean rePw(){
-//        if(pwIn.getText().toString() != pwIn2.getText().toString()){
-//            System.out.println(false);
-//          return false;
-//        }
-//        System.out.println(true);
-//        return true;
-//    }
+
 
     //Check Password if meet requirements
     public boolean checkPw(String password) {
