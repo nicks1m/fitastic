@@ -8,6 +8,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class workoutFrag extends Fragment {
     private LinearLayout layout;
     private DatabaseReference ref;
     private ValueEventListener mListener;
+    private Button remove_workout;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -112,14 +114,33 @@ public class workoutFrag extends Fragment {
 
     //Send title of button as bundle so next fragment can set path to retrieve respective data.
     public void addButton(String title){
+
+        //Create layout container for the three fields ( title, set, reps )
+        LinearLayout layout_box = new LinearLayout(getContext());
+
         custom_workout = new Button(this.getContext());
         custom_workout.setText(title);
-        layout.addView(custom_workout);
+        custom_workout.setEms(20);
+        remove_workout = new Button(this.getContext());
+        remove_workout.setText("X");
+        remove_workout.setEms(1);
+        remove_workout.setGravity(Gravity.RIGHT);
+//        layout.addView(remove_workout);
+//        layout.addView(custom_workout);
         custom_workout.setOnClickListener(v->{
             Bundle args = new Bundle();
             args.putString("custom_workout_title",title);
             controller.navigate(R.id.action_workoutFrag_to_createCustomWorkout, args);
         });
+
+        remove_workout.setOnClickListener(v->{
+            layout_box.setVisibility(View.GONE);
+            removeWorkout(title);
+        });
+
+        layout_box.addView(custom_workout);
+        layout_box.addView(remove_workout);
+        layout.addView(layout_box);
 
 
     }
@@ -130,17 +151,20 @@ public class workoutFrag extends Fragment {
         mListener = ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot workout_snapshot : dataSnapshot.getChildren())
-
+                for(DataSnapshot workout_snapshot : dataSnapshot.getChildren()){
                     //Adds Button with Title after retrieving data from firebase
                     addButton(workout_snapshot.getKey());
-
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.d("Reaad Fail", "Error");
             }
         });
+    }
+
+    public void removeWorkout(String key){
+         ref.child(key).setValue(null);
     }
 
     @Override
