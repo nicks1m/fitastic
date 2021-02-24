@@ -126,6 +126,7 @@ public class createCustomWorkout extends Fragment {
                                workout_snapshot.child("title").getValue().toString(),
                                workout_snapshot.child("reps").getValue().toString(),
                                workout_snapshot.child("set").getValue().toString());
+
                 }
             }
 
