@@ -45,13 +45,14 @@ public class createCustomWorkout extends Fragment {
     private EditText exercise_id;
     private Button add_exercise;
     private Button save_exercise;
+    private Button start_workout;
     private List<EditText>custom_workout_edt;
     private List<Exercise>custom_workout;
     private String custom_workout_title;
     private ValueEventListener mListener;
     private DatabaseReference ref;
     private LinearLayout layout_container;
-
+    private NavController controller;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -105,6 +106,7 @@ public class createCustomWorkout extends Fragment {
 
 
         layout_container = v.findViewById(R.id.layout_container);
+        controller = Navigation.findNavController(container);
 
         //Initialize array to store EditTexts
         custom_workout_edt = new ArrayList<>();
@@ -153,6 +155,13 @@ public class createCustomWorkout extends Fragment {
             addExercise(index, "Name","Set","Reps");
         });
 
+        start_workout = v.findViewById(R.id.btn_start_workout);
+        start_workout.setOnClickListener(v1->{
+            Bundle args = new Bundle();
+            args.putString("custom_workout_title",edit_workout_title.getText().toString());
+          controller.navigate(R.id.action_createCustomWorkout_to_workout_in_prog_frag, args);
+        });
+
         return v;
     }
 
@@ -183,12 +192,12 @@ public class createCustomWorkout extends Fragment {
 
         exercise_set = new EditText(getContext());
         exercise_set.setText(set);
-        exercise_set.setEms(5);
+        exercise_set.setEms(2);
         exercise_set.setTextColor(getResources().getColor(R.color.cyberYellow));
 
         exercise_reps = new EditText(getContext());
         exercise_reps.setText(reps);
-        exercise_reps.setEms(3);
+        exercise_reps.setEms(2);
         exercise_reps.setTextColor(getResources().getColor(R.color.cyberYellow));
 
         exercise_id = new  EditText(getContext());
@@ -197,7 +206,7 @@ public class createCustomWorkout extends Fragment {
 
         Button remove = new Button(getContext());
         remove.setText("X");
-        remove.setEms(3);
+        remove.setEms(2);
         remove.setTextColor(getResources().getColor(R.color.cyberYellow));
         remove.setOnClickListener(v->{
             layout_box.setVisibility(View.GONE);
@@ -229,7 +238,7 @@ public class createCustomWorkout extends Fragment {
             String workout_title = custom_workout_edt.get(i+1).getText().toString();
             String workout_set = custom_workout_edt.get(i+2).getText().toString();
             String workout_reps = custom_workout_edt.get(i+3).getText().toString();
-            Exercise newExercise = new Exercise(workout_title,workout_set,workout_reps);
+            Exercise newExercise = new Exercise(workout_title,workout_reps,workout_set);
             custom_workout.add(newExercise);
             i = i + 3;
         }
