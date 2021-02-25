@@ -29,27 +29,33 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginBottom="19dp"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/play_regular"
         android:text="Exercises"
         android:textColor="#FDFDFD"
+        android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_add_exercise"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="14dp"
-        android:layout_marginRight="14dp"
-        android:text="+"
+        android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@color/mainFont"
+        android:text="ADD"
         app:layout_constraintBaseline_toBaselineOf="@+id/btn_save_exercise"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/btn_save_exercise"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="22dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/cyberYellow"
         android:text="SAVE"
         app:layout_constraintBottom_toTopOf="@+id/scrollView2"
         app:layout_constraintEnd_toStartOf="@+id/btn_add_exercise" />
@@ -70,14 +76,11 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="0dp"
-        android:layout_height="367dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginEnd="35dp"
-        android:layout_marginRight="35dp"
+        android:layout_width="match_parent"
+        android:layout_height="365dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.746"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -97,6 +100,7 @@
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:fontFamily="@font/play_regular"
                     android:inputType="textPersonName"
                     android:text="Title"
                     android:textColor="#F1EAEA"
@@ -107,8 +111,9 @@
                     android:layout_width="96dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:fontFamily="@font/play_regular"
                     android:inputType="numberSigned"
-                    android:text="sets"
+                    android:text="Sets"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp" />
 
@@ -117,8 +122,9 @@
                     android:layout_width="95dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
+                    android:fontFamily="@font/play_regular"
                     android:inputType="numberSigned"
-                    android:text="reps"
+                    android:text="Reps"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp" />
             </LinearLayout>
@@ -137,9 +143,10 @@
         android:id="@+id/btn_start_workout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="101dp"
-        android:layout_marginLeft="101dp"
-        android:layout_marginTop="43dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="40dp"
+        android:background="@color/cyberRed"
         android:text="Begin"
         app:layout_constraintStart_toStartOf="@+id/scrollView2"
         app:layout_constraintTop_toBottomOf="@+id/scrollView2" />

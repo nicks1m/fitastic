@@ -83,5 +83,11 @@
         android:label="fragment_workout_in_prog_frag"
         tools:layout="@layout/fragment_workout_in_prog_frag" >
         <argument android:name="exercise_list" />
+        <action
+            android:id="@+id/action_workout_in_prog_frag_self"
+            app:destination="@id/workout_in_prog_frag" />
+        <action
+            android:id="@+id/action_workout_in_prog_frag_to_workoutFrag"
+            app:destination="@id/workoutFrag" />
     </fragment>
 </navigation>
