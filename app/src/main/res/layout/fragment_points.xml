@@ -19,7 +19,58 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1000dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/milestone10k">
+
+            <TextView
+                android:id="@+id/textView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView16"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView17"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView19"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+            <TextView
+                android:id="@+id/textView21"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/diamond_backing"
@@ -113,10 +164,21 @@
             app:layout_constraintTop_toTopOf="@+id/diamond_backing" />
 
         <ImageView
+            android:id="@+id/milestone15k"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginRight="36dp"
+            android:src="@drawable/milestone15k"
+            app:layout_constraintEnd_toStartOf="@+id/milestone21k"
+            app:layout_constraintTop_toBottomOf="@+id/label_accolades" />
+
+        <ImageView
             android:id="@+id/milestone10k"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="36dp"
             android:layout_marginRight="36dp"
             android:src="@drawable/milestone10k"
@@ -124,24 +186,15 @@
             app:layout_constraintTop_toBottomOf="@+id/label_accolades" />
 
         <ImageView
-            android:id="@+id/milestone15k"
-            android:layout_width="75dp"
-            android:layout_height="75dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
-            android:src="@drawable/milestone15k"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/milestone21k" />
-
-        <ImageView
             android:id="@+id/milestone21k"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginTop="168dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
             android:src="@drawable/milestone21k"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
         <ImageView
             android:id="@+id/milestone5k"
@@ -149,12 +202,14 @@
             android:layout_height="75dp"
             android:layout_marginStart="16dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="167dp"
             android:layout_marginEnd="27dp"
             android:layout_marginRight="27dp"
             android:src="@drawable/milestone5k"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/label_accolades"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
