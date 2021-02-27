@@ -63,7 +63,11 @@
         android:id="@+id/createCustomWorkout"
         android:name="com.example.fitastic.createCustomWorkout"
         android:label="fragment_create_custom_workout"
-        tools:layout="@layout/fragment_create_custom_workout" />
+        tools:layout="@layout/fragment_create_custom_workout" >
+        <action
+            android:id="@+id/action_createCustomWorkout_to_workout_in_prog_frag"
+            app:destination="@id/workout_in_prog_frag" />
+    </fragment>
     <fragment
         android:id="@+id/runSummary"
         android:name="com.example.fitastic.RunSummary"
@@ -72,5 +76,18 @@
         <action
             android:id="@+id/action_runSummary_to_startFrag"
             app:destination="@id/startFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/workout_in_prog_frag"
+        android:name="com.example.fitastic.workout_in_prog_frag"
+        android:label="fragment_workout_in_prog_frag"
+        tools:layout="@layout/fragment_workout_in_prog_frag" >
+        <argument android:name="exercise_list" />
+        <action
+            android:id="@+id/action_workout_in_prog_frag_self"
+            app:destination="@id/workout_in_prog_frag" />
+        <action
+            android:id="@+id/action_workout_in_prog_frag_to_workoutFrag"
+            app:destination="@id/workoutFrag" />
     </fragment>
 </navigation>

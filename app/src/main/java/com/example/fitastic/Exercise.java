@@ -7,7 +7,7 @@ public class Exercise {
     private String set;
     private String time;
 
-    public Exercise(String title,String reps, String set){
+    public Exercise(String title,String set, String reps){
         this.title = title;
         this.reps = reps;
         this.set = set;
