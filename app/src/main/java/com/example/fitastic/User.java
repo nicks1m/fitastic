@@ -5,6 +5,7 @@ import java.util.List;
 
 public class User {
     public String name, email, dob, displayname,reps,set,time,title,bmi;
+    public int points;
 
     List<Exercise>custom_workout = new ArrayList();
 
@@ -19,20 +20,9 @@ public class User {
         this.dob = dob;
         this.displayname = "";
         this.bmi = "";
+        this.points = 0;
 
     }
-
-//    public void custom_workout(String title){
-//        this.title = title;
-//        exercise(title,reps,set,time);
-//
-//    }
-
-//    public void exercise(String title, String reps, String set, String time){
-//        this.reps = reps;
-//        this.set = set;
-//        this.time = time;
-//    }
 
 
 

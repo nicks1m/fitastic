@@ -2,11 +2,22 @@ package com.example.fitastic;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +25,13 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class pointsFrag extends Fragment {
+
+    private FirebaseAuth auth;
+    private DatabaseReference mDatabase;
+    private NavController controller;
+    private DatabaseReference ref;
+    private String currentPoints;
+    private TextView current_pts;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -59,6 +77,30 @@ public class pointsFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_points, container, false);
+
+
+        View v = inflater.inflate(R.layout.fragment_points, container, false);
+
+        current_pts = v.findViewById(R.id.current_points);
+
+        auth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("points");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                currentPoints = snapshot.getValue().toString();
+                System.out.println(currentPoints);
+                current_pts.setText(currentPoints);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        current_pts.setText(currentPoints);
+
+        return v;
     }
 }
