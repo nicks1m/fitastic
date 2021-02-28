@@ -2,6 +2,7 @@ package com.example.fitastic;
 
 import android.os.Bundle;
 
+import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -10,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -37,7 +42,7 @@ public class pointsFrag extends Fragment {
     private String spendingPoints;
     private TextView current_pts;
     private ProgressBar prog_bar;
-    private int progress = 50;
+    private LinearLayout challenges_layout;
     private int nextTier;
     private ArrayList<Integer> tierLevels;
     private TextView points_to_next_tier;
@@ -48,6 +53,7 @@ public class pointsFrag extends Fragment {
                      qty_15k,
                      qty_21k,
                      qty_42k;
+    private TextView challenge_title, challenge_points;
 
 
 
@@ -109,6 +115,9 @@ public class pointsFrag extends Fragment {
         qty_15k = v.findViewById(R.id.qty_15k);
         qty_21k = v.findViewById(R.id.qty_21k);
         qty_42k = v.findViewById(R.id.qty_42k);
+        challenges_layout = v.findViewById(R.id.challenges_layout);
+
+        createChallenges();
 
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -167,9 +176,36 @@ public class pointsFrag extends Fragment {
         }
     }
 
-
     private void updateProgressBar(double percent){
         prog_bar.setProgress((int)percent);
+    }
+
+    private void createChallenges(){
+        //objects of challenges stored in arraylist
+        //iterate through arraylist and create dynanimcally
+        challengeGenerator.generateChallenges();
+        for(int i = 0; i < 4; i++){
+            addChallenge(challengeGenerator.challenges.get(i).getChallenge(),challengeGenerator.challenges.get(i).getPoints());
+        }
+
+    }
+
+    private void addChallenge(String title, int points){
+        LinearLayout layout_box = new LinearLayout(getContext());
+        challenge_title = new TextView(getContext());
+        challenge_title.setText(title);
+        challenge_title.setWidth(300);
+        challenge_points = new TextView(getContext());
+        challenge_points.setText(String.valueOf(points));
+        challenge_points.setWidth(300);
+
+        layout_box.setBackgroundColor(getResources().getColor(R.color.challengeGrey));
+        layout_box.setMinimumHeight(200);
+        layout_box.setDividerPadding(50);
+        layout_box.addView(challenge_title);
+        layout_box.addView(challenge_points);
+
+        challenges_layout.addView(layout_box);
 
     }
 }
