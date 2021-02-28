@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,6 +19,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,8 +33,23 @@ public class pointsFrag extends Fragment {
     private DatabaseReference mDatabase;
     private NavController controller;
     private DatabaseReference ref;
-    private String currentPoints;
+    private String tierPoints;
+    private String spendingPoints;
     private TextView current_pts;
+    private ProgressBar prog_bar;
+    private int progress = 50;
+    private int nextTier;
+    private ArrayList<Integer> tierLevels;
+    private TextView points_to_next_tier;
+    private TextView currentTier;
+    private double percent = 0;
+    private TextView qty_5k,
+                     qty_10k,
+                     qty_15k,
+                     qty_21k,
+                     qty_42k;
+
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -81,7 +99,16 @@ public class pointsFrag extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_points, container, false);
 
+
+        prog_bar = v.findViewById(R.id.progress_bar_points);
         current_pts = v.findViewById(R.id.current_points);
+        points_to_next_tier = v.findViewById(R.id.textview_progress);
+        currentTier = v.findViewById(R.id.label_tier);
+        qty_5k = v.findViewById(R.id.qty_5k);
+        qty_10k = v.findViewById(R.id.qty_10k);
+        qty_15k = v.findViewById(R.id.qty_15k);
+        qty_21k = v.findViewById(R.id.qty_21k);
+        qty_42k = v.findViewById(R.id.qty_42k);
 
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -89,9 +116,17 @@ public class pointsFrag extends Fragment {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                currentPoints = snapshot.getValue().toString();
-                System.out.println(currentPoints);
-                current_pts.setText(currentPoints);
+                tierPoints = snapshot.child("tierpoints").getValue().toString();
+                spendingPoints = snapshot.child("availpoints").getValue().toString();
+                current_pts.setText(spendingPoints);
+                //Initialize Awards
+                qty_5k.setText(snapshot.child("awards").child("5k").getValue().toString());
+                qty_10k.setText(snapshot.child("awards").child("10k").getValue().toString());
+                qty_15k.setText(snapshot.child("awards").child("15k").getValue().toString());
+                qty_21k.setText(snapshot.child("awards").child("21k").getValue().toString());
+                qty_42k.setText(snapshot.child("awards").child("42k").getValue().toString());
+                //Initialize Tiers
+                initializeTiers();
             }
 
             @Override
@@ -99,8 +134,42 @@ public class pointsFrag extends Fragment {
 
             }
         });
-        current_pts.setText(currentPoints);
+
+        //Create Progress Bar
+        //Check accolades progression
+        //Calculate total points to next tier and represent as circular bar around tier level
 
         return v;
+    }
+
+    //Create Tier system using ArrayList index that represents the level, and value in each position represents the points required for next level.
+    //eg [0] = 1000pts    [1] = 2000pts   [2] = 3000pts
+    private void initializeTiers(){
+
+        tierLevels = new ArrayList<>();
+        for(int i = 0; i < 10; i ++){
+            tierLevels.add((i+1)*1500);
+
+        }
+
+        double ctp = Integer.parseInt(tierPoints);
+        for(int i = 0; i <tierLevels.size(); i ++){
+            if(ctp < tierLevels.get(i)){
+                nextTier = tierLevels.get(i);
+                System.out.println("Next Tier is" +  (i+1) + ", Points required " + (nextTier - ctp));
+                points_to_next_tier.setText(ctp + "/" + nextTier);
+                currentTier.setText(String.valueOf(i));
+                System.out.println("Cp: " + ctp + " nextTier: " + nextTier);
+                percent = Math.floor((ctp/nextTier)*100);
+                updateProgressBar(percent);
+                return;
+            }
+        }
+    }
+
+
+    private void updateProgressBar(double percent){
+        prog_bar.setProgress((int)percent);
+
     }
 }
