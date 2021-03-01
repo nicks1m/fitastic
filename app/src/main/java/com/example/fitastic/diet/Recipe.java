@@ -1,9 +1,3 @@
-/* Assignment: 3
-Campus: Ashdod
-Authors:
-Eliran Naduyev 312089105
-Maria Garber
-*/
 
 package com.example.fitastic.diet;
 import androidx.annotation.NonNull;
