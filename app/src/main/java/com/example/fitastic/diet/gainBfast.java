@@ -1,4 +1,4 @@
-package com.example.fitastic;
+package com.example.fitastic.diet;
 
 
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.google.firebase.FirebaseOptions;
+import com.example.fitastic.R;
 import com.google.firebase.database.DatabaseReference;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -26,11 +26,8 @@ import com.google.firebase.database.FirebaseDatabase;
  */
 public class gainBfast extends Fragment {
 
-    private DatabaseReference ref;
-    private FirebaseRecyclerOptions<dietModel> options;
-    private FirebaseRecyclerAdapter<dietModel, viewHolder> adapter;
-    private RecyclerView recyclerView;
-    private TextView title;
+//    private FirebaseRecyclerOptions<dietModel> options;
+//    private TextView title;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -78,32 +75,50 @@ public class gainBfast extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_gain_bfast, container, false);
-
-       // title = v.findViewById(R.id.titleGainBfast);
-        ref = FirebaseDatabase.getInstance().getReference().child("Users").child("Diets").child("GainBfast");
-        recyclerView = v.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
-
-        options = new FirebaseRecyclerOptions.Builder<dietModel>().setQuery(ref, dietModel.class).build();
-        adapter = new FirebaseRecyclerAdapter<dietModel, viewHolder>(options) {
-            @Override
-            protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull dietModel model) {
-                holder.textName.setText(model.getName());
-                holder.textCal.setText(model.getCal());
-            }
-
-            @NonNull
-            @Override
-            public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_diet_layout, parent, false);
-                return new viewHolder(v);
-            }
-        };
-
-        adapter.startListening();
-        recyclerView.setAdapter(adapter);
-
         return v;
     }
 }
+
+//       // title = v.findViewById(R.id.titleGainBfast);
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Diets").child("GainBfast");
+//        RecyclerView recyclerView = v.findViewById(R.id.recyclerView);
+////        recyclerView.setHasFixedSize(true);
+//        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+//
+//        options = new FirebaseRecyclerOptions.Builder<dietModel>().setQuery(ref, dietModel.class).build();
+//        System.out.println("here???????");
+//        FirebaseRecyclerAdapter<dietModel, viewHolder> adapter = new FirebaseRecyclerAdapter<dietModel, viewHolder>(options) {
+//            @Override
+//            protected void onBindViewHolder(@NonNull viewHolder holder, int position, @NonNull dietModel model) {
+//                System.out.println("aici" + viewHolder.class.getName());
+//                holder.name.setText(model.getName());
+//                holder.cal.setText(model.getCal());
+//            }
+//
+//
+//            @NonNull
+//            @Override
+//            public viewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+//                View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_diet_layout, parent, false);
+//                return new viewHolder(v);
+//            }
+//        };
+//
+//        adapter.startListening();
+//        recyclerView.setAdapter(adapter);
+//
+//        return v;
+//    }
+
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        adapter.startListening();
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        adapter.stopListening();
+//    }
+//}

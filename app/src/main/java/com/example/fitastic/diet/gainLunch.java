@@ -1,4 +1,4 @@
-package com.example.fitastic;
+package com.example.fitastic.diet;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.fitastic.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link lossBfast#newInstance} factory method to
+ * Use the {@link gainLunch#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class lossBfast extends Fragment {
+public class gainLunch extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +26,7 @@ public class lossBfast extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public lossBfast() {
+    public gainLunch() {
         // Required empty public constructor
     }
 
@@ -34,11 +36,11 @@ public class lossBfast extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment lossBfast.
+     * @return A new instance of fragment gainLunch.
      */
     // TODO: Rename and change types and number of parameters
-    public static lossBfast newInstance(String param1, String param2) {
-        lossBfast fragment = new lossBfast();
+    public static gainLunch newInstance(String param1, String param2) {
+        gainLunch fragment = new gainLunch();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +61,6 @@ public class lossBfast extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_loss_bfast, container, false);
+        return inflater.inflate(R.layout.fragment_gain_lunch, container, false);
     }
 }
