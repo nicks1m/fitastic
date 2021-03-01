@@ -10,6 +10,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.fitastic.models.Run;
+import com.example.fitastic.repositories.mainRepository;
 import com.example.fitastic.services.TrackingService;
 
 import java.util.Timer;
@@ -44,6 +46,10 @@ public class StartFragViewModel extends ViewModel {
             mBinder.postValue(null);
         }
     };
+
+    public void insertRun(Run r) {
+        mainRepository.insertRun(r);
+    }
 
     // get if tracking
     public LiveData<Boolean> isTracking() {

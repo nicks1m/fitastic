@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Binder;
 import android.os.Build;
 import android.os.Bundle;
@@ -33,14 +34,17 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.example.fitastic.models.Run;
 import com.example.fitastic.services.TrackingService;
 import com.example.fitastic.utility.PermissionUtility;
 import com.example.fitastic.viewmodels.StartFragViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
@@ -88,6 +92,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
 
     // map
     private GoogleMap map;
+    private View mapView;
 
     // hold latitudes/longitudes whilst on run
     private ArrayList<ArrayList<LatLng>> polylines = new ArrayList<ArrayList<LatLng>>();
@@ -96,6 +101,12 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     // accessing service/binding to it
     private TrackingService mService;
     private StartFragViewModel mViewModel;
+
+    // timer
+    private Timer timer;
+    private TimerTask timerTask;
+    private Double time = 0.0;
+    private boolean isPaused = true;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -161,8 +172,6 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
                 }
             }
         });
-
-
     }
 
     // initialise graphical components
@@ -196,6 +205,8 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
         }
+
+        mapView = mapFragment.getView();
 
         // get nav controller
         controller = Navigation.findNavController(view);
@@ -322,7 +333,6 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
             startBtn.setText("Stop");
             logsBtn.setVisibility(View.INVISIBLE);
             startTimer();
-            // endRunBtn.setVisibility(View.VISIBLE);
             startService();
         } else { /* else pause/resume location updates */
             isTracking = !isTracking;
@@ -348,19 +358,99 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         }
     }
 
+    // ends run
     public void endRun() {
+        zoomOutToRoute();
+        Log.d(TAG, "endRun: size outside: " + polylines.size());
+
+        // distance in meters
+        float distance = 0.0f;
+
+        int size = polylines.size();
+
+        if (size == 1)
+            size = 2;
+
+        for (int i = 0; i < size - 1; i++) {
+            distance += calculatePolylineDistance(getPolylines().get(i));
+        }
+
+        // calculate speed, round(dist(km) / (time(h)) / 10
+        float avgSpeed = Math.round((distance / 1000f) / ((time / 3600)) * 10f) / 10f;
+
+        Log.d(TAG, "endRun stats: dist " + distance + " time: " + time + " speed: " + avgSpeed);
+
+        float finalDistance = distance;
+        map.snapshot(bmp -> {
+            Log.d(TAG, "Polyline size: " + getPolylines().size());
+
+            Run r = new Run(bmp, finalDistance, time, avgSpeed);
+            mViewModel.insertRun(r);
+        });
+
+        // remove location variables to reset fragment
         unBindService();
         mService = null;
         polylines = new ArrayList<ArrayList<LatLng>>();
         polyline = new ArrayList<LatLng>();
-        // send data navigate to next frag
+
+        // navigate to next frag
         controller.navigate(R.id.action_startFrag_to_runSummary);
     }
 
-    private Timer timer;
-    private TimerTask timerTask;
-    private Double time = 0.0;
-    private boolean isPaused = true;
+    public ArrayList<ArrayList<LatLng>> getPolylines() {
+        return polylines;
+    }
+
+    private float calculatePolylineDistance(ArrayList<LatLng> polyline) {
+        float distance = 0.0f;
+
+        try {
+            for (int i = 0; i < polyline.size() - 2; i++) {
+                 LatLng penultimate = polyline.get(i);
+                 LatLng last = polyline.get(i + 1);
+                 float[] result = new float[1];
+
+                    Location.distanceBetween(
+                        penultimate.latitude,
+                        penultimate.longitude,
+                        last.latitude,
+                        last.longitude,
+                        result
+                 );
+
+                distance += result[0];
+            }
+            return distance;
+        } catch (IndexOutOfBoundsException e) {
+
+        }
+        return -1;
+    }
+
+    // zooms out to entire route of run to take an image
+    private void zoomOutToRoute() {
+        // will create an area the map needs to zoom to from latitudes/longitudes collected from run
+        LatLngBounds.Builder boundBuilder = new LatLngBounds.Builder();
+
+        int size = polylines.size();
+        if (size == 1) {
+            size = 2;
+        }
+        // iterate through lat/lng and include them in the bound
+        for (int i = 0; i < size - 1; i++) {
+            for (int j = 0; j < polylines.get(i).size() - 1; j++) {
+                boundBuilder.include(polylines.get(i).get(j));
+            }
+        }
+        // zoom out camera to the bounds collected
+        map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundBuilder.build(),
+                mapView.getMeasuredWidth(),
+                mapView.getMeasuredHeight(),
+                (int) (mapView.getMeasuredHeight() * 0.05f)
+                ));
+    }
+
 
     public void startTimer() {
         timerTask = new TimerTask() {
