@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".diet.gainBfast">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/titleGainBfast"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="weight gaining breakfast meals"
+        android:textSize="30dp"
+        android:textColor="@android:color/holo_green_dark"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</LinearLayout>

@@ -8,5 +8,10 @@
 <!--    <color name="pageBG">#01012b</color>-->
     <color name="cyberRed">#ff2a6d</color>
     <color name="cyberYellow">#fdf800</color>
+    <color name="cyberPurple">#663de0</color>
     <color name="salmon">#F69191</color>
+    <color name="challengeGrey">#46CACACA</color>
+
+
+    <color name="green">#03DAC5</color>
 </resources>
