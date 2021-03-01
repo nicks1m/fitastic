@@ -207,25 +207,25 @@ public class createCustomWorkout extends Fragment {
         exercise_title = new EditText(getContext());
         exercise_title.setText(title);
         exercise_title.setEms(7);
-        exercise_title.setTextColor(getResources().getColor(R.color.cyberYellow));
+        exercise_title.setTextColor(getResources().getColor(R.color.colorPrimary));
 
         exercise_set = new EditText(getContext());
         exercise_set.setInputType(2);
         exercise_set.setText(set);
         exercise_set.setEms(5);
-        exercise_set.setTextColor(getResources().getColor(R.color.cyberYellow));
+        exercise_set.setTextColor(getResources().getColor(R.color.colorPrimary));
 
         exercise_reps = new EditText(getContext());
         exercise_reps.setInputType(2);
         exercise_reps.setText(reps);
         exercise_reps.setEms(2);
-        exercise_reps.setTextColor(getResources().getColor(R.color.cyberYellow));
+        exercise_reps.setTextColor(getResources().getColor(R.color.colorPrimary));
 
         Button remove = new Button(getContext());
         remove.setWidth(10);
         remove.setText("X");
         remove.setEms(2);
-        remove.setTextColor(getResources().getColor(R.color.cyberYellow));
+        remove.setTextColor(getResources().getColor(R.color.colorPrimary));
         remove.setOnClickListener(v->{
             layout_box.setVisibility(View.GONE);
             removeExercise(index);

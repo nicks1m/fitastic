@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -45,6 +46,7 @@ public class workout_in_prog_frag extends Fragment {
     private TextView label_set;
     private NavController controller;
     private ArrayList prepArray;
+    private ProgressBar prog_bar;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -134,6 +136,7 @@ public class workout_in_prog_frag extends Fragment {
 
                 public void onTick(long millisUntilFinished) {
                     countdown.setText("" + millisUntilFinished / 1000);
+
                 }
 
                 public void onFinish() {
@@ -173,6 +176,8 @@ public class workout_in_prog_frag extends Fragment {
 
         return v;
     }
+
+
 
     public boolean checkIfArrayEmpty(ArrayList prepArray){
         if(prepArray.isEmpty()){

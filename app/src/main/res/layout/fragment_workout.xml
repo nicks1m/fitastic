@@ -28,11 +28,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:fontFamily="@font/cyberpunk"
+                android:fontFamily="sans-serif-thin"
                 android:gravity="center"
-                android:rotation="-9"
-                android:text="GET THAT BLOOD PUMPIN"
-                android:textColor="@color/cyberRed"
+                android:text="WORKOUTS"
+                android:textColor="@color/colorPrimary"
                 android:textSize="24sp" />
 
             <SearchView
@@ -43,77 +42,73 @@
                 android:id="@+id/btn_shoulder"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
-                android:background="@drawable/box"
-                android:shadowColor="@color/cyberRed"
+                android:fontFamily="sans-serif-thin"
                 android:shadowDx="5"
                 android:shadowDy="5"
                 android:shadowRadius="10"
                 android:text="SHOULDER"
-                android:textColor="#F69191" />
+                android:textColor="#000000" />
 
             <Button
                 android:id="@+id/btn_arms"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
                 android:layout_margin="0dp"
-                android:background="@drawable/box"
-                android:shadowColor="@color/cyberRed"
+                android:fontFamily="sans-serif-thin"
                 android:shadowDx="5"
                 android:shadowDy="5"
                 android:shadowRadius="10"
                 android:text="ARMS"
-                android:textColor="#F69191" />
+                android:textColor="#000000" />
 
             <Button
                 android:id="@+id/btn_legs"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
-                android:background="@drawable/box"
-                android:shadowColor="@color/cyberRed"
+                android:fontFamily="sans-serif-thin"
                 android:shadowDx="5"
                 android:shadowDy="5"
                 android:shadowRadius="10"
                 android:text="LEGS"
-                android:textColor="#F69191" />
+                android:textColor="#000000" />
 
             <Button
                 android:id="@+id/btn_back"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
-                android:background="@drawable/box"
-                android:shadowColor="@color/cyberRed"
+                android:fontFamily="sans-serif-thin"
                 android:shadowDx="5"
                 android:shadowDy="5"
                 android:shadowRadius="10"
                 android:text="BACK"
-                android:textColor="#F69191" />
+                android:textColor="#000000" />
 
             <Button
                 android:id="@+id/btn_core"
                 android:layout_width="match_parent"
                 android:layout_height="75dp"
-                android:background="@drawable/box"
-                android:shadowColor="@color/cyberRed"
+                android:fontFamily="sans-serif-thin"
                 android:shadowDx="5"
                 android:shadowDy="5"
                 android:shadowRadius="10"
                 android:text="core"
-                android:textColor="#F69191" />
+                android:textColor="#000000" />
 
             <TextView
                 android:id="@+id/textView8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
-                android:fontFamily="@font/cyberpunk"
+                android:fontFamily="sans-serif-thin"
                 android:text="Custom Workout"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
                 android:textSize="30sp" />
 
             <Button
                 android:id="@+id/add_workout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-thin"
                 android:text="Add" />
 
         </LinearLayout>
