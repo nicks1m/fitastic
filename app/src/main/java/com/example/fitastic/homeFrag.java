@@ -102,7 +102,7 @@ public class homeFrag extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String key = (String) dataSnapshot.getValue();
                 //Load display name into TextView
-                String msg = "Welcome, " + key;
+                String msg = "welcome, " + key;
                 homemsg.setText(msg);
             }
 
