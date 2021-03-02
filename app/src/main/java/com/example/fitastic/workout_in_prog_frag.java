@@ -103,7 +103,7 @@ public class workout_in_prog_frag extends Fragment {
 
         controller = Navigation.findNavController(container);
         seconds = 60;
-
+        prog_bar = v.findViewById(R.id.progress_bar_workout);
         ex_name = v.findViewById(R.id.exercise_name);
         ex_name.setText(list_of_exercises.get(1));
 
@@ -131,11 +131,13 @@ public class workout_in_prog_frag extends Fragment {
 
         start_countdown.setOnClickListener(v1->{
             seconds = (Integer.parseInt(countdown.getText().toString()))*1000;
+            double secondss = Double.parseDouble(countdown.getText().toString()) * 1000;
             start_countdown.setVisibility(View.INVISIBLE);
             cdown = new CountDownTimer(seconds, 1000) {
 
                 public void onTick(long millisUntilFinished) {
                     countdown.setText("" + millisUntilFinished / 1000);
+                    updateProgressBar((millisUntilFinished/secondss)*100);
 
                 }
 
@@ -143,6 +145,7 @@ public class workout_in_prog_frag extends Fragment {
 
                     //TODO:play audio to signify end of first set.
                     countdown.setText("60");
+                    updateProgressBar(0);
                     start_countdown.setVisibility(View.VISIBLE);
                     current_set = current_set +1;
 
@@ -177,7 +180,9 @@ public class workout_in_prog_frag extends Fragment {
         return v;
     }
 
-
+    private void updateProgressBar(double percent){
+        prog_bar.setProgress((int)percent);
+    }
 
     public boolean checkIfArrayEmpty(ArrayList prepArray){
         if(prepArray.isEmpty()){
