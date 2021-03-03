@@ -12,160 +12,246 @@
         android:id="@+id/home_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="41dp"
-        android:fontFamily="sans-serif-light"
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="41dp"
+        android:layout_marginRight="41dp"
+        android:layout_marginBottom="79dp"
+        android:fontFamily="@font/cyberpunk"
         android:gravity="center_horizontal|center_vertical"
-        android:shadowColor="@color/challengeGrey"
+        android:rotation="-10"
+        android:shadowColor="@color/salmon"
         android:shadowDx="0"
         android:shadowDy="3"
         android:shadowRadius="2"
-        android:text="welcome,"
-        android:textColor="@color/colorPrimary"
-        android:textSize="30sp"
+        android:text="Welcome Back,"
+        android:textColor="@color/cyberRed"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:fontFamily="sans-serif-light" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="128dp"
-        android:layout_marginTop="27dp"
-
-        android:layout_marginBottom="20dp"
+        android:layout_margin="20dp"
+        android:layout_marginTop="196dp"
+        android:layout_marginBottom="240dp"
         android:alpha="0.8"
-        android:background="#F3F3F3"
-        app:layout_constraintBottom_toTopOf="@+id/imageView5"
+        android:src="@drawable/custom_button_light_red_bg"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/textView12" />
+        app:layout_constraintTop_toBottomOf="@+id/home_msg" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="0dp"
+        android:layout_height="128dp"
+        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="45dp"
+        android:alpha="1"
+        android:background="@color/salmon"
+        app:layout_constraintBottom_toTopOf="@+id/textView12"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageView5"
         android:layout_width="0dp"
         android:layout_height="128dp"
-        android:layout_marginBottom="107dp"
-
+        android:layout_margin="20dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="106dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
         android:alpha="0.8"
-        android:background="#F2F2F2"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/custom_button_light_red_bg"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <TextView
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="56dp"
-        android:fontFamily="sans-serif-light"
+        android:layout_marginEnd="272dp"
+        android:layout_marginRight="272dp"
+        android:layout_marginBottom="8dp"
+        android:shadowColor="@color/cyberRed"
         android:shadowDx="1"
         android:shadowDy="3"
         android:shadowRadius="3"
-        android:text="Recent Activity"
-        android:textColor="#B6B5B5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/total_points" />
-
-    <TextView
-        android:id="@+id/data_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="32dp"
-        android:fontFamily="sans-serif-light"
-        android:shadowDx="3"
-        android:shadowDy="3"
-        android:shadowRadius="5"
-        android:text="16 Feb 21"
-        android:textColor="#A3A3A3"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_msg" />
+        android:text="RECENT ACTIVITY"
+        android:textColor="#F69191"
+        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/data_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="@font/cataclysmo"
+        android:shadowColor="@color/cyberRed"
         android:shadowDx="3"
         android:shadowDy="3"
         android:shadowRadius="5"
-        android:text="10:00 PM"
-        android:textColor="#A3A3A3"
-        android:textSize="18sp"
+        android:text="10:00PM"
+        android:textColor="@color/pageBG"
+        android:textSize="48sp"
         app:layout_constraintStart_toStartOf="@+id/data_date"
         app:layout_constraintTop_toBottomOf="@+id/data_date" />
 
     <TextView
-        android:id="@+id/label_points"
+        android:id="@+id/data_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
-        android:layout_marginLeft="21dp"
-        android:layout_marginTop="22dp"
-        android:fontFamily="sans-serif-light"
-        android:shadowDx="1"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginBottom="42dp"
+        android:fontFamily="@font/cataclysmo"
+        android:shadowColor="@color/cyberRed"
+        android:shadowDx="3"
         android:shadowDy="3"
         android:shadowRadius="5"
-        android:text="Total Points"
-        android:textColor="#A3A3A3"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView22" />
+        android:text="16 FEB 21"
+        android:textColor="@color/pageBG"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        app:layout_constraintStart_toStartOf="@+id/imageView6" />
 
     <TextView
         android:id="@+id/total_points"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:shadowDx="1"
+        android:fontFamily="@font/cataclysmo"
+        android:shadowColor="@color/cyberRed"
+        android:shadowDx="3"
         android:shadowDy="3"
         android:shadowRadius="5"
-        android:text="15312"
-        android:textColor="#A3A3A3"
-        android:textSize="14sp"
+        android:text="12012"
+        android:textColor="@color/pageBG"
+        android:textSize="48sp"
         app:layout_constraintStart_toStartOf="@+id/label_points"
         app:layout_constraintTop_toBottomOf="@+id/label_points" />
 
     <TextView
-        android:id="@+id/textView22"
+        android:id="@+id/label_points"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:text="Sunny,"
-        android:textColor="#A3A3A3"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/textView21"
-        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:layout_marginBottom="42dp"
+        android:fontFamily="@font/cataclysmo"
+        android:shadowColor="@color/cyberRed"
+        android:shadowDx="3"
+        android:shadowDy="3"
+        android:shadowRadius="5"
+        android:text="TOTAL POINTS"
+        android:textColor="@color/pageBG"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+        app:layout_constraintEnd_toEndOf="@+id/imageView6" />
 
     <TextView
-        android:id="@+id/textView23"
-        android:layout_width="wrap_content"
+        android:id="@+id/dateview"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:fontFamily="sans-serif-light"
-        android:text="23 C"
-        android:textColor="#A3A3A3"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/textView22"
-        app:layout_constraintTop_toBottomOf="@+id/textView21" />
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
     <TextView
-        android:id="@+id/textView21"
+        android:id="@+id/distanceview"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/dateview" />
+
+    <TextView
+        android:id="@+id/paceview"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/distanceview" />
+
+    <TextView
+        android:id="@+id/timeview"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView2"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toBottomOf="@+id/paceview"
+        app:layout_constraintVertical_bias="0.21" />
+
+    <TextView
+        android:id="@+id/dateview2"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toTopOf="@+id/imageView5" />
+
+    <TextView
+        android:id="@+id/distanceview2"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/dateview2" />
+
+    <TextView
+        android:id="@+id/paceview2"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/distanceview2" />
+
+    <TextView
+        android:id="@+id/timeview2"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/paceview2" />
+
+    <Button
+        android:id="@+id/recycleBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
-        android:fontFamily="sans-serif-light"
-        android:text="Weather"
-        android:textColor="#A3A3A3"
-        android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/data_time"
-        app:layout_constraintTop_toBottomOf="@+id/data_time" />
+        android:layout_marginStart="160dp"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="133dp"
+        android:layout_marginRight="133dp"
+        android:layout_marginBottom="30dp"
+        android:text="RecViewTest"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
