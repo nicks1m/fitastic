@@ -7,6 +7,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.os.CountDownTimer;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -107,17 +108,18 @@ public class workout_in_prog_frag extends Fragment {
         ex_name = v.findViewById(R.id.exercise_name);
         ex_name.setText(list_of_exercises.get(1));
 
+        current_set = 1;
+        label_set = v.findViewById(R.id.label_set);
+        label_set.setText("SET " + current_set + "/" + list_of_exercises.get(2));
+
         ex_reps = v.findViewById(R.id.label_reps);
-        ex_reps.setText("REPS: " + list_of_exercises.get(2));
+        ex_reps.setText("REPS: " + list_of_exercises.get(3));
 
         current_exs = list_of_exercises.get(0);
         current_ex = Integer.parseInt(current_exs) + 1;
         label_ex = v.findViewById(R.id.label_exercise);
         label_ex.setText("Exercise " + current_ex + "/" + totalEx);
 
-        current_set = 1;
-        label_set = v.findViewById(R.id.label_set);
-        label_set.setText("SET " + current_set + "/" + list_of_exercises.get(3));
 
         next_ex = v.findViewById(R.id.next_exercise);
         next_ex.setVisibility(View.INVISIBLE);
@@ -149,9 +151,11 @@ public class workout_in_prog_frag extends Fragment {
                     start_countdown.setVisibility(View.VISIBLE);
                     current_set = current_set +1;
 
-                    if(checkComplete(current_set,Integer.parseInt(list_of_exercises.get(3)))){
-
-                    label_set.setText("Exercise Completed! Proceed to Next");
+                    if(checkComplete(current_set,Integer.parseInt(list_of_exercises.get(2)))){
+                    ex_name.setText("Complete!");
+                    label_set.setVisibility(View.INVISIBLE);
+                    label_ex.setVisibility(View.INVISIBLE);
+                    ex_reps.setVisibility(View.INVISIBLE);
                     start_countdown.setVisibility(View.INVISIBLE);
                     next_ex.setVisibility(View.VISIBLE);
                     next_ex.setOnClickListener(v->{
@@ -172,7 +176,7 @@ public class workout_in_prog_frag extends Fragment {
                     });
 
                     } else
-                    label_set.setText("SET " + current_set + "/" + list_of_exercises.get(3));
+                    label_set.setText("SET " + current_set + "/" + list_of_exercises.get(2));
                 }
             }.start();
         });

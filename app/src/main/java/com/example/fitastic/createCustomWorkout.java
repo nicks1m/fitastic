@@ -127,8 +127,8 @@ public class createCustomWorkout extends Fragment {
                     //find and manipulate when deleting exercises
                    addExercise(workout_snapshot.getKey(),
                                workout_snapshot.child("title").getValue().toString(),
-                               workout_snapshot.child("reps").getValue().toString(),
-                               workout_snapshot.child("set").getValue().toString());
+                               workout_snapshot.child("set").getValue().toString(),
+                               workout_snapshot.child("reps").getValue().toString());
 
                 }
             }
@@ -153,7 +153,7 @@ public class createCustomWorkout extends Fragment {
         add_exercise = v.findViewById(R.id.btn_add_exercise);
         add_exercise.setOnClickListener(v1->{
             String index =  String.valueOf(custom_workout_edt.size()/4);
-            addExercise(index, "Name","Set","Reps");
+            addExercise(index, "Title","Set","Reps");
         });
 
         start_workout = v.findViewById(R.id.btn_start_workout);
@@ -209,6 +209,7 @@ public class createCustomWorkout extends Fragment {
         exercise_title.setEms(7);
         exercise_title.setTextColor(getResources().getColor(R.color.colorPrimary));
 
+
         exercise_set = new EditText(getContext());
         exercise_set.setInputType(2);
         exercise_set.setText(set);
@@ -218,13 +219,14 @@ public class createCustomWorkout extends Fragment {
         exercise_reps = new EditText(getContext());
         exercise_reps.setInputType(2);
         exercise_reps.setText(reps);
-        exercise_reps.setEms(2);
+        exercise_reps.setEms(3);
         exercise_reps.setTextColor(getResources().getColor(R.color.colorPrimary));
 
         Button remove = new Button(getContext());
         remove.setWidth(10);
         remove.setText("X");
         remove.setEms(2);
+        remove.setBackgroundColor(0);
         remove.setTextColor(getResources().getColor(R.color.colorPrimary));
         remove.setOnClickListener(v->{
             layout_box.setVisibility(View.GONE);

@@ -9,8 +9,9 @@ public class Exercise {
 
     public Exercise(String title,String set, String reps){
         this.title = title;
-        this.reps = reps;
         this.set = set;
+        this.reps = reps;
+
 
     }
 

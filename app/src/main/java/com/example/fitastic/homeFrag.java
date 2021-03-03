@@ -33,8 +33,10 @@ public class homeFrag extends Fragment {
     private TextView time;
     private TextView date;
     private TextView homemsg;
+    private TextView tpoints;
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -84,6 +86,7 @@ public class homeFrag extends Fragment {
         homemsg = v.findViewById(R.id.home_msg);
         date = v.findViewById(R.id.data_date);
         time = v.findViewById(R.id.data_time);
+        tpoints = v.findViewById(R.id.total_points);
 
         String mydate = DateFormat.getDateInstance().format(Calendar.DATE);
         Date mytime = Calendar.getInstance().getTime();
@@ -112,8 +115,22 @@ public class homeFrag extends Fragment {
             }
         });
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference pointsRef = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("points").child("availpoints");
 
+        pointsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String key = String.valueOf(dataSnapshot.getValue());
+                //Load display name into TextView
+                tpoints.setText(key);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Reaad Fail", "Error");
+            }
+        });
 
 
         // Inflate the layout for this fragment
