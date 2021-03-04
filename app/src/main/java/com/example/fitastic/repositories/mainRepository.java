@@ -1,6 +1,9 @@
 package com.example.fitastic.repositories;
 
 import android.graphics.Bitmap;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.fitastic.models.Run;
 import com.google.firebase.auth.FirebaseAuth;
@@ -12,6 +15,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 public class mainRepository {
@@ -29,25 +33,24 @@ public class mainRepository {
         mStorage = FirebaseStorage.getInstance();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public static void insertRun(Run r) {
         String userId = mAuth.getCurrentUser().getUid();
+        String key = r.getTime().toString();
+
         DatabaseReference destination = mDatabase.child("Users").child(userId).child("Runs");
-        String key = generateKey(destination.push().getKey());
 
-        destination.child(key).child("bitmap").setValue(r.getRouteImg());
+        Bitmap runMap = r.getRouteImg();
+        ByteArrayOutputStream bao = new ByteArrayOutputStream();
+        runMap.compress(Bitmap.CompressFormat.PNG, 100, bao);
+        runMap.recycle();
+        byte[] runImgArray = bao.toByteArray();
+        String image64 = Base64.getEncoder().encodeToString(runImgArray);
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        Bitmap bitmap = r.getRouteImg();
-
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
-        byte[] data = byteArrayOutputStream.toByteArray();
-        ArrayList<Bitmap> list = new ArrayList<Bitmap>();
-
-        //UploadTask task = ref.putBytes(data);
-
+        destination.child(key).child("bitmap").setValue(image64);
         destination.child(key).child("distance").setValue(r.getDistance());
+        destination.child(key).child("speed").setValue(r.getSpeed());
         destination.child(key).child("duration").setValue(r.getRunDuration());
-        destination.child(key).child("date/time").setValue(r.getTime());
     }
 
     public static String generateKey(String input) {
