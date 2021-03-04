@@ -36,6 +36,7 @@ public class profileFrag extends Fragment {
     private String displayName;
     private TextView display_Name;
     private NavController controller;
+    private Button runlogs;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -89,6 +90,7 @@ public class profileFrag extends Fragment {
         display_Name = v.findViewById(R.id.display_name);
         logout = v.findViewById(R.id.btn_logout);
         go_points = v.findViewById(R.id.btn_points);
+        runlogs = v.findViewById(R.id.btn_runLog);
 
         controller = Navigation.findNavController(container);
 
@@ -117,6 +119,14 @@ public class profileFrag extends Fragment {
             openPoints(v1);
         });
 
+        //RUN LOG PAGE
+        runlogs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(profileFrag.this.getActivity(), ShowDataActivity.class));
+            }
+        });
+        //END RUN LOG
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +138,7 @@ public class profileFrag extends Fragment {
         });
         // Inflate the layout for this fragment
         return v;
+
 
 
     }

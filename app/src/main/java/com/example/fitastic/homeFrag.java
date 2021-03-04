@@ -136,8 +136,6 @@ public class homeFrag extends Fragment {
                 String msg = "welcome, " + key;
                 homemsg.setText(msg);
 
-
-
             }
 
             @Override
@@ -147,12 +145,6 @@ public class homeFrag extends Fragment {
         });
 
 
-        recycleBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(homeFrag.this.getActivity(), ShowDataActivity.class));
-            }
-        });
 
 
         DatabaseReference ref2 = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("run_history");
@@ -167,6 +159,7 @@ public class homeFrag extends Fragment {
                     String RAPace = workout_snapshot.child("pace").getValue().toString();
                     String RATime = workout_snapshot.child("time").getValue().toString();
 
+                    //Add latest runs programmatically
 
                     recentDate.setText(RADate);
                     recentDistance.setText(RADistance);
@@ -175,13 +168,8 @@ public class homeFrag extends Fragment {
 
                     break;
 
-
-
                 }
-
                 for (DataSnapshot workout_snapshot : dataSnapshot.getChildren()) {
-
-
 
                     String RADate2 = workout_snapshot.child("date").getValue().toString();
                     String RADistance2 = workout_snapshot.child("distance").getValue().toString();
@@ -192,15 +180,15 @@ public class homeFrag extends Fragment {
                     recentDistance2.setText(RADistance2);
                     recentPace2.setText(RAPace2);
                     recentTime2.setText(RATime2);
-
                 }
-
 
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
+
 
 
 
