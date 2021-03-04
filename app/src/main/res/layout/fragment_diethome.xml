@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".diet.dietFrag">
+
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
