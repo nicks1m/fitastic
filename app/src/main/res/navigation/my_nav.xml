@@ -33,21 +33,6 @@
             android:id="@+id/action_startFrag_to_runSummary"
             app:destination="@id/runSummary" />
     </fragment>
-    <fragment android:id="@+id/dietFrag" android:name="com.example.fitastic.diet.dietFrag" android:label="fragment_diet"
-              tools:layout="@layout/fragment_diet">
-        <action
-            android:id="@+id/action_dietFrag_to_gainBfast"
-            app:destination="@id/gainBfast" />
-        <action
-            android:id="@+id/action_dietFrag_to_gainLunch"
-            app:destination="@id/gainLunch" />
-        <action
-            android:id="@+id/action_dietFrag_to_lossBfast"
-            app:destination="@id/lossBfast" />
-        <action
-            android:id="@+id/action_dietFrag_to_lossLunch"
-            app:destination="@id/lossLunch" />
-    </fragment>
     <fragment android:id="@+id/profileFrag" android:name="com.example.fitastic.profileFrag"
               android:label="fragment_profile" tools:layout="@layout/fragment_profile">
         <action
@@ -104,23 +89,8 @@
             app:destination="@id/workoutFrag" />
     </fragment>
     <fragment
-        android:id="@+id/gainBfast"
-        android:name="com.example.fitastic.diet.gainBfast"
-        android:label="fragment_gain_bfast"
-        tools:layout="@layout/fragment_gain_bfast" />
-    <fragment
-        android:id="@+id/gainLunch"
-        android:name="com.example.fitastic.diet.gainLunch"
-        android:label="fragment_gain_lunch"
-        tools:layout="@layout/fragment_gain_lunch" />
-    <fragment
-        android:id="@+id/lossBfast"
-        android:name="com.example.fitastic.diet.lossBfast"
-        android:label="fragment_loss_bfast"
-        tools:layout="@layout/fragment_loss_bfast" />
-    <fragment
-        android:id="@+id/lossLunch"
-        android:name="com.example.fitastic.diet.lossLunch"
-        android:label="fragment_loss_lunch"
-        tools:layout="@layout/fragment_loss_lunch" />
+        android:id="@+id/dietFrag2"
+        android:name="com.example.fitastic.diet.dietFrag"
+        android:label="fragment_diethome"
+        tools:layout="@layout/fragment_diethome" />
 </navigation>
