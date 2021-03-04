@@ -6,7 +6,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="googleMaps_api_key">AIzaSyBOl6Aj6wNl4dXGvta26mVitWvjl8X_0ho</string>
-//diet string resources
+    //diet string resources
     <string name="search_your_recipes">search your recipes...</string>
     <string name="breakfast">Breakfast</string>
     <string name="lunch">Lunch</string>

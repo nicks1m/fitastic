@@ -1,5 +1,7 @@
 package com.example.fitastic;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -18,8 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Time;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -33,10 +38,20 @@ public class homeFrag extends Fragment {
     private TextView time;
     private TextView date;
     private TextView homemsg;
-    private TextView tpoints;
+    private TextView recentDate;
+    private TextView recentDistance;
+    private TextView recentPace;
+    private TextView recentTime;
+
+    private TextView recentDate2;
+    private TextView recentDistance2;
+    private TextView recentPace2;
+    private TextView recentTime2;
+
+    private Button recycleBtn;
+
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
-
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,7 +101,20 @@ public class homeFrag extends Fragment {
         homemsg = v.findViewById(R.id.home_msg);
         date = v.findViewById(R.id.data_date);
         time = v.findViewById(R.id.data_time);
-        tpoints = v.findViewById(R.id.total_points);
+        recentDate = v.findViewById(R.id.dateview);
+        recentDistance = v.findViewById(R.id.distanceview);
+        recentPace = v.findViewById(R.id.paceview);
+        recentTime = v.findViewById(R.id.timeview);
+
+        recentDate2 = v.findViewById(R.id.dateview2);
+        recentDistance2 = v.findViewById(R.id.distanceview2);
+        recentPace2 = v.findViewById(R.id.paceview2);
+        recentTime2 = v.findViewById(R.id.timeview2);
+
+        recycleBtn = v.findViewById(R.id.recycleBtn);
+
+
+
 
         String mydate = DateFormat.getDateInstance().format(Calendar.DATE);
         Date mytime = Calendar.getInstance().getTime();
@@ -107,6 +135,9 @@ public class homeFrag extends Fragment {
                 //Load display name into TextView
                 String msg = "welcome, " + key;
                 homemsg.setText(msg);
+
+
+
             }
 
             @Override
@@ -115,22 +146,62 @@ public class homeFrag extends Fragment {
             }
         });
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference pointsRef = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("points").child("availpoints");
 
-        pointsRef.addValueEventListener(new ValueEventListener() {
+        recycleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String key = String.valueOf(dataSnapshot.getValue());
-                //Load display name into TextView
-                tpoints.setText(key);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Reaad Fail", "Error");
+            public void onClick(View v) {
+                startActivity(new Intent(homeFrag.this.getActivity(), ShowDataActivity.class));
             }
         });
+
+
+        DatabaseReference ref2 = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("run_history");
+
+        ref2.limitToFirst(2).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange( DataSnapshot dataSnapshot) {
+
+                for (DataSnapshot workout_snapshot : dataSnapshot.getChildren()) {
+                    String RADate = workout_snapshot.child("date").getValue().toString();
+                    String RADistance = workout_snapshot.child("distance").getValue().toString();
+                    String RAPace = workout_snapshot.child("pace").getValue().toString();
+                    String RATime = workout_snapshot.child("time").getValue().toString();
+
+
+                    recentDate.setText(RADate);
+                    recentDistance.setText(RADistance);
+                    recentPace.setText(RAPace);
+                    recentTime.setText(RATime);
+
+                    break;
+
+
+
+                }
+
+                for (DataSnapshot workout_snapshot : dataSnapshot.getChildren()) {
+
+
+
+                    String RADate2 = workout_snapshot.child("date").getValue().toString();
+                    String RADistance2 = workout_snapshot.child("distance").getValue().toString();
+                    String RAPace2 = workout_snapshot.child("pace").getValue().toString();
+                    String RATime2 = workout_snapshot.child("time").getValue().toString();
+
+                    recentDate2.setText(RADate2);
+                    recentDistance2.setText(RADistance2);
+                    recentPace2.setText(RAPace2);
+                    recentTime2.setText(RATime2);
+
+                }
+
+
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
 
 
         // Inflate the layout for this fragment
