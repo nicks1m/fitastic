@@ -2,20 +2,18 @@ package com.example.fitastic.viewmodels;
 
 import android.content.ComponentName;
 import android.content.ServiceConnection;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.fitastic.models.Run;
-import com.example.fitastic.repositories.mainRepository;
+import com.example.fitastic.repositories.MainRepository;
 import com.example.fitastic.services.TrackingService;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class StartFragViewModel extends ViewModel {
 
@@ -47,8 +45,9 @@ public class StartFragViewModel extends ViewModel {
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void insertRun(Run r) {
-        mainRepository.insertRun(r);
+        MainRepository.insertRun(r);
     }
 
     // get if tracking

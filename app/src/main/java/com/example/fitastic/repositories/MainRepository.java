@@ -3,12 +3,16 @@ package com.example.fitastic.repositories;
 import android.graphics.Bitmap;
 import android.os.Build;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.example.fitastic.models.Run;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -18,12 +22,13 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-public class mainRepository {
+public class MainRepository {
 
     public static DatabaseReference mDatabase;
     public static FirebaseAuth mAuth;
     public static FirebaseDatabase mFirebaseDatabase;
     public static FirebaseStorage mStorage;
+    public static String userId;
 
     // constructor for static members
     static {
@@ -31,14 +36,16 @@ public class mainRepository {
         mAuth = FirebaseAuth.getInstance();
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mStorage = FirebaseStorage.getInstance();
+        userId = mAuth.getCurrentUser().getUid();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void insertRun(Run r) {
-        String userId = mAuth.getCurrentUser().getUid();
         String key = r.getTime().toString();
 
-        DatabaseReference destination = mDatabase.child("Users").child(userId).child("Runs");
+        DatabaseReference destination = mDatabase.child("Users")
+                .child(userId)
+                .child("Runs");
 
         Bitmap runMap = r.getRouteImg();
         ByteArrayOutputStream bao = new ByteArrayOutputStream();
@@ -62,5 +69,22 @@ public class mainRepository {
             }
         }
         return key.toString();
+    }
+
+    public String getDateTimeLatestRun() {
+        DatabaseReference reference = mDatabase.child("users")
+                .child(userId)
+                .child("Runs");
+        ArrayList<String> dateTimes = new ArrayList<String>();
+
+
+        // unfinished
+        return new String();
+    }
+
+    public static String getBase64String(String id) {
+
+        // unfinished
+        return new String();
     }
 }

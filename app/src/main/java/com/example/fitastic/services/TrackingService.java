@@ -70,6 +70,8 @@ public class TrackingService extends Service {
     public ArrayList<ArrayList<LatLng>> polylines;
     public ArrayList<LatLng> polyline;
 
+    private boolean firstLatLng = false;
+
     // called whenever intent sent to this service
     @Override
     public int onStartCommand(@Nullable Intent intent, int flags, int startId) {
@@ -160,12 +162,17 @@ public class TrackingService extends Service {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             super.onLocationResult(locationResult);
+
             Log.d(TAG, String.valueOf("Latitude: " + locationResult.getLastLocation().getLatitude()) + " Longitude: " +
                     String.valueOf(locationResult.getLastLocation().getLongitude()));
-            polyline.add(new LatLng(locationResult.getLastLocation().getLatitude(),
-                    locationResult.getLastLocation().getLongitude()));
-            polylines.add(polyline);
-            pathPoints.postValue(polylines);
+            if (!firstLatLng) {
+                firstLatLng = true;
+            } else {
+                polyline.add(new LatLng(locationResult.getLastLocation().getLatitude(),
+                        locationResult.getLastLocation().getLongitude()));
+                polylines.add(polyline);
+                pathPoints.postValue(polylines);
+            }
         }
     };
 
@@ -204,6 +211,10 @@ public class TrackingService extends Service {
 
     public void setTracking(boolean b) {
         isTracking = b;
+    }
+
+    public void setFirstLatLng(boolean firstLatLng) {
+        this.firstLatLng = firstLatLng;
     }
 
     public LiveData<ArrayList<ArrayList<LatLng>>> getPathPoints() {
