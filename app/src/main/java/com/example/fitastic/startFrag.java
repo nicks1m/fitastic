@@ -102,40 +102,21 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     private TrackingService mService;
     private StartFragViewModel mViewModel;
 
+    // hold connection to service
+    private ServiceConnection localConnection;
+
     // timer
     private Timer timer;
     private TimerTask timerTask;
     private Double time = 0.0;
     private boolean isPaused = true;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     public startFrag() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment startFrag.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static startFrag newInstance(String param1, String param2) {
+    public static startFrag newInstance() {
         startFrag fragment = new startFrag();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -144,10 +125,6 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
 
         // get corresponding view model for start frag
         mViewModel = new ViewModelProvider(requireActivity()).get(StartFragViewModel.class);
@@ -190,7 +167,6 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         startBtn = root.findViewById(R.id.runStartBtn);
         statsBtn = root.findViewById(R.id.runStatBtn);
         endRunBtn = root.findViewById(R.id.runEndButton);
-
 
         return root;
     }
@@ -235,8 +211,6 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
 
         bindService();
     }
-
-    ServiceConnection localConnection;
 
     // bind this frag to service
     private void bindService() {
@@ -358,38 +332,39 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         }
     }
 
-    // ends run
+    // ends run saves run to db unbind from service and reinitialise run variables
     public void endRun() {
+        // zooms out to see the entire route that the user has covered
         zoomOutToRoute();
-        Log.d(TAG, "endRun: size outside: " + polylines.size());
 
         // distance in meters
         float distance = 0.0f;
 
+        // holds distance
         int size = polylines.size();
-
         if (size == 1)
-            size = 2;
+            size++;
 
+        // works out distance of each polyline
         for (int i = 0; i < size - 1; i++) {
             distance += calculatePolylineDistance(getPolylines().get(i));
         }
 
-        // calculate speed, round(dist(km) / (time(h)) / 10
-        float avgSpeed = Math.round((distance / 1000f) / ((time / 3600)) * 10f) / 10f;
-
-        Log.d(TAG, "endRun stats: dist " + distance + " time: " + time + " speed: " + avgSpeed);
+        // speed in m/s
+        float avgSpeed = Math.round(distance/time);
 
         float finalDistance = distance;
+        // create a snapshot of the map, bmp is the bitmap image of the zoomed out route
         map.snapshot(bmp -> {
-            Log.d(TAG, "Polyline size: " + getPolylines().size());
-
+            // create a run using bitmap and run information
             Run r = new Run(bmp, finalDistance, time, avgSpeed);
+            // insert run to database
             mViewModel.insertRun(r);
         });
 
-        // remove location variables to reset fragment
+
         unBindService();
+        // remove location variables to reset fragment
         mService = null;
         polylines = new ArrayList<ArrayList<LatLng>>();
         polyline = new ArrayList<LatLng>();
@@ -405,7 +380,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     private float calculatePolylineDistance(ArrayList<LatLng> polyline) {
         float distance = 0.0f;
 
-        try {
+        //try {
             for (int i = 0; i < polyline.size() - 2; i++) {
                  LatLng penultimate = polyline.get(i);
                  LatLng last = polyline.get(i + 1);
@@ -422,10 +397,10 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
                 distance += result[0];
             }
             return distance;
-        } catch (IndexOutOfBoundsException e) {
+        //} catch (IndexOutOfBoundsException e) {
 
-        }
-        return -1;
+        //}
+       // return -1;
     }
 
     // zooms out to entire route of run to take an image
