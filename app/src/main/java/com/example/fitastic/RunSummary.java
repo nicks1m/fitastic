@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import com.example.fitastic.repositories.MainRepository;
 import com.example.fitastic.viewmodels.RunSummaryViewModel;
 import com.example.fitastic.viewmodels.StartFragViewModel;
 
@@ -54,6 +55,29 @@ public class RunSummary extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mViewModel = new ViewModelProvider(requireActivity()).get(RunSummaryViewModel.class);
+
+        mViewModel.stats.observe(this, new Observer<ArrayList<String>>() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onChanged(ArrayList<String> strings) {
+                recentRun = strings;
+                setImage();
+            }
+        });
+
+        MainRepository.epochTimes.observe(this, new Observer<ArrayList<String>>() {
+            @Override
+            public void onChanged(ArrayList<String> strings) {
+                mViewModel.getRecentRunStats(strings);
+            }
+        });
+
+        MainRepository.recentRun.observe(this, new Observer<ArrayList<String>>() {
+            @Override
+            public void onChanged(ArrayList<String> strings) {
+                mViewModel.handleRecentRun(strings);
+            }
+        });
     }
 
     @Override
@@ -64,15 +88,7 @@ public class RunSummary extends Fragment {
 
         imageView = root.findViewById(R.id.runImgPlaceholder);
         exitBtn = root.findViewById(R.id.exitSummaryBtn);
-
-        mViewModel.stats.observe(getViewLifecycleOwner(), new Observer<ArrayList<String>>() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onChanged(ArrayList<String> strings) {
-                recentRun = strings;
-                setImage();
-            }
-        });
+        mViewModel.initialiseEpochTimes();
 
         return root;
     }
@@ -90,7 +106,6 @@ public class RunSummary extends Fragment {
                 exitSummary();
             }
         });
-        mViewModel.getRecentRunStats();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
