@@ -332,7 +332,8 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         }
     }
 
-    // ends run saves run to db unbind from service and reinitialise run variables
+    // ends run saves run to db unbind from service and reinitialises run variables
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void endRun() {
         // zooms out to see the entire route that the user has covered
         zoomOutToRoute();
@@ -418,6 +419,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
                 boundBuilder.include(polylines.get(i).get(j));
             }
         }
+
         // zoom out camera to the bounds collected
         map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundBuilder.build(),
                 mapView.getMeasuredWidth(),
