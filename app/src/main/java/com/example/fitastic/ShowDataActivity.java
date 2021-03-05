@@ -29,7 +29,7 @@ public class ShowDataActivity extends AppCompatActivity {
 
         FirebaseRecyclerOptions<RunHistData> options =
                 new FirebaseRecyclerOptions.Builder<RunHistData>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Users").child(auth.getCurrentUser().getUid()).child("run_history"), RunHistData.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Users").child(auth.getCurrentUser().getUid()).child("Runs"), RunHistData.class)
                         .build();
 
         adapter = new RunHistAdapter(options);

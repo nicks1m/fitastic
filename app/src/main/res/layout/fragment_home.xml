@@ -8,245 +8,151 @@
 
     <!-- TODO: Update blank fragment layout -->
 
-    <TextView
-        android:id="@+id/home_msg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="52dp"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center_horizontal|center_vertical"
-        android:shadowDx="0"
-        android:shadowDy="3"
-        android:shadowRadius="2"
-        android:text="welcome,"
-        android:textColor="@color/colorPrimary"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="37dp"
-        android:layout_marginEnd="285dp"
-        android:layout_marginRight="285dp"
-        android:fontFamily="sans-serif-light"
-        android:shadowDx="1"
-        android:shadowDy="3"
-        android:shadowRadius="3"
-        android:text="Recent Activity"
-        android:textColor="#000000"
+    <ScrollView
+        android:layout_width="412dp"
+        android:layout_height="773dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView25" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/dateview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/distanceview"
-        app:layout_constraintStart_toStartOf="@+id/distanceview"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        <LinearLayout
+            android:id="@+id/scrollcontainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/dateview2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="11dp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/paceview2"
-        app:layout_constraintStart_toStartOf="@+id/paceview2"
-        app:layout_constraintTop_toBottomOf="@+id/timeview" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="400dp">
 
-    <TextView
-        android:id="@+id/paceview2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/timeview2"
-        app:layout_constraintEnd_toEndOf="@+id/timeview2"
-        app:layout_constraintStart_toStartOf="@+id/timeview2" />
+                <TextView
+                    android:id="@+id/home_msg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="52dp"
+                    android:fontFamily="sans-serif-light"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:shadowDx="0"
+                    android:shadowDy="3"
+                    android:shadowRadius="2"
+                    android:text="welcome,"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/distanceview2"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="68dp"
-        android:layout_marginLeft="68dp"
-        android:layout_marginEnd="68dp"
-        android:layout_marginRight="68dp"
-        android:layout_marginBottom="17dp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/paceview2"
-        app:layout_constraintEnd_toEndOf="@+id/recycleBtn"
-        app:layout_constraintStart_toStartOf="@+id/textView12" />
+                <TextView
+                    android:id="@+id/brand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginBottom="162dp"
+                    android:alpha="0.6"
+                    android:fontFamily="sans-serif-light"
+                    android:rotation="-90"
+                    android:text="fitastic"
+                    android:textSize="24sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:textColor="#000000" />
 
-    <TextView
-        android:id="@+id/timeview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/dateview2"
-        app:layout_constraintStart_toStartOf="@+id/distanceview2"
-        app:layout_constraintTop_toBottomOf="@+id/paceview" />
+                <TextView
+                    android:id="@+id/data_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginTop="45dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="16 Feb 21"
+                    android:textColor="#020202"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/home_msg" />
 
-    <TextView
-        android:id="@+id/timeview2"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="18dp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/recycleBtn"
-        app:layout_constraintEnd_toStartOf="@+id/recycleBtn"
-        app:layout_constraintStart_toStartOf="@+id/recycleBtn" />
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginBottom="9dp"
+                    android:fontFamily="sans-serif-light"
+                    android:shadowDx="1"
+                    android:shadowDy="3"
+                    android:shadowRadius="3"
+                    android:text="Recent Activity"
+                    android:textColor="#000000"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/paceview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/dateview2"
-        app:layout_constraintStart_toStartOf="@+id/dateview2"
-        app:layout_constraintTop_toBottomOf="@+id/distanceview" />
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Sunny, 23C"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/label_weather"
+                    app:layout_constraintTop_toBottomOf="@+id/label_weather" />
 
-    <TextView
-        android:id="@+id/distanceview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="29dp"
-        android:textColor="#FFFFFF"
-        app:layout_constraintEnd_toEndOf="@+id/paceview"
-        app:layout_constraintStart_toStartOf="@+id/paceview"
-        app:layout_constraintTop_toBottomOf="@+id/dateview" />
+                <TextView
+                    android:id="@+id/data_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginLeft="1dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="10:00PM"
+                    android:textColor="#020202"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/data_date"
+                    app:layout_constraintTop_toBottomOf="@+id/data_date" />
 
-    <Button
-        android:id="@+id/recycleBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="135dp"
-        android:layout_marginRight="135dp"
-        android:layout_marginBottom="30dp"
-        android:text="RecViewTest"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+                <TextView
+                    android:id="@+id/label_weather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginRight="6dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Weather"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="@+id/data_time"
+                    app:layout_constraintTop_toBottomOf="@+id/data_time" />
 
-    <TextView
-        android:id="@+id/label_weather"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="110dp"
-        android:layout_marginLeft="110dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginRight="1dp"
-        android:fontFamily="sans-serif-light"
-        android:text="Weather"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/textView22"
-        app:layout_constraintHorizontal_bias="0.518"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/data_time" />
+                <TextView
+                    android:id="@+id/textView24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="Total Points"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView22"
+                    app:layout_constraintTop_toBottomOf="@+id/textView22"
+                    tools:textColor="#0B0B0B" />
 
-    <TextView
-        android:id="@+id/textView22"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:fontFamily="sans-serif-light"
-        android:text="Sunny, 23C"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/label_weather" />
-
-    <TextView
-        android:id="@+id/brand"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="340dp"
-        android:layout_marginLeft="340dp"
-        android:layout_marginTop="128dp"
-        android:layout_marginBottom="127dp"
-        android:alpha="0.2"
-        android:fontFamily="sans-serif-light"
-        android:rotation="-90"
-        android:text="fitastic"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="@+id/textView12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/home_msg"
-        tools:textColor="#000000" />
-
-    <TextView
-        android:id="@+id/textView24"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-light"
-        android:text="Total Points"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView22"
-        tools:textColor="#0B0B0B" />
-
-    <TextView
-        android:id="@+id/textView25"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:fontFamily="sans-serif-light"
-        android:text="12012"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView24"
-        tools:textColor="#0B0B0B" />
-
-    <TextView
-        android:id="@+id/data_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginLeft="1dp"
-        android:fontFamily="sans-serif-light"
-        android:text="10:00PM"
-        android:textColor="#020202"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/data_date"
-        app:layout_constraintTop_toBottomOf="@+id/data_date" />
-
-    <TextView
-        android:id="@+id/data_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="44dp"
-        android:fontFamily="sans-serif-light"
-        android:text="16 Feb 21"
-        android:textColor="#020202"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/home_msg" />
+                <TextView
+                    android:id="@+id/data_points"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:text="12012"
+                    android:textColor="#000000"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="@+id/textView24"
+                    app:layout_constraintTop_toBottomOf="@+id/textView24"
+                    tools:textColor="#0B0B0B" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

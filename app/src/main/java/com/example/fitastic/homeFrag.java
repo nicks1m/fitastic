@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,6 +23,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -37,16 +40,16 @@ public class homeFrag extends Fragment {
 
     private TextView time;
     private TextView date;
+    private TextView dpoints;
     private TextView homemsg;
+
+    private LinearLayout layoutcontainer;
+
     private TextView recentDate;
     private TextView recentDistance;
     private TextView recentPace;
     private TextView recentTime;
 
-    private TextView recentDate2;
-    private TextView recentDistance2;
-    private TextView recentPace2;
-    private TextView recentTime2;
 
     private Button recycleBtn;
 
@@ -101,17 +104,13 @@ public class homeFrag extends Fragment {
         homemsg = v.findViewById(R.id.home_msg);
         date = v.findViewById(R.id.data_date);
         time = v.findViewById(R.id.data_time);
-        recentDate = v.findViewById(R.id.dateview);
-        recentDistance = v.findViewById(R.id.distanceview);
-        recentPace = v.findViewById(R.id.paceview);
-        recentTime = v.findViewById(R.id.timeview);
+        dpoints = v.findViewById(R.id.data_points);
+        layoutcontainer = v.findViewById(R.id.scrollcontainer);
 
-        recentDate2 = v.findViewById(R.id.dateview2);
-        recentDistance2 = v.findViewById(R.id.distanceview2);
-        recentPace2 = v.findViewById(R.id.paceview2);
-        recentTime2 = v.findViewById(R.id.timeview2);
-
-        recycleBtn = v.findViewById(R.id.recycleBtn);
+//        recentDate = v.findViewById(R.id.dateview);
+//        recentDistance = v.findViewById(R.id.distanceview);
+//        recentPace = v.findViewById(R.id.paceview);
+//        recentTime = v.findViewById(R.id.timeview);
 
 
 
@@ -144,47 +143,44 @@ public class homeFrag extends Fragment {
             }
         });
 
+        DatabaseReference pointsRef = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("points").child("tierpoints");
 
+        pointsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String key;
+                if(dataSnapshot.getValue() == null){
+                    key = "null";
+                }
+                else {
+                    key = String.valueOf(dataSnapshot.getValue());
+                }
+                //Load points into TextView
+                dpoints.setText(key);
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Reaad Fail", "Error");
+            }
+        });
 
-        DatabaseReference ref2 = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("run_history");
+        DatabaseReference ref2 = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("Runs");
 
-        ref2.limitToFirst(2).addValueEventListener(new ValueEventListener() {
+        ref2.limitToFirst(6).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange( DataSnapshot dataSnapshot) {
 
-                for (DataSnapshot workout_snapshot : dataSnapshot.getChildren()) {
-                    String RADate = workout_snapshot.child("date").getValue().toString();
-                    String RADistance = workout_snapshot.child("distance").getValue().toString();
-                    String RAPace = workout_snapshot.child("pace").getValue().toString();
-                    String RATime = workout_snapshot.child("time").getValue().toString();
-
-                    //Add latest runs programmatically
-
-                    recentDate.setText(RADate);
-                    recentDistance.setText(RADistance);
-                    recentPace.setText(RAPace);
-                    recentTime.setText(RATime);
-
-                    break;
-
+                for (DataSnapshot run_snapshot : dataSnapshot.getChildren()) {
+                    addRun(run_snapshot.getKey(),
+                            run_snapshot.child("distance").getValue().toString().substring(0,5),
+                            run_snapshot.child("duration").getValue().toString(),
+                            run_snapshot.child("speed").getValue().toString());
                 }
-                for (DataSnapshot workout_snapshot : dataSnapshot.getChildren()) {
-
-                    String RADate2 = workout_snapshot.child("date").getValue().toString();
-                    String RADistance2 = workout_snapshot.child("distance").getValue().toString();
-                    String RAPace2 = workout_snapshot.child("pace").getValue().toString();
-                    String RATime2 = workout_snapshot.child("time").getValue().toString();
-
-                    recentDate2.setText(RADate2);
-                    recentDistance2.setText(RADistance2);
-                    recentPace2.setText(RAPace2);
-                    recentTime2.setText(RATime2);
-                }
-
-            }
+             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
 
@@ -194,5 +190,38 @@ public class homeFrag extends Fragment {
 
         // Inflate the layout for this fragment
         return v;
+    }
+
+    public void addRun(String date, String distance, String duration, String pace){
+
+        LinearLayout layout_box = new LinearLayout(getContext());
+        layout_box.setMinimumHeight(500);
+        layout_box.setPadding(0,0,0,100);
+        layout_box.setBackgroundColor(getResources().getColor(R.color.challengeGrey));
+        //epoch / timestamp
+        recentDate = new TextView(getContext());
+        recentDate.setText(date);
+        recentDate.setPadding(20,10,20,10);
+
+        //duration seconds
+        recentTime = new TextView(getContext());
+        recentTime.setEms(3);
+        recentTime.setText(duration + "s");
+        //distance is metres
+        recentDistance = new TextView(getContext());
+        recentDistance.setEms(4);
+        recentDistance.setText(distance + "km");
+        //speed is metres per second
+        recentPace = new TextView(getContext());
+        recentPace.setEms(3);
+        recentPace.setText(pace + "m/s");
+
+
+        layout_box.addView(recentDate);
+        layout_box.addView(recentDistance);
+        layout_box.addView(recentTime);
+        layout_box.addView(recentPace);
+
+        layoutcontainer.addView(layout_box);
     }
 }
