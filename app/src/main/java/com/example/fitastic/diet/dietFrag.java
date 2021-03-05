@@ -25,6 +25,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,11 +54,12 @@ public class dietFrag extends Fragment implements View.OnClickListener {
     private List<Recipe> searchRecipe;
     private JSONArray testArr;
     private ImageButton searchBtn;
-    private Button breakfastBtn, lunchBtn, dinnerBtn;
+    private Button breakfastBtn, lunchBtn, dinnerBtn, favoritesBtn, ingredientSearchBtn;
     private TextView searchTv, emptyView;
     private RecyclerView myrv;
     private ProgressBar progressBar;
 
+    private NavController controller;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,11 +78,14 @@ public class dietFrag extends Fragment implements View.OnClickListener {
         myrv = RootView.findViewById(R.id.recyclerview);
         myrv.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         getRandomRecipes();
+        controller = Navigation.findNavController(container);
         searchTv = RootView.findViewById(R.id.home_search_et);
         searchBtn = RootView.findViewById(R.id.home_search_btn);
         breakfastBtn = RootView.findViewById(R.id.home_breakfast_filter);
         lunchBtn = RootView.findViewById(R.id.home_lunch_filter);
         dinnerBtn = RootView.findViewById(R.id.home_dinner_filter);
+        favoritesBtn = RootView.findViewById(R.id.buttonFavorites);
+        favoritesBtn.setOnClickListener(this);
         breakfastBtn.setOnClickListener(this);
         lunchBtn.setOnClickListener(this);
         dinnerBtn.setOnClickListener(this);
@@ -193,6 +199,7 @@ public class dietFrag extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+
         if (v == breakfastBtn) {
             searchRecipe("breakfast");
         } else if (v == lunchBtn) {
@@ -211,6 +218,8 @@ public class dietFrag extends Fragment implements View.OnClickListener {
                 searchRecipe(searchTv.getText().toString());
             } else
                 Toast.makeText(getContext(), "Type something...", Toast.LENGTH_LONG).show();
+        } else if (v == favoritesBtn) {
+            controller.navigate(R.id.action_dietFrag_to_favoritesFragment2);
         }
     }
 }

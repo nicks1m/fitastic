@@ -13,7 +13,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="210dp"
-        android:background="@color/colorPrimary"
+        android:background="#d3d3d3"
         android:minHeight="?attr/actionBarSize"
         app:cardElevation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -22,37 +22,39 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+            android:layout_width="500dp"
             android:layout_height="match_parent">
 
             <TextView
                 android:id="@+id/title"
-                android:layout_width="353dp"
+                android:layout_width="200dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="7dp"
+                android:text="Diets"
+                android:textSize="60dp"
                 app:layout_constraintBottom_toTopOf="@+id/cardSearch"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.096"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="TITLE"
-                android:textSize="60dp"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="30dp"
+                android:layout_width="223dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="1dp"
+                android:layout_marginLeft="1dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginEnd="266dp"
+                android:layout_marginRight="250dp"
                 android:layout_marginBottom="20dp"
-                app:cardBackgroundColor="@color/colorPrimaryDark"
+                app:cardBackgroundColor="#F3F3F3"
                 app:cardCornerRadius="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/title"
-                app:layout_constraintVertical_bias="0.692"
-                android:layout_marginLeft="30dp">
+                app:layout_constraintVertical_bias="0.6">
 
                 <ImageButton
                     android:id="@+id/home_search_btn"
@@ -68,19 +70,52 @@
                     android:layout_width="217dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="35dp"
+                    android:layout_marginLeft="35dp"
                     android:autofillHints=""
-                    android:backgroundTint="#00FFFFFF"
+                    android:backgroundTint="#f3f3f3"
                     android:drawablePadding="10dp"
                     android:gravity="center_vertical"
                     android:hint="Search"
-                    android:inputType="textAutoComplete"
                     android:imeOptions="actionSearch"
+                    android:inputType="textAutoComplete"
                     android:padding="10dp"
-                    android:textColor="#FFFFFF"
-                    android:textColorHint="#FFFFFF"
-                    android:layout_marginLeft="35dp" />
+                    android:textColor="@android:color/darker_gray"
+                    android:textColorHint="@android:color/darker_gray" />
 
             </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/buttonFavorites"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginEnd="128dp"
+                android:layout_marginRight="128dp"
+                android:layout_marginBottom="1dp"
+                android:text="Favorites"
+                android:textColor="#778899"
+                app:layout_constraintBottom_toTopOf="@+id/buttonIngredientSearch"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/title"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/buttonIngredientSearch"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginEnd="128dp"
+                android:layout_marginRight="128dp"
+                android:text="Ingredients"
+                android:textColor="#778899"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toEndOf="@+id/cardSearch"
+                app:layout_constraintTop_toBottomOf="@+id/buttonFavorites" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.appcompat.widget.Toolbar>
@@ -94,10 +129,11 @@
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:background="#F3F3F3"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:text="breakfast"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/darker_gray" />
 
         <Button
             android:id="@+id/home_lunch_filter"
@@ -106,8 +142,9 @@
             android:layout_height="40dp"
             android:layout_margin="10dp"
             android:layout_weight="1"
+            android:background="#F3F3F3"
             android:text="lunch"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/darker_gray" />
 
         <Button
             android:id="@+id/home_dinner_filter"
@@ -116,8 +153,9 @@
             android:layout_height="40dp"
             android:layout_margin="10dp"
             android:layout_weight="1"
+            android:background="#F3F3F3"
             android:text="dinner"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/darker_gray" />
 
     </LinearLayout>
 

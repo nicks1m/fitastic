@@ -89,8 +89,16 @@
             app:destination="@id/workoutFrag" />
     </fragment>
     <fragment
-        android:id="@+id/dietFrag2"
+        android:id="@+id/dietFrag"
         android:name="com.example.fitastic.diet.dietFrag"
         android:label="fragment_diethome"
-        tools:layout="@layout/fragment_diethome" />
+        tools:layout="@layout/fragment_diethome" >
+        <action
+            android:id="@+id/action_dietFrag_to_favoritesFragment2"
+            app:destination="@id/favoritesFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoritesFragment2"
+        android:name="com.example.fitastic.diet.FavoritesFragment"
+        android:label="FavoritesFragment" />
 </navigation>
