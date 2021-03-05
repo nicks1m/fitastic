@@ -5,6 +5,7 @@ import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.fitastic.models.Run;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,7 +32,6 @@ public class MainRepository {
     public static String userId;
 
     // access point for epochTimes on each run
-    public static ArrayList<String> epochTimes;
 
     // constructor for static members
     static {
@@ -70,6 +70,8 @@ public class MainRepository {
         destination.child(String.valueOf(label)).child("duration").setValue(r.getRunDuration());
     }
 
+    public static MutableLiveData<ArrayList<String>> epochTimes = new MutableLiveData<ArrayList<String>>();;
+
     public static void updateRunEpochTimes() {
         DatabaseReference reference = mDatabase.child("Users")
                 .child(userId)
@@ -84,7 +86,7 @@ public class MainRepository {
                     a.add(snapshot1.getKey());
                 }
 
-                epochTimes = a;
+                epochTimes.postValue(a);
                 int x = 5;
             }
 
@@ -95,7 +97,7 @@ public class MainRepository {
         });
     }
 
-    public static ArrayList<String> recentRun;
+    public static MutableLiveData<ArrayList<String>> recentRun = new MutableLiveData<ArrayList<String>>();
 
     public static void getRunByEpoch(String epochTime) {
         DatabaseReference reference = mDatabase.child("Users")
@@ -109,10 +111,13 @@ public class MainRepository {
                 ArrayList<String> a = new ArrayList<String>();
 
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-                    a.add((String) snapshot1.getValue());
+//                    if (snapshot1.getValue() instanceof Double) {
+//                        a.add(String.valueOf( snapshot1.getValue());
+//                    }
+                    a.add((String.valueOf(snapshot1.getValue())));
                 }
 
-                recentRun = a;
+                recentRun.postValue(a);
                 int x = 5;
             }
 
