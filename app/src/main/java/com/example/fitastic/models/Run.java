@@ -2,7 +2,7 @@ package com.example.fitastic.models;
 
 import android.graphics.Bitmap;
 
-import java.text.DateFormat;
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -11,20 +11,16 @@ public class Run {
     private float distance;
     private double runDuration;
     private float speed;
-    private String date;
     private Date time;
+    private Timestamp timestamp;
 
     public Run(Bitmap routeImg, float distance, double time, float speed) {
         this.routeImg = routeImg;
         this.distance = distance;
         this.runDuration = time;
         this.speed = speed;
-        this.date = generateDate();
         this.time = generateTime();
-    }
-
-    private String generateDate() {
-        return DateFormat.getDateInstance().format(Calendar.DATE);
+        this.timestamp = new Timestamp(System.currentTimeMillis());
     }
 
     private Date generateTime() {
@@ -47,11 +43,11 @@ public class Run {
         return speed;
     }
 
-    public String getDate() {
-        return date;
-    }
-
     public Date getTime() {
         return time;
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
 }

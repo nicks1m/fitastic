@@ -137,7 +137,7 @@ public class TrackingService extends Service {
         notificationManager.createNotificationChannel(channel);
     }
 
-    private void timer() {
+    void timer() {
         
     }
 
