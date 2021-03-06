@@ -15,12 +15,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.lang.reflect.Array;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,9 +45,13 @@ public class profileFrag extends Fragment {
     private Button logout;
     private String displayName;
     private TextView display_Name;
+    private TextView data_runs;
     private NavController controller;
     private Button runlogs;
 
+    private ArrayList<Entry>distance_data;
+
+    private LineChart mChart;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -80,6 +94,7 @@ public class profileFrag extends Fragment {
         }
 
 
+
     }
 
     @Override
@@ -91,6 +106,7 @@ public class profileFrag extends Fragment {
         logout = v.findViewById(R.id.btn_logout);
         go_points = v.findViewById(R.id.btn_points);
         runlogs = v.findViewById(R.id.btn_runLog);
+        data_runs = v.findViewById(R.id.data_7runs);
 
         controller = Navigation.findNavController(container);
 
@@ -111,8 +127,6 @@ public class profileFrag extends Fragment {
                 Log.d("Reaad Fail", "Error");
             }
         });
-
-
 
         go_points.setOnClickListener(v1 -> {
             pointsFrag points = new pointsFrag();
@@ -136,6 +150,61 @@ public class profileFrag extends Fragment {
                 startActivity(intent);
             }
         });
+
+
+        DatabaseReference dist_ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("Runs");
+        distance_data = new ArrayList();
+        dist_ref.limitToLast(7).addValueEventListener(new ValueEventListener() {
+            int counter = 0;
+            double total_distance = 0;
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot dist_snapshot : dataSnapshot.getChildren()) {
+                    distance_data.add(new Entry(counter, Float.valueOf(dist_snapshot.child("distance").getValue().toString())));
+                    counter += 1;
+                    total_distance = total_distance + Double.parseDouble(dist_snapshot.child("distance").getValue().toString());
+
+                }
+
+                //CREATE CHART
+                mChart = v.findViewById(R.id.line_chart);
+                System.out.println(distance_data.size());
+                LineDataSet set1 = new LineDataSet(distance_data, " Distance");
+
+                set1.setFillAlpha(110);
+                set1.setLineWidth(2f);
+                set1.setCircleColor(R.color.colorPrimary);
+                set1.setColor(R.color.colorPrimary);
+                set1.setValueTextSize(10f);
+                ArrayList<ILineDataSet> dataSets = new ArrayList<>();
+                dataSets.add(set1);
+                LineData data = new LineData(dataSets);
+                mChart.setData(data);
+                mChart.setScaleEnabled(true);
+                mChart.getAxisLeft().setDrawGridLines(false);
+                mChart.getXAxis().setDrawGridLines(false);
+                mChart.getAxisRight().setDrawGridLines(false);
+                mChart.getDescription().setEnabled(false);
+                float td = (float)(total_distance/1000);
+                DecimalFormat df = new DecimalFormat("##.##");
+                df.setRoundingMode(RoundingMode.DOWN);
+                data_runs.setText(df.format(td) + "km");
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Reaad Fail", "Error");
+            }
+        });
+
+
+//
+//
+//         for(int i = 0; i < 10; i++){
+//             distance_data.add(new Entry(i,0f));
+//         }
+
+//       mChart.setDragEnabled(false);
+
         // Inflate the layout for this fragment
         return v;
 

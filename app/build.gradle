@@ -27,6 +27,11 @@ android {
     }
 }
 
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:1.1.0'
@@ -85,5 +90,6 @@ dependencies {
 
     // easy permissions need compiled skd version 26 >
     implementation 'pub.devrel:easypermissions:2.0.1'
-
+    //charts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 }

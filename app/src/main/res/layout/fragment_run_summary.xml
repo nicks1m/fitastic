@@ -11,6 +11,7 @@
         android:id="@+id/runSummaryTitle"
         android:layout_width="271dp"
         android:layout_height="122dp"
+        android:fontFamily="sans-serif-light"
         android:text="Run Summary"
         android:textSize="45dp"
         app:layout_constraintBottom_toBottomOf="parent"

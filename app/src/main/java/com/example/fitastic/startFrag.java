@@ -281,8 +281,8 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
 
         if (penultimate != null && last != null) {
             PolylineOptions options = new PolylineOptions()
-                    .color(Color.YELLOW)
-                    .width(8f)
+                    .color(Color.BLACK)
+                    .width(12f)
                     .add(penultimate)
                     .add(last);
 

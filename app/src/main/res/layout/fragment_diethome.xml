@@ -30,6 +30,7 @@
                 android:layout_width="200dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="7dp"
+                android:fontFamily="sans-serif-light"
                 android:text="Diets"
                 android:textSize="60dp"
                 app:layout_constraintBottom_toTopOf="@+id/cardSearch"
