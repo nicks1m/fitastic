@@ -118,7 +118,6 @@ public class MainRepository {
                 }
 
                 recentRun.postValue(a);
-                int x = 5;
             }
 
             @Override
@@ -127,11 +126,5 @@ public class MainRepository {
             }
         });
 
-    }
-
-    public static String getBase64String(String id) {
-
-        // unfinished
-        return new String();
     }
 }
