@@ -23,9 +23,10 @@
     <EditText
         android:id="@+id/data_room_id"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="id"
+        android:layout_height="30dp"
+        android:background="#FFFFFF"
+        android:ems="8"
+        android:hint="enter id"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="@+id/room_id"
         app:layout_constraintTop_toBottomOf="@+id/room_id" />
@@ -34,8 +35,10 @@
         android:id="@+id/join_room"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:background="#FFFFFF"
+        android:fontFamily="sans-serif-light"
         android:text="join"
         app:layout_constraintBottom_toBottomOf="@+id/data_room_id"
         app:layout_constraintStart_toEndOf="@+id/data_room_id" />
@@ -45,6 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="36dp"
+        android:fontFamily="sans-serif-light"
         android:text="room_id"
         app:layout_constraintStart_toStartOf="@+id/mp_text"
         app:layout_constraintTop_toBottomOf="@+id/mp_text" />
@@ -53,9 +57,9 @@
         android:id="@+id/playerlist"
         android:layout_width="292dp"
         android:layout_height="320dp"
+        android:layout_marginTop="24dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/data_room_id"
         app:layout_constraintTop_toBottomOf="@+id/data_room_id"></LinearLayout>
 
     <Button
@@ -66,6 +70,7 @@
         android:background="#FFFFFF"
         android:fontFamily="sans-serif-light"
         android:text="Ready"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

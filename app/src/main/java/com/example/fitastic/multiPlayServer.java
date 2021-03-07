@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -125,6 +126,7 @@ public class multiPlayServer extends Fragment {
 
                room_ref.child("players").child(auth.getCurrentUser().getUid()).child("isReady").setValue(false);
                room_ref.child("players").child(auth.getCurrentUser().getUid()).child("name").setValue(p_name);
+               btn_ready.setVisibility(View.VISIBLE);
                join.setVisibility(View.GONE);
                room_id.setInputType(0);
 
@@ -159,14 +161,24 @@ public class multiPlayServer extends Fragment {
 
     public void addPlayer(String name, String ready){
         LinearLayout layout_box = new LinearLayout(getActivity());
+        layout_box.setMinimumHeight(50);
+        layout_box.setPadding(0,0,0,20);
 
         playerName = new TextView(getActivity());
         playerName.setText(name);
-
         isReady = new TextView(getActivity());
-        isReady.setText(ready);
+        isReady.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        isReady.setGravity(Gravity.RIGHT);
+        isReady.setPadding(0,0,30,0);
 
-        layout_box.setBackgroundColor(getResources().getColor(R.color.challengeGrey));
+
+        if (ready.equals("true")){
+            isReady.setText("Ready");
+        } else {
+            isReady.setText("Not Ready");
+        }
+
+        layout_box.setBackgroundColor(getResources().getColor(R.color.cardGrey));
         layout_box.addView(playerName);
         layout_box.addView(isReady);
         players.addView(layout_box);
@@ -183,28 +195,7 @@ public class multiPlayServer extends Fragment {
         //Remove event listener when frag is inactive to prevent async callbacks and unnecessary data changes
         super.onDestroy();
         player_ref.removeEventListener(mListener);
-//        ready_ref.removeEventListener(rListener);
+
     }
-//    public void onCheckboxClicked(View view) {
-//        // Is the view now checked?
-//        boolean checked = ((CheckBox) view).isChecked();
-//
-//        // Check which checkbox was clicked
-//        switch(view.getId()) {
-//            case R.id.p1_ready:
-//                if (checked)
-//
-//                    System.out.println("p1 is ready");
-//            else
-//                    System.out.println("p1 not ready");
-//                break;
-//            case R.id.p2_ready:
-//                if (checked)
-//                    System.out.println("p2 is ready");
-//            else
-//                    System.out.println("p2 not ready");
-//                break;
-//
-//        }
-//    }
+
 }

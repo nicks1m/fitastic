@@ -76,8 +76,9 @@
 
     <EditText
         android:id="@+id/timer"
-        android:layout_width="150dp"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
+        android:background="#FFFFFF"
         android:ems="10"
         android:gravity="center"
         android:inputType="numberSigned"
@@ -98,6 +99,7 @@
         android:layout_marginTop="450dp"
         android:layout_marginEnd="80dp"
         android:layout_marginRight="80dp"
+        android:fontFamily="sans-serif-light"
         android:text="START"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -146,6 +148,7 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="130dp"
+        android:fontFamily="sans-serif-light"
         android:text="NEXT"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

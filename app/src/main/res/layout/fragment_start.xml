@@ -35,7 +35,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.438"
         app:layout_constraintStart_toEndOf="@+id/btn_mp"
-        app:layout_constraintTop_toBottomOf="@+id/map" />
+        app:layout_constraintTop_toBottomOf="@+id/map"
+        tools:background="#EFEFEF" />
 
     <fragment
         android:id="@+id/map"
@@ -66,11 +67,10 @@
         android:layout_centerHorizontal="true"
         android:layout_marginStart="152dp"
         android:layout_marginLeft="152dp"
-        android:background="#DDDDDD"
+        android:background="#FFFFFF"
         android:clickable="true"
         android:focusable="true"
         android:fontFamily="sans-serif"
-        android:shadowColor="#C6C6C6"
         android:shadowDx="5"
         android:shadowDy="5"
         android:shadowRadius="0.5"
@@ -80,7 +80,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/map"
-        app:layout_constraintVertical_bias="0.371" />
+        app:layout_constraintVertical_bias="0.371"
+        tools:fontFamily="sans-serif-light" />
 
     <Button
         android:id="@+id/runLogsBtn"
@@ -93,11 +94,10 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:background="@color/challengeGrey"
+        android:background="#FFFFFF"
         android:clickable="true"
-        android:focusable="true"
         android:fontFamily="sans-serif-light"
-        android:shadowColor="#C6C6C6"
+        android:shadowColor="#FFFFFF"
         android:shadowDx="5"
         android:shadowDy="5"
         android:shadowRadius="0.5"
@@ -129,7 +129,9 @@
         android:layout_marginEnd="179dp"
         android:layout_marginRight="179dp"
         android:layout_marginBottom="121dp"
-        android:text="MP"
+        android:background="#FFFFFF"
+        android:fontFamily="sans-serif-light"
+        android:text="multi"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/runEndButton"
         app:layout_constraintStart_toStartOf="parent"
