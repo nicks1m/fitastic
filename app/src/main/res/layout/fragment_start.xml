@@ -9,13 +9,15 @@
 
     <Button
         android:id="@+id/runEndButton"
-        android:layout_width="83dp"
+        android:layout_width="0dp"
         android:layout_height="37dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="78dp"
+        android:layout_marginEnd="41dp"
+        android:layout_marginRight="41dp"
         android:layout_marginBottom="124dp"
         android:background="#D5D5D5"
         android:clickable="true"
@@ -32,24 +34,26 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.438"
-        app:layout_constraintStart_toEndOf="@+id/runStartBtn"
+        app:layout_constraintStart_toEndOf="@+id/btn_mp"
         app:layout_constraintTop_toBottomOf="@+id/map" />
 
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="407dp"
-        android:layout_height="400dp"
+        android:layout_height="0dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginBottom="70dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_mp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/runLogsBtn"
+        app:layout_constraintTop_toTopOf="parent"
         tools:context=".MapsFragment" />
 
     <Button
@@ -115,6 +119,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.428" />
+
+    <Button
+        android:id="@+id/btn_mp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginEnd="179dp"
+        android:layout_marginRight="179dp"
+        android:layout_marginBottom="121dp"
+        android:text="MP"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/runEndButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/map" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

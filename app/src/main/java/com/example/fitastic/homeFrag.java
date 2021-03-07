@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -49,6 +51,8 @@ public class homeFrag extends Fragment {
     private TextView recentDistance;
     private TextView recentPace;
     private TextView recentTime;
+
+    private NavController controller;
 
 
 
@@ -108,6 +112,7 @@ public class homeFrag extends Fragment {
         dpoints = v.findViewById(R.id.data_points);
         layoutcontainer = v.findViewById(R.id.scrollcontainer);
 
+        controller = Navigation.findNavController(container);
 //        recentDate = v.findViewById(R.id.dateview);
 //        recentDistance = v.findViewById(R.id.distanceview);
 //        recentPace = v.findViewById(R.id.paceview);
@@ -222,6 +227,11 @@ public class homeFrag extends Fragment {
         layout_box.addView(recentDistance);
         layout_box.addView(recentTime);
         layout_box.addView(recentPace);
+        layout_box.setOnClickListener(v->{
+            Bundle args = new Bundle();
+            args.putString("id", date);
+            controller.navigate(R.id.action_homeFrag_to_runStatsFrag, args);
+        });
 
         layoutcontainer.addView(layout_box);
     }

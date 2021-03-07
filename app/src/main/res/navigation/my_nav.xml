@@ -11,7 +11,11 @@
     <activity android:id="@+id/loginActivity" android:name="com.example.fitastic.RegisterActivity"
               android:label="activity_main" tools:layout="@layout/activity_register"/>
     <fragment android:id="@+id/homeFrag" android:name="com.example.fitastic.homeFrag" android:label="fragment_home"
-              tools:layout="@layout/fragment_home"/>
+              tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFrag_to_runStatsFrag"
+            app:destination="@id/runStatsFrag" />
+    </fragment>
     <fragment android:id="@+id/workoutFrag" android:name="com.example.fitastic.workoutFrag"
               android:label="fragment_workout" tools:layout="@layout/fragment_workout">
         <action
@@ -32,6 +36,9 @@
         <action
             android:id="@+id/action_startFrag_to_runSummary"
             app:destination="@id/runSummary" />
+        <action
+            android:id="@+id/action_startFrag_to_multiPlayServer"
+            app:destination="@id/multiPlayServer" />
     </fragment>
     <fragment android:id="@+id/profileFrag" android:name="com.example.fitastic.profileFrag"
               android:label="fragment_profile" tools:layout="@layout/fragment_profile">
@@ -101,4 +108,19 @@
         android:id="@+id/favoritesFragment2"
         android:name="com.example.fitastic.diet.FavoritesFragment"
         android:label="FavoritesFragment" />
+    <fragment
+        android:id="@+id/runStatsFrag"
+        android:name="com.example.fitastic.runStatsFrag"
+        android:label="fragment_run_stats"
+        tools:layout="@layout/fragment_run_stats" >
+        <argument android:name="runID" />
+        <action
+            android:id="@+id/action_runStatsFrag_to_homeFrag"
+            app:destination="@id/homeFrag" />
+    </fragment>
+    <fragment
+        android:id="@+id/multiPlayServer"
+        android:name="com.example.fitastic.multiPlayServer"
+        android:label="fragment_multi_play_server"
+        tools:layout="@layout/fragment_multi_play_server" />
 </navigation>

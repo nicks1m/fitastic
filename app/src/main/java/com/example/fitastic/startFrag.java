@@ -89,6 +89,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     private Button startBtn;
     private Button statsBtn;
     private Button endRunBtn;
+    private Button mpBtn;
 
     // map
     private GoogleMap map;
@@ -167,6 +168,10 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         startBtn = root.findViewById(R.id.runStartBtn);
         statsBtn = root.findViewById(R.id.runStatBtn);
         endRunBtn = root.findViewById(R.id.runEndButton);
+        mpBtn = root.findViewById(R.id.btn_mp);
+        mpBtn.setOnClickListener(v->{
+            controller.navigate(R.id.action_startFrag_to_multiPlayServer);
+        });
 
         return root;
     }
