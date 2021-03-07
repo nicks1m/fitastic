@@ -40,10 +40,13 @@ public class multiPlayServer extends Fragment {
     private DatabaseReference player_ref;
     private ValueEventListener mListener;
 
+    private String p_name;
     private TextView playerName;
-    private CheckBox isReady;
+    private TextView isReady;
     private boolean check = false;
     private String room_id_s;
+
+    private Button btn_ready;
 
     private LinearLayout players;
 
@@ -94,34 +97,44 @@ public class multiPlayServer extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_multi_play_server, container, false);
+        btn_ready = v.findViewById(R.id.ready_btn);
         players = v.findViewById(R.id.playerlist);
 
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        DatabaseReference name_ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("display name");
+        name_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                p_name = String.valueOf(snapshot.getValue());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
 
         room_id = v.findViewById(R.id.data_room_id);
-//        room_id_s = room_id.getText().toString();
-//        room_ref = mDatabase.child("Rooms").child(room_id_s);
+
 
         join = v.findViewById(R.id.join_room);
         join.setOnClickListener(v1->{
             room_ref = mDatabase.child("Rooms").child(room_id.getText().toString());
             room_id_s = room_id.getText().toString();
-            player_ref = mDatabase.child("Rooms").child(room_id_s).child("players");
 
-//               room_ref.child("players").setValue(auth.getCurrentUser().getUid());
                room_ref.child("players").child(auth.getCurrentUser().getUid()).child("isReady").setValue(false);
+               room_ref.child("players").child(auth.getCurrentUser().getUid()).child("name").setValue(p_name);
                join.setVisibility(View.GONE);
                room_id.setInputType(0);
 
-
+            player_ref = mDatabase.child("Rooms").child(room_id_s).child("players");
             mListener = player_ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
+                    removePlayers();
                     for(DataSnapshot player_snapshot : dataSnapshot.getChildren()){
-//                    removePlayers();
-                        addPlayer(String.valueOf(player_snapshot.getKey()));
+                        addPlayer(String.valueOf(player_snapshot.child("name").getValue()),String.valueOf(player_snapshot.child("isReady").getValue()));
                     }
 
                 }
@@ -132,39 +145,45 @@ public class multiPlayServer extends Fragment {
             });
         });
 
+        btn_ready.setOnClickListener(v1->{
+            check = !check;
+            room_ref.child("players").child(auth.getCurrentUser().getUid()).child("isReady").setValue(check);
+        });
 
 
 
         return v;
     }
 
-public void removePlayers(){
-        players.removeAllViews();
-}
 
-       public void addPlayer(String name){
-           System.out.println("adding player");
+
+    public void addPlayer(String name, String ready){
+        LinearLayout layout_box = new LinearLayout(getActivity());
+
         playerName = new TextView(getActivity());
         playerName.setText(name);
-        isReady = new CheckBox(getActivity());
-        isReady.setOnClickListener(v->{
-            if(isReady.isChecked()){
-                check = !check;
-                room_ref.child("players").child(auth.getCurrentUser().getUid()).child("isReady").setValue(check);
-            }
-        });
-        players.addView(playerName);
-        //add ondata change listener for isReady checkbox
-        players.addView(isReady);
+
+        isReady = new TextView(getActivity());
+        isReady.setText(ready);
+
+        layout_box.setBackgroundColor(getResources().getColor(R.color.challengeGrey));
+        layout_box.addView(playerName);
+        layout_box.addView(isReady);
+        players.addView(layout_box);
 
 
        }
+
+    public void removePlayers(){
+        players.removeAllViews();
+    }
 
     @Override
     public void onDestroy() {
         //Remove event listener when frag is inactive to prevent async callbacks and unnecessary data changes
         super.onDestroy();
         player_ref.removeEventListener(mListener);
+//        ready_ref.removeEventListener(rListener);
     }
 //    public void onCheckboxClicked(View view) {
 //        // Is the view now checked?
