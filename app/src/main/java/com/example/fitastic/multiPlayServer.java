@@ -101,23 +101,26 @@ public class multiPlayServer extends Fragment {
 
 
         room_id = v.findViewById(R.id.data_room_id);
-        room_id_s = room_id.getText().toString();
-        room_ref = mDatabase.child("Rooms").child(room_id_s);
+//        room_id_s = room_id.getText().toString();
+//        room_ref = mDatabase.child("Rooms").child(room_id_s);
 
         join = v.findViewById(R.id.join_room);
         join.setOnClickListener(v1->{
-            room_ref = mDatabase.child("Rooms").child(room_id_s);
-               room_ref.child("players").setValue(auth.getCurrentUser().getUid());
+            room_ref = mDatabase.child("Rooms").child(room_id.getText().toString());
+            room_id_s = room_id.getText().toString();
+            player_ref = mDatabase.child("Rooms").child(room_id_s).child("players");
+
+//               room_ref.child("players").setValue(auth.getCurrentUser().getUid());
                room_ref.child("players").child(auth.getCurrentUser().getUid()).child("isReady").setValue(false);
                join.setVisibility(View.GONE);
                room_id.setInputType(0);
 
-            player_ref = mDatabase.child("Rooms").child(room_id_s).child("players");
+
             mListener = player_ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for(DataSnapshot player_snapshot : dataSnapshot.getChildren()){
-                        removePlayers();
+//                    removePlayers();
                         addPlayer(String.valueOf(player_snapshot.getKey()));
                     }
 
@@ -128,6 +131,7 @@ public class multiPlayServer extends Fragment {
                 }
             });
         });
+
 
 
 

@@ -25,8 +25,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
+        android:hint="id"
         android:inputType="textPersonName"
-        android:text="Name"
         app:layout_constraintStart_toStartOf="@+id/room_id"
         app:layout_constraintTop_toBottomOf="@+id/room_id" />
 

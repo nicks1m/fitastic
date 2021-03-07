@@ -200,7 +200,7 @@ public class homeFrag extends Fragment {
 
     public void addRun(String date, String distance, String duration, String pace){
 
-        LinearLayout layout_box = new LinearLayout(getContext());
+        LinearLayout layout_box = new LinearLayout(getActivity());
         layout_box.setMinimumHeight(500);
         layout_box.setPadding(0,0,0,100);
         layout_box.setBackgroundColor(getResources().getColor(R.color.challengeGrey));
@@ -210,15 +210,15 @@ public class homeFrag extends Fragment {
         recentDate.setPadding(20,10,20,10);
 
         //duration seconds
-        recentTime = new TextView(getContext());
+        recentTime = new TextView(getActivity());
         recentTime.setEms(3);
         recentTime.setText(duration + "s");
         //distance is metres
-        recentDistance = new TextView(getContext());
+        recentDistance = new TextView(getActivity());
         recentDistance.setEms(4);
         recentDistance.setText(distance + "km");
         //speed is metres per second
-        recentPace = new TextView(getContext());
+        recentPace = new TextView(getActivity());
         recentPace.setEms(3);
         recentPace.setText(pace + "m/s");
 
