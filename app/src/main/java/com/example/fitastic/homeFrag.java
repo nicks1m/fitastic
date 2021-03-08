@@ -2,9 +2,12 @@ package com.example.fitastic;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -15,10 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.fitastic.utility.RunDbUtility;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,6 +53,7 @@ public class homeFrag extends Fragment {
     private LinearLayout layoutcontainer;
 
     private TextView recentDate;
+    private ImageView recentRoute;
     private TextView recentDistance;
     private TextView recentPace;
     private TextView recentTime;
@@ -189,12 +195,14 @@ public class homeFrag extends Fragment {
 
         DatabaseReference ref2 = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("Runs");
 
-        ref2.limitToFirst(6).addListenerForSingleValueEvent(new ValueEventListener() {
+        ref2.limitToLast(6).addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange( DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot run_snapshot : dataSnapshot.getChildren()) {
                     addRun(run_snapshot.getKey(),
+                            run_snapshot.child("bitmap").getValue().toString(),
                             run_snapshot.child("distance").getValue().toString().substring(0,5),
                             run_snapshot.child("duration").getValue().toString(),
                             run_snapshot.child("speed").getValue().toString());
@@ -218,7 +226,8 @@ public class homeFrag extends Fragment {
 
 
 
-    public void addRun(String date, String distance, String duration, String pace){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void addRun(String date, String image, String distance, String duration, String pace){
 
         LinearLayout layout_box = new LinearLayout(getActivity());
         layout_box.setMinimumHeight(500);
@@ -226,8 +235,16 @@ public class homeFrag extends Fragment {
         layout_box.setBackgroundColor(getResources().getColor(R.color.challengeGrey));
         //epoch / timestamp
         recentDate = new TextView(getContext());
-        recentDate.setText(date);
+        String dformat = String.valueOf(RunDbUtility.convertEpochToDate(Long.valueOf(date)));
+        recentDate.setText(dformat);
         recentDate.setPadding(20,10,20,10);
+
+        //image run
+        Bitmap bitmap = RunDbUtility.stringToBitmap(image);
+        recentRoute = new ImageView(getActivity());
+        recentRoute.setMinimumWidth(400);
+        recentRoute.setMinimumHeight(250);
+        recentRoute.setImageBitmap(Bitmap.createScaledBitmap(bitmap,400,250,false));
 
         //duration seconds
         recentTime = new TextView(getActivity());
@@ -244,6 +261,7 @@ public class homeFrag extends Fragment {
 
 
         layout_box.addView(recentDate);
+        layout_box.addView(recentRoute);
         layout_box.addView(recentDistance);
         layout_box.addView(recentTime);
         layout_box.addView(recentPace);
