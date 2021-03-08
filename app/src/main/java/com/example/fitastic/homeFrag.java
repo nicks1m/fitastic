@@ -101,6 +101,7 @@ public class homeFrag extends Fragment {
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -113,10 +114,13 @@ public class homeFrag extends Fragment {
         layoutcontainer = v.findViewById(R.id.scrollcontainer);
 
         controller = Navigation.findNavController(container);
+        recycleBtn = v.findViewById(R.id.recycleBtn);
 //        recentDate = v.findViewById(R.id.dateview);
 //        recentDistance = v.findViewById(R.id.distanceview);
 //        recentPace = v.findViewById(R.id.paceview);
 //        recentTime = v.findViewById(R.id.timeview);
+
+
 
 
 
@@ -149,9 +153,13 @@ public class homeFrag extends Fragment {
             }
         });
 
+
+
+
         DatabaseReference pointsRef = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("points").child("tierpoints");
 
         pointsRef.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String key;
@@ -170,6 +178,14 @@ public class homeFrag extends Fragment {
                 Log.d("Reaad Fail", "Error");
             }
         });
+
+        recycleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(homeFrag.this.getActivity(), ShowDataActivity.class));
+            }
+        });
+
 
         DatabaseReference ref2 = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("Runs");
 
@@ -194,9 +210,13 @@ public class homeFrag extends Fragment {
 
 
 
+
         // Inflate the layout for this fragment
         return v;
     }
+
+
+
 
     public void addRun(String date, String distance, String duration, String pace){
 
