@@ -103,6 +103,9 @@
         <action
             android:id="@+id/action_dietFrag_to_favoritesFragment2"
             app:destination="@id/favoritesFragment2" />
+        <action
+            android:id="@+id/action_dietFrag_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
     <fragment
         android:id="@+id/favoritesFragment2"
@@ -123,4 +126,8 @@
         android:name="com.example.fitastic.multiPlayServer"
         android:label="fragment_multi_play_server"
         tools:layout="@layout/fragment_multi_play_server" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.fitastic.diet.SearchFragment"
+        android:label="SearchFragment" />
 </navigation>

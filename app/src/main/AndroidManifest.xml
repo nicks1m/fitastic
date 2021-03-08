@@ -50,6 +50,7 @@
         </activity>
         <activity android:name=".RegisterActivity" />
         <activity android:name=".diet.Recipe_Activity" />
+        <activity android:name=".diet.SearchResultsActivity" />
 
         <service
             android:name=".services.TrackingService"
