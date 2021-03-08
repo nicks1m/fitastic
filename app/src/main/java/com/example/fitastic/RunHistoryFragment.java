@@ -134,7 +134,6 @@ public class RunHistoryFragment extends Fragment {
                 LinearLayout.LayoutParams.WRAP_CONTENT);
 
         startBtn = root.findViewById(R.id.runStartBtn);
-        logsBtn = root.findViewById(R.id.runLogsBtn);
         statsBtn = root.findViewById(R.id.runStatBtn);
         backBtn = root.findViewById(R.id.runLogsBackBtn);
 

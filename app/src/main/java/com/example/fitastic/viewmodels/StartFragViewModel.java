@@ -15,6 +15,11 @@ import com.example.fitastic.models.Run;
 import com.example.fitastic.repositories.MainRepository;
 import com.example.fitastic.services.TrackingService;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.Instant;
+import java.util.ArrayList;
+
 public class StartFragViewModel extends ViewModel {
 
     // debug
@@ -47,7 +52,25 @@ public class StartFragViewModel extends ViewModel {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void insertRun(Run r) {
-        MainRepository.insertRun(r);
+        MainRepository.insertRun(label, r);
+        label = 0;
+        count = 0;
+    }
+
+    private long label = 0;
+    private int count = 0;
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void saveStat(float totalDistance, float distance, float speed) {
+        if (label == 0) {
+            label = Instant.now().toEpochMilli();
+        }
+
+        Float[] stat = new Float[3];
+        stat[0] = totalDistance;
+        stat[1] = distance;
+        stat[2] = speed;
+        MainRepository.addStat(label, count++, stat);
     }
 
     // get if tracking
