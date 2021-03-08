@@ -49,6 +49,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -74,6 +76,10 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
 
     // if fragment is tracking or not
     private boolean isTracking = false;
+
+    // calculate distance/speed whilst on run
+    private float distanceWhilstRunning = 0.0f;
+    private double lastTime;
 
     // permissions
     private final int LOCATION_PERMISSION_CODE = 1;
@@ -161,9 +167,8 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
 
         // initialise graphical components
         startBtn = root.findViewById(R.id.runStartBtn);
-        logsBtn = root.findViewById(R.id.runLogsBtn);
-        distanceView = root.findViewById(R.id.distanceData);
-        averagePaceView = root.findViewById(R.id.averagePaceData);
+        distanceView = root.findViewById(R.id.distanceLabelRun);
+        averagePaceView = root.findViewById(R.id.speedLabelRun);
         timerView = root.findViewById(R.id.runTimerView);
         startBtn = root.findViewById(R.id.runStartBtn);
         statsBtn = root.findViewById(R.id.runStatBtn);
@@ -200,10 +205,6 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
 
         endRunBtn.setOnClickListener(v -> {
             endRun();
-        });
-
-        logsBtn.setOnClickListener(v -> {
-            openLogs();
         });
     }
 
@@ -259,13 +260,38 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         // will obtain user location and place marker on map
         if (mService != null) {
             mService.getPathPoints().observe(getViewLifecycleOwner(), new Observer<ArrayList<ArrayList<LatLng>>>() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onChanged(ArrayList<ArrayList<LatLng>> arrayLists) {
                     Log.d(TAG, "pathPoint change");
 
+                    double thisTime = (((int) Math.round(time) % 86400) % 3600) % 60;
+
                     polyline.add(new LatLng(arrayLists.get(arrayLists.size()-1).get(arrayLists.get(arrayLists.size() -1).size() -1).latitude,
                             arrayLists.get(arrayLists.size()-1).get(arrayLists.get(arrayLists.size() -1).size() -1).longitude));
 
+                    float distance = calculatePenultimateLastPolylineDistance(polyline);
+
+                    BigDecimal d = new BigDecimal(distance).setScale(2, RoundingMode.HALF_UP);
+                    distance = d.floatValue();
+
+                    distanceWhilstRunning += distance;
+
+                    BigDecimal db = new BigDecimal(distanceWhilstRunning).setScale(2, RoundingMode.HALF_UP);
+                    distanceWhilstRunning = db.floatValue();
+
+                    float speed = 0;
+                    if (lastTime > 0)
+                        speed = (float) (distance / (thisTime - lastTime));
+
+                    BigDecimal dba = new BigDecimal(speed).setScale(2, RoundingMode.HALF_UP);
+                    speed = dba.floatValue();
+
+                    distanceView.setText(String.valueOf(distanceWhilstRunning) + "m");
+                    averagePaceView.setText(String.valueOf(speed) + "m/s");
+
+                    mViewModel.saveStat(distanceWhilstRunning, distance, speed);
+                    lastTime = time;
                     drawLatestPolyline();
                     moveCameraToUser();
                 }
@@ -310,7 +336,6 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
             isTracking = true;
             isPaused = false;
             startBtn.setText("Stop");
-            logsBtn.setVisibility(View.INVISIBLE);
             startTimer();
             startService();
         } else { /* else pause/resume location updates */
@@ -359,11 +384,12 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         // speed in m/s
         float avgSpeed = Math.round(distance/time);
 
+        double realTime = time;
         float finalDistance = distance;
         // create a snapshot of the map, bmp is the bitmap image of the zoomed out route
         map.snapshot(bmp -> {
             // create a run using bitmap and run information
-            Run r = new Run(bmp, finalDistance, time, avgSpeed);
+            Run r = new Run(bmp, finalDistance, realTime, avgSpeed);
             // insert run to database
             mViewModel.insertRun(r);
         });
@@ -374,13 +400,40 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         mService = null;
         polylines = new ArrayList<ArrayList<LatLng>>();
         polyline = new ArrayList<LatLng>();
+        distanceWhilstRunning = 0.0f;
+        lastTime = 0.0;
 
         // navigate to next frag
         controller.navigate(R.id.action_startFrag_to_runSummary);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mService != null)
+            mService.removeLocationUpdates();
+    }
+
     public ArrayList<ArrayList<LatLng>> getPolylines() {
         return polylines;
+    }
+
+    // get distance whilst on run, between penultimate/last latlng's
+    private float calculatePenultimateLastPolylineDistance(ArrayList<LatLng> polyline) {
+        if (polyline.size() <= 1)
+            return 0.0f;
+        LatLng penultimate = new LatLng(polyline.get(polyline.size() - 2).latitude,
+                polyline.get(polyline.size() - 2).longitude);
+
+        LatLng last = new LatLng(polyline.get(polyline.size() - 1).latitude,
+                polyline.get(polyline.size() - 1).longitude);
+
+        float[] result = new float[1];
+
+        Location.distanceBetween(penultimate.latitude, penultimate.longitude,
+                last.latitude, last.longitude, result);
+
+        return result[0];
     }
 
     private float calculatePolylineDistance(ArrayList<LatLng> polyline) {
@@ -403,10 +456,6 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
                 distance += result[0];
             }
             return distance;
-        //} catch (IndexOutOfBoundsException e) {
-
-        //}
-       // return -1;
     }
 
     // zooms out to entire route of run to take an image
@@ -518,4 +567,5 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     private boolean isTracking() {
         return this.isTracking;
     }
+
 }

@@ -43,9 +43,7 @@ public class MainRepository {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void insertRun(Run r) {
-        // stores time/date in epoch time (form 1614945287)
-        long label = Instant.now().toEpochMilli();
+    public static void insertRun(long label, Run r) {
 
         // reference runs
         DatabaseReference destination = mDatabase.child("Users")
@@ -63,11 +61,23 @@ public class MainRepository {
         // encode into base 64 string
         String image64 = Base64.getEncoder().encodeToString(runImgArray);
 
-
         destination.child(String.valueOf(label)).child("bitmap").setValue(image64);
         destination.child(String.valueOf(label)).child("distance").setValue(r.getDistance());
         destination.child(String.valueOf(label)).child("speed").setValue(r.getSpeed());
         destination.child(String.valueOf(label)).child("duration").setValue(r.getRunDuration());
+    }
+
+    public static void addStat(long label, int statNumber, Float[] statList) {
+        DatabaseReference destination = mDatabase.child("Users")
+                .child(userId)
+                .child("Runs")
+                .child(String.valueOf(label))
+                .child("statDump")
+                .child(String.valueOf(statNumber));
+
+        destination.child("Total Distance").setValue(String.valueOf(statList[0]));
+        destination.child("Distance Interval").setValue(String.valueOf(statList[1]));
+        destination.child("Speed").setValue(String.valueOf(statList[2]));
     }
 
     public static MutableLiveData<ArrayList<String>> epochTimes = new MutableLiveData<ArrayList<String>>();;

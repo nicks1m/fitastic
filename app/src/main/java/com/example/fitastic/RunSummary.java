@@ -21,6 +21,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.fitastic.repositories.MainRepository;
+import com.example.fitastic.utility.RunDbUtility;
 import com.example.fitastic.viewmodels.RunSummaryViewModel;
 import com.example.fitastic.viewmodels.StartFragViewModel;
 
@@ -133,28 +134,30 @@ public class RunSummary extends Fragment {
     // adds stats to run summary
     private void addStats() {
         // convert distance to 2 decimal places
-        double dist = Double.parseDouble(recentRun.get(1));
-        BigDecimal db = new BigDecimal(dist).setScale(2, RoundingMode.HALF_UP);
-        dist = db.doubleValue();
+        double dist = Double.parseDouble(recentRun.get(1)) / 1000;
+        double time = Double.parseDouble(recentRun.get(2)) / 60;
+
+        BigDecimal dba = new BigDecimal(dist).setScale(2, RoundingMode.HALF_UP);
+        dist = dba.floatValue();
+
+        BigDecimal db = new BigDecimal(time).setScale(2, RoundingMode.HALF_UP);
+        time = db.floatValue();
 
         // set text to corresponding stat
-        distanceLabel.setText(dist + "m");
-        timeLabel.setText(recentRun.get(2) + "s");
+        distanceLabel.setText(dba.floatValue() + "km");
+        timeLabel.setText(db.floatValue() + "min");
         speedLabel.setText(recentRun.get(3) + "m/s");
     }
 
     // sets image on run summary
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setImage() {
-        // convert coded string to byte array
-        byte[] data = Base64.getDecoder().decode(recentRun.get(0));
-        // decode byte array to bitmap
-        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+        Bitmap bitmap = RunDbUtility.stringToBitmap(recentRun.get(0));
 
         // scale bitmap to image view so whole route can be seen
         imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap,
-                (int) (imageView.getMeasuredWidth() - (imageView.getMeasuredWidth() * 0.25)),
-                (int) (imageView.getMeasuredHeight() - (imageView.getMeasuredHeight() * 0.25)),
+                (int) (imageView.getMeasuredWidth() - (imageView.getMeasuredWidth() * 0.5)),
+                (int) (imageView.getMeasuredHeight() - (imageView.getMeasuredHeight() * 0.5)),
                 false));
     }
 
