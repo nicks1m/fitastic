@@ -120,7 +120,6 @@ public class homeFrag extends Fragment {
         layoutcontainer = v.findViewById(R.id.scrollcontainer);
 
         controller = Navigation.findNavController(container);
-        recycleBtn = v.findViewById(R.id.recycleBtn);
 //        recentDate = v.findViewById(R.id.dateview);
 //        recentDistance = v.findViewById(R.id.distanceview);
 //        recentPace = v.findViewById(R.id.paceview);
