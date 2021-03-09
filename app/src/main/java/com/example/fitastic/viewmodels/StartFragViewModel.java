@@ -61,15 +61,27 @@ public class StartFragViewModel extends ViewModel {
     private int count = 0;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void saveStat(float totalDistance, float distance, float speed) {
+    public void saveStat(float totalDistance, double time) {
         if (label == 0) {
             label = Instant.now().toEpochMilli();
         }
 
         Float[] stat = new Float[3];
-        stat[0] = totalDistance;
-        stat[1] = distance;
-        stat[2] = speed;
+        // km
+        totalDistance /= 1000;
+        BigDecimal db = new BigDecimal(totalDistance).setScale(2, RoundingMode.HALF_UP);
+        stat[0] = db.floatValue();
+
+        // min
+        time /= 60;
+        BigDecimal dba = new BigDecimal(time).setScale(2, RoundingMode.HALF_UP);
+        stat[1] = dba.floatValue();
+
+        // min/km
+        float speed = (float) (time / totalDistance);
+        BigDecimal d = new BigDecimal(speed).setScale(2, RoundingMode.HALF_UP);
+
+        stat[2] = d.floatValue();
         MainRepository.addStat(label, count++, stat);
     }
 

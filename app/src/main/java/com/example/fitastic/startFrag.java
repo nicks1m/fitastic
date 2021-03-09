@@ -51,7 +51,11 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -254,6 +258,10 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         }
     };
 
+    int x = 0;
+    final float distanceInterval = 1000.0f;
+    int count = 1;
+
     // begins tracking user location using service
     @SuppressLint("MissingPermission")
     private void enableUserLocation() {
@@ -265,7 +273,10 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
                 public void onChanged(ArrayList<ArrayList<LatLng>> arrayLists) {
                     Log.d(TAG, "pathPoint change");
 
-                    double thisTime = (((int) Math.round(time) % 86400) % 3600) % 60;
+                    if (x > 20)
+                        x++;
+
+                    double thisTime = getTimeInSeconds();
 
                     polyline.add(new LatLng(arrayLists.get(arrayLists.size()-1).get(arrayLists.get(arrayLists.size() -1).size() -1).latitude,
                             arrayLists.get(arrayLists.size()-1).get(arrayLists.get(arrayLists.size() -1).size() -1).longitude));
@@ -290,8 +301,14 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
                     distanceView.setText(String.valueOf(distanceWhilstRunning) + "m");
                     averagePaceView.setText(String.valueOf(speed) + "m/s");
 
-                    mViewModel.saveStat(distanceWhilstRunning, distance, speed);
-                    lastTime = time;
+                    if (distanceWhilstRunning > (distanceInterval * count)) {
+                        mViewModel.saveStat(distanceInterval * count, thisTime);
+                        count++;
+                    }
+
+                    x++;
+
+                    lastTime = thisTime;
                     drawLatestPolyline();
                     moveCameraToUser();
                 }
@@ -402,6 +419,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         polyline = new ArrayList<LatLng>();
         distanceWhilstRunning = 0.0f;
         lastTime = 0.0;
+        count = 1;
 
         // navigate to next frag
         controller.navigate(R.id.action_startFrag_to_runSummary);
@@ -497,16 +515,29 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         timer.scheduleAtFixedRate(timerTask, 0, 1000);
     }
 
+    int seconds;
+    int minutes;
+    int hours;
+
     private String getTimerText() {
         int rounded = (int) Math.round(time);
 
-        int seconds = ((rounded % 86400) % 3600) % 60;
-        int minutes = ((rounded % 86400) % 3600) / 60;
-        int hours = (rounded % 86400) / 3600;
+        seconds = ((rounded % 86400) % 3600) % 60;
+        minutes = ((rounded % 86400) % 3600) / 60;
+        hours = (rounded % 86400) / 3600;
 
         return  String.format("%02d", hours) + ":" +
                 String.format("%02d", minutes) + ":" +
                 String.format("%02d", seconds);
+    }
+
+    private int getTimeInSeconds() {
+        String string = (String) timerView.getText();
+        String[] times = string.split(":");
+
+        return ((Integer.parseInt(times[0]) * 60) * 60) +
+                (Integer.parseInt(times[1]) * 60) +
+                Integer.parseInt(times[2]);
     }
 
     public void pauseTimer() {
