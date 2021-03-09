@@ -7,6 +7,7 @@ import android.os.Build;
 import androidx.annotation.RequiresApi;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -43,5 +44,31 @@ public class RunDbUtility {
         byte[] data = Base64.getDecoder().decode(input);
         // decode byte array to bitmap
         return BitmapFactory.decodeByteArray(data, 0, data.length);
+    }
+
+    public static String calculatePace(String dist, String time){
+        double distkm = Double.parseDouble(dist)/1000;
+        double runtime = Double.parseDouble(time) / 60;
+        double dpace = runtime / distkm;
+        String pace = new DecimalFormat("#.##").format(dpace);
+        return pace;
+
+    }
+
+    public static String calculateDistance(String dist){
+        double ddist = Double.parseDouble(dist)/1000;
+        String dist1 = new DecimalFormat("#.##").format(ddist) + " km";
+        return dist1;
+    }
+
+    public static String calculateDuration(String time){
+
+        int totalSecs = Integer.parseInt(time);
+        int hours = totalSecs / 3600;
+        int minutes = (totalSecs % 3600) / 60;
+        int seconds = totalSecs % 60;
+        String timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        return  timeString;
+
     }
 }

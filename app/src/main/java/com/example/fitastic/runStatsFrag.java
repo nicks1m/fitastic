@@ -147,11 +147,11 @@ public class runStatsFrag extends Fragment {
                 img_route.setImageBitmap(Bitmap.createScaledBitmap(bitmap,400,250,false));
 
                 data_distance = v.findViewById(R.id.data_dist_run);
-                data_distance.setText(distance);
+                data_distance.setText(RunDbUtility.calculateDistance(distance));
                 data_duration = v.findViewById(R.id.data_duration_run);
-                data_duration.setText(duration);
+                data_duration.setText(RunDbUtility.calculateDuration(duration));
                 data_speed = v.findViewById(R.id.data_pace_run);
-                data_speed.setText(speed);
+                data_speed.setText(RunDbUtility.calculatePace(distance,duration));
                 data_weather = v.findViewById(R.id.data_weather_run);
             }
 
@@ -170,24 +170,27 @@ public class runStatsFrag extends Fragment {
 
 
 
-        DatabaseReference dist_ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("Runs").child(runid);
+        DatabaseReference dist_ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("Runs").child(runid).child("statDump");
         pace = new ArrayList();
-        dist_ref.limitToLast(7).addValueEventListener(new ValueEventListener() {
+        dist_ref.addListenerForSingleValueEvent(new ValueEventListener() {
             int counter = 0;
             double total_distance = 0;
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    pace.add(new Entry(counter, Float.valueOf(dataSnapshot.child("speed").getValue().toString())));
+                for(DataSnapshot data : dataSnapshot.getChildren()){
+                    pace.add(new Entry(counter, Float.valueOf(data.child("Speed (min per km)").getValue().toString())));
                     counter += 1;
-                    total_distance = total_distance + Double.parseDouble(dataSnapshot.child("speed").getValue().toString());
+//                    total_distance = total_distance + Double.parseDouble(dataSnapshot.child("speed").getValue().toString());
+                }
+
+
 
 
 
                 //CREATE CHART
                 mChart = v.findViewById(R.id.line_chart);
                 System.out.println(pace.size());
-                LineDataSet set1 = new LineDataSet(pace, " Distance");
+                LineDataSet set1 = new LineDataSet(pace, "Pace");
 
                 set1.setFillAlpha(110);
                 set1.setLineWidth(2f);
@@ -217,4 +220,30 @@ public class runStatsFrag extends Fragment {
 
         return v;
     }
+
+//    public String calculatePace(String dist, String time){
+//        double distkm = Double.parseDouble(dist)/1000;
+//        double runtime = Double.parseDouble(time) / 60;
+//        double dpace = runtime / distkm;
+//        String pace = new DecimalFormat("#.##").format(dpace) + " min/km";
+//        return pace;
+//
+//    }
+//
+//    public String calculateDistance(String dist){
+//        double ddist = Double.parseDouble(dist)/1000;
+//      String dist1 = new DecimalFormat("#.##").format(ddist) + " km";
+//      return dist1;
+//    }
+//
+//    public String calculateDuration(String time){
+//
+//        int totalSecs = Integer.parseInt(time);
+//        int hours = totalSecs / 3600;
+//        int minutes = (totalSecs % 3600) / 60;
+//        int seconds = totalSecs % 60;
+//        String timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+//        return  timeString;
+
+//    }
 }

@@ -224,7 +224,13 @@ public class homeFrag extends Fragment {
     public void addRun(String date, String image, String distance, String duration, String pace){
 
         LinearLayout layout_box = new LinearLayout(getActivity());
+        LinearLayout layout_date = new LinearLayout(getActivity());
+        LinearLayout layout_image_stats = new LinearLayout(getActivity());
+        layout_image_stats.setOrientation(LinearLayout.HORIZONTAL);
+//        LinearLayout layout_stats = new LinearLayout(getActivity());
+
         layout_box.setMinimumHeight(500);
+        layout_box.setOrientation(LinearLayout.VERTICAL);
         layout_box.setPadding(0,0,0,100);
         layout_box.setBackgroundColor(getResources().getColor(R.color.challengeGrey));
         //epoch / timestamp
@@ -236,29 +242,40 @@ public class homeFrag extends Fragment {
         //image run
         Bitmap bitmap = RunDbUtility.stringToBitmap(image);
         recentRoute = new ImageView(getActivity());
-        recentRoute.setMinimumWidth(400);
+        recentRoute.setMinimumWidth(500);
         recentRoute.setMinimumHeight(250);
-        recentRoute.setImageBitmap(Bitmap.createScaledBitmap(bitmap,400,250,false));
+        recentRoute.setImageBitmap(Bitmap.createScaledBitmap(bitmap,500,250,false));
 
         //duration seconds
         recentTime = new TextView(getActivity());
-        recentTime.setEms(3);
-        recentTime.setText(duration + "s");
+        recentTime.setEms(4);
+        recentTime.setText("time: " + RunDbUtility.calculateDuration(duration));
         //distance is metres
         recentDistance = new TextView(getActivity());
         recentDistance.setEms(4);
-        recentDistance.setText(distance + "km");
+        recentDistance.setText("distance: " + RunDbUtility.calculateDistance(distance));
         //speed is metres per second
         recentPace = new TextView(getActivity());
-        recentPace.setEms(3);
-        recentPace.setText(pace + "m/s");
+        recentPace.setEms(4);
+        recentPace.setText("pace:  " + RunDbUtility.calculatePace(distance, duration));
+        recentPace.setPadding(50,0,0,0);
+
+        layout_date.addView(recentDate);
+        layout_date.setPadding(30,0,0,0);
+        layout_image_stats.addView(recentRoute);
+        layout_image_stats.addView(recentPace);
+        layout_image_stats.addView(recentTime);
+        layout_image_stats.addView(recentDistance);
+        layout_image_stats.setPadding(50,0,0,0);
 
 
-        layout_box.addView(recentDate);
-        layout_box.addView(recentRoute);
-        layout_box.addView(recentDistance);
-        layout_box.addView(recentTime);
-        layout_box.addView(recentPace);
+
+
+        layout_box.addView(layout_date);
+        layout_box.addView(layout_image_stats);
+//        layout_box.addView(layout_stats);
+//        layout_box.addView(recentTime);
+//        layout_box.addView(recentPace);
         layout_box.setOnClickListener(v->{
             Bundle args = new Bundle();
             args.putString("id", date);
