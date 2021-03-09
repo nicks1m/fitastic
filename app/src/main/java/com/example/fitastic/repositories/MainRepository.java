@@ -75,9 +75,9 @@ public class MainRepository {
                 .child("statDump")
                 .child(String.valueOf(statNumber));
 
-        destination.child("Total Distance").setValue(String.valueOf(statList[0]));
-        destination.child("Distance Interval").setValue(String.valueOf(statList[1]));
-        destination.child("Speed").setValue(String.valueOf(statList[2]));
+        destination.child("Distance Interval (km)").setValue(String.valueOf(statList[0]));
+        destination.child("Time elapsed (min)").setValue(String.valueOf(statList[1]));
+        destination.child("Speed (min per km)").setValue(String.valueOf(statList[2]));
     }
 
     public static MutableLiveData<ArrayList<String>> epochTimes = new MutableLiveData<ArrayList<String>>();;
