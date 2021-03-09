@@ -164,23 +164,21 @@ public class runStatsFrag extends Fragment {
         });
         date = v.findViewById(R.id.label_date);
         String fdate = String.valueOf(RunDbUtility.convertEpochToDate(Long.valueOf(runid)));
-        date.setText(fdate);
+        date.setText(fdate.replaceAll("GMT",""));
 
 
 
 
 
-        DatabaseReference dist_ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("Runs").child(runid).child("statDump");
+        DatabaseReference pace_ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("Runs").child(runid).child("statDump");
         pace = new ArrayList();
-        dist_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        pace_ref.addListenerForSingleValueEvent(new ValueEventListener() {
             int counter = 0;
-            double total_distance = 0;
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot data : dataSnapshot.getChildren()){
                     pace.add(new Entry(counter, Float.valueOf(data.child("Speed (min per km)").getValue().toString())));
                     counter += 1;
-//                    total_distance = total_distance + Double.parseDouble(dataSnapshot.child("speed").getValue().toString());
                 }
 
 
@@ -206,9 +204,9 @@ public class runStatsFrag extends Fragment {
                 mChart.getXAxis().setDrawGridLines(false);
                 mChart.getAxisRight().setDrawGridLines(false);
                 mChart.getDescription().setEnabled(false);
-                float td = (float)(total_distance/1000);
-                DecimalFormat df = new DecimalFormat("##.##");
-                df.setRoundingMode(RoundingMode.DOWN);
+//                float td = (float)(total_distance/1000);
+//                DecimalFormat df = new DecimalFormat("##.##");
+//                df.setRoundingMode(RoundingMode.DOWN);
 
             }
             @Override

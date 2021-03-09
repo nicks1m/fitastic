@@ -50,7 +50,10 @@ public class RunDbUtility {
         double distkm = Double.parseDouble(dist)/1000;
         double runtime = Double.parseDouble(time) / 60;
         double dpace = runtime / distkm;
-        String pace = new DecimalFormat("#.##").format(dpace);
+        int mpace = (int)dpace;
+        int space = (int)((dpace - mpace) * 60);
+//        String sspace = new DecimalFormat("#.##").format(dpace);
+        String pace = mpace + "'" + space;
         return pace;
 
     }

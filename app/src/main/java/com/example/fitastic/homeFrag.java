@@ -149,7 +149,6 @@ public class homeFrag extends Fragment {
                 //Load display name into TextView
                 String msg = "welcome, " + key;
                 homemsg.setText(msg);
-
             }
 
             @Override
@@ -208,16 +207,9 @@ public class homeFrag extends Fragment {
             }
         });
 
-
-
-
-
-
         // Inflate the layout for this fragment
         return v;
     }
-
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -227,16 +219,16 @@ public class homeFrag extends Fragment {
         LinearLayout layout_date = new LinearLayout(getActivity());
         LinearLayout layout_image_stats = new LinearLayout(getActivity());
         layout_image_stats.setOrientation(LinearLayout.HORIZONTAL);
-//        LinearLayout layout_stats = new LinearLayout(getActivity());
 
         layout_box.setMinimumHeight(500);
         layout_box.setOrientation(LinearLayout.VERTICAL);
         layout_box.setPadding(0,0,0,100);
         layout_box.setBackgroundColor(getResources().getColor(R.color.challengeGrey));
+
         //epoch / timestamp
         recentDate = new TextView(getContext());
         String dformat = String.valueOf(RunDbUtility.convertEpochToDate(Long.valueOf(date)));
-        recentDate.setText(dformat);
+        recentDate.setText(dformat.replaceAll("GMT",""));
         recentDate.setPadding(20,10,20,10);
 
         //image run
@@ -268,14 +260,9 @@ public class homeFrag extends Fragment {
         layout_image_stats.addView(recentDistance);
         layout_image_stats.setPadding(50,0,0,0);
 
-
-
-
         layout_box.addView(layout_date);
         layout_box.addView(layout_image_stats);
-//        layout_box.addView(layout_stats);
-//        layout_box.addView(recentTime);
-//        layout_box.addView(recentPace);
+
         layout_box.setOnClickListener(v->{
             Bundle args = new Bundle();
             args.putString("id", date);
