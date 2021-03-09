@@ -184,12 +184,7 @@ public class homeFrag extends Fragment {
             }
         });
 
-        recycleBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(homeFrag.this.getActivity(), ShowDataActivity.class));
-            }
-        });
+
 
 
         DatabaseReference ref2 = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("Runs");
