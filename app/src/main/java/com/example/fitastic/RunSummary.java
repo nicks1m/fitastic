@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,8 @@ import java.util.BitSet;
  */
 public class RunSummary extends Fragment {
 
-
+    private static String TAG = "RunSummary"; 
+    
     private RunSummaryViewModel mViewModel;
 
     private NavController controller;
@@ -50,6 +52,7 @@ public class RunSummary extends Fragment {
     private TextView distanceLabel;
     private TextView speedLabel;
     private TextView timeLabel;
+    private TextView dateLabel;
 
     public RunSummary() {
         // Required empty public constructor
@@ -63,6 +66,7 @@ public class RunSummary extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
         mViewModel = new ViewModelProvider(requireActivity()).get(RunSummaryViewModel.class);
 
         // callback for when main repo gets all epoch times for this user
@@ -101,7 +105,7 @@ public class RunSummary extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        Log.d(TAG, "onCreateView: ");
         View root = inflater.inflate(R.layout.fragment_run_summary, container, false);
 
         // initialise gui components
@@ -110,6 +114,7 @@ public class RunSummary extends Fragment {
         distanceLabel = root.findViewById(R.id.distanceLabel);
         speedLabel = root.findViewById(R.id.paceLabel);
         timeLabel = root.findViewById(R.id.timeLabel);
+        dateLabel = root.findViewById(R.id.dateLabelRunSummary);
         mViewModel.initialiseEpochTimes();
 
         return root;
@@ -120,6 +125,7 @@ public class RunSummary extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated: ");
         controller = Navigation.findNavController(view);
 
 
@@ -144,6 +150,11 @@ public class RunSummary extends Fragment {
         BigDecimal db = new BigDecimal(time).setScale(2, RoundingMode.HALF_UP);
         time = db.floatValue();
 
+        // date
+        if (recentRun.size() == 5)
+            dateLabel.setText(RunDbUtility.convertEpochToDate(Long.valueOf(recentRun.get(4))).toString());
+        else
+            dateLabel.setText(RunDbUtility.convertEpochToDate(Long.valueOf(recentRun.get(3))).toString());
         // set text to corresponding stat
         distanceLabel.setText(dba.floatValue() + "km");
         timeLabel.setText(db.floatValue() + "min");
@@ -153,13 +164,21 @@ public class RunSummary extends Fragment {
     // sets image on run summary
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setImage() {
-        Bitmap bitmap = RunDbUtility.stringToBitmap(recentRun.get(0));
+        Log.d(TAG, "setImage: ");
+        Bitmap bitmap = null;
+        if (!recentRun.isEmpty()) {
+            bitmap = RunDbUtility.stringToBitmap(recentRun.get(0));
 
-        // scale bitmap to image view so whole route can be seen
-        imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap,
-                (int) (imageView.getMeasuredWidth() - (imageView.getMeasuredWidth() * 0.5)),
-                (int) (imageView.getMeasuredHeight() - (imageView.getMeasuredHeight() * 0.5)),
-                false));
+            if (imageView.getMeasuredHeight() <= 0 || imageView.getMeasuredWidth() <= 0) {
+                Log.d(TAG, "setImage: " + imageView.getMeasuredWidth());
+            } else {
+                // scale bitmap to image view so whole route can be seen
+                imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap,
+                        (int) (imageView.getMeasuredWidth() - (imageView.getMeasuredWidth() * 0.5)),
+                        (int) (imageView.getMeasuredHeight() - (imageView.getMeasuredHeight() * 0.5)),
+                        false));
+            }
+        }
     }
 
     public void exitSummary() {
