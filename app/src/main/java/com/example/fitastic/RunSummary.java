@@ -156,9 +156,9 @@ public class RunSummary extends Fragment {
         else
             dateLabel.setText(RunDbUtility.convertEpochToDate(Long.valueOf(recentRun.get(3))).toString());
         // set text to corresponding stat
-        distanceLabel.setText(dba.floatValue() + "km");
-        timeLabel.setText(db.floatValue() + "min");
-        speedLabel.setText(recentRun.get(3) + "m/s");
+        distanceLabel.setText(String.valueOf(dist));
+        timeLabel.setText(String.valueOf(time));
+        speedLabel.setText(String.valueOf(dist/time) + "m/s");
     }
 
     // sets image on run summary

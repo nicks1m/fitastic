@@ -1,13 +1,20 @@
 package com.example.fitastic;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.GpsStatus;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -24,6 +31,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.fitastic.utility.RunDbUtility;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -59,7 +67,6 @@ public class homeFrag extends Fragment {
     private TextView recentTime;
 
     private NavController controller;
-
 
 
     private Button recycleBtn;
@@ -124,8 +131,6 @@ public class homeFrag extends Fragment {
 //        recentDistance = v.findViewById(R.id.distanceview);
 //        recentPace = v.findViewById(R.id.paceview);
 //        recentTime = v.findViewById(R.id.timeview);
-
-
 
 
 

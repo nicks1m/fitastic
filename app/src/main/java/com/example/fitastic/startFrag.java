@@ -37,6 +37,7 @@ import android.widget.TextView;
 import com.example.fitastic.models.Run;
 import com.example.fitastic.services.TrackingService;
 import com.example.fitastic.utility.PermissionUtility;
+import com.example.fitastic.utility.RunDbUtility;
 import com.example.fitastic.viewmodels.StartFragViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -303,8 +304,8 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
                     BigDecimal dba = new BigDecimal(speed).setScale(2, RoundingMode.HALF_UP);
                     speed = dba.floatValue();
 
-                    distanceView.setText(String.valueOf(distanceWhilstRunning) + "m");
-                    averagePaceView.setText(String.valueOf(speed) + "m/s");
+                    distanceView.setText(RunDbUtility.calculateDistance(String.valueOf(distanceWhilstRunning)));
+                    averagePaceView.setText(RunDbUtility.calculatePace(String.valueOf(distanceWhilstRunning), String.valueOf(getTimeInSeconds())));
 
                     if (count == 1)
                         mViewModel.initialiseStatLabel();
