@@ -53,7 +53,7 @@ public class multiPlayServer extends Fragment {
     private boolean check = false;
     private boolean isStart = false;
     private String room_id_s;
-
+    boolean test = false;
     private Button btn_ready;
     private Button btn_start;
 
@@ -86,6 +86,7 @@ public class multiPlayServer extends Fragment {
         btn_ready = v.findViewById(R.id.ready_btn);
         players = v.findViewById(R.id.playerlist);
         btn_start = v.findViewById(R.id.start_btn);
+
 
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -131,33 +132,20 @@ public class multiPlayServer extends Fragment {
                 }
             });
         });
-
+        controller = Navigation.findNavController(container);
         btn_ready.setOnClickListener(v1->{
             check = !check;
             room_ref.child("players").child(auth.getCurrentUser().getUid()).child("isReady").setValue(check);
         });
 
         btn_start.setOnClickListener(v2 -> {
-            DatabaseReference reference = mDatabase.child("Rooms")
-                    .child(room_id_s)
-                    .child("players");
-
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    removePlayers();
-                    for(DataSnapshot player_snapshot : dataSnapshot.getChildren()){
-                        if (isAllReady(dataSnapshot)) {
-                            // handle how start will function with multiplayer here
-                            controller.navigate(R.id.action_multiPlayServer_to_startFrag);
-                        }
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    Log.d("Read Fail", "Error");
-                }
-            });
+            //check if all players ready
+            allReady();
+            System.out.println(test);
+            //if ready, proceed
+            if(test){
+                controller.navigate(R.id.action_multiPlayServer_to_startFrag);
+            }
         });
 
         return v;
@@ -166,7 +154,7 @@ public class multiPlayServer extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        controller = Navigation.findNavController(view);
+
     }
 
     public void addPlayer(String name, String ready){
@@ -196,6 +184,29 @@ public class multiPlayServer extends Fragment {
 
     public void removePlayers(){
         players.removeAllViews();
+    }
+
+    private void allReady(){
+        DatabaseReference reference = mDatabase.child("Rooms")
+                .child(room_id_s)
+                .child("players");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot player_snapshot : dataSnapshot.getChildren()){
+                    if (player_snapshot.child("isReady").getValue().toString().equals("true")) {
+                        // handle how start will function with multiplayer here
+                    test = true;
+                    } else
+                    test = false;
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Read Fail", "Error");
+            }
+        });
     }
 
     private boolean isAllReady(DataSnapshot snapshot) {
