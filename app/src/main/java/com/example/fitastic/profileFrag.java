@@ -160,7 +160,7 @@ public class profileFrag extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot dist_snapshot : dataSnapshot.getChildren()) {
-                    distance_data.add(new Entry(counter, Float.parseFloat(dist_snapshot.child("distance").getValue().toString())));
+                    distance_data.add(new Entry(counter, Float.parseFloat(dist_snapshot.child("distance").getValue().toString())/1000));
                     counter += 1;
                     total_distance = total_distance + Double.parseDouble(dist_snapshot.child("distance").getValue().toString());
 
@@ -188,7 +188,7 @@ public class profileFrag extends Fragment {
                 float td = (float)(total_distance/1000);
                 DecimalFormat df = new DecimalFormat("##.##");
                 df.setRoundingMode(RoundingMode.DOWN);
-                data_runs.setText(df.format(td) + "km");
+                data_runs.setText(df.format(td) + " km");
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

@@ -25,10 +25,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="23dp"
+                    android:fontFamily="sans-serif-light"
                     android:text="total distance"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                    android:textColor="#000000"
+                    app:layout_constraintStart_toStartOf="@+id/data_dist_run"
+                    app:layout_constraintTop_toBottomOf="@+id/route_img" />
 
                 <TextView
                     android:id="@+id/textView26"
@@ -37,7 +38,9 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginBottom="350dp"
+                    android:fontFamily="sans-serif-light"
                     android:text="average pace"
+                    android:textColor="#000000"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -46,11 +49,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginRight="20dp"
+                    android:fontFamily="sans-serif-light"
                     android:text="weather"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                    android:textColor="#000000"
+                    app:layout_constraintStart_toStartOf="@+id/data_weather_run"
+                    app:layout_constraintTop_toBottomOf="@+id/route_img" />
 
                 <EditText
                     android:id="@+id/editTextTextMultiLine"
@@ -67,45 +70,101 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView25"
+                    android:id="@+id/label_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginTop="26dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="40dp"
                     android:fontFamily="sans-serif-light"
                     android:text="date"
-                    android:textSize="36sp"
+                    android:textSize="18sp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/imageView"
+                    android:id="@+id/route_img"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginLeft="16dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="24dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="23dp"
                     app:layout_constraintBottom_toTopOf="@+id/textView26"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView25"
+                    app:layout_constraintTop_toBottomOf="@+id/back_btn"
+                    app:layout_constraintVertical_bias="0.0"
                     tools:src="@tools:sample/avatars" />
 
                 <Button
                     android:id="@+id/back_btn"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_marginTop="26dp"
                     android:layout_marginEnd="30dp"
                     android:layout_marginRight="30dp"
                     android:background="#FFFFFF"
+                    android:fontFamily="sans-serif-light"
                     android:text="back"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/data_pace_run"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="#000000"
+                    app:layout_constraintStart_toStartOf="@+id/textView26"
+                    app:layout_constraintTop_toBottomOf="@+id/textView26" />
+
+                <TextView
+                    android:id="@+id/data_dist_run"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="58dp"
+                    android:layout_marginLeft="58dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="#000000"
+                    app:layout_constraintStart_toEndOf="@+id/textView26"
+                    app:layout_constraintTop_toBottomOf="@+id/textView27" />
+
+                <TextView
+                    android:id="@+id/data_weather_run"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="342dp"
+                    android:layout_marginLeft="342dp"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="#000000"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView28" />
+
+                <TextView
+                    android:id="@+id/label_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="33dp"
+                    android:fontFamily="sans-serif-light"
+                    android:text="duration"
+                    android:textColor="#000000"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/data_pace_run" />
+
+                <TextView
+                    android:id="@+id/data_duration_run"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textColor="#000000"
+                    app:layout_constraintStart_toStartOf="@+id/label_duration"
+                    app:layout_constraintTop_toBottomOf="@+id/label_duration" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
             <com.github.mikephil.charting.charts.LineChart

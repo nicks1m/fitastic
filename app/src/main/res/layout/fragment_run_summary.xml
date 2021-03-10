@@ -25,6 +25,7 @@
         android:layout_width="146dp"
         android:layout_height="70dp"
         android:layout_marginBottom="52dp"
+        android:background="#FFFFFF"
         android:text="Exit"
         android:textSize="15dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -43,7 +44,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
+   <TextView
         android:id="@+id/paceLabel"
         android:layout_width="97dp"
         android:layout_height="40dp"
@@ -56,7 +57,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.709" />
 
-    <TextView
+     <TextView
         android:id="@+id/timeLabel"
         android:layout_width="97dp"
         android:layout_height="40dp"
@@ -69,7 +70,7 @@
 
     <ImageView
         android:id="@+id/runImgPlaceholder"
-        android:layout_width="268dp"
+        android:layout_width="match_parent"
         android:layout_height="259dp"
         android:layout_marginTop="12dp"
         android:src="@drawable/fui_idp_button_background_github"

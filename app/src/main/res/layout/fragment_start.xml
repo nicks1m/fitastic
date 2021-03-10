@@ -70,7 +70,7 @@
         android:background="#FFFFFF"
         android:clickable="true"
         android:focusable="true"
-        android:fontFamily="sans-serif"
+        android:fontFamily="sans-serif-light"
         android:shadowDx="5"
         android:shadowDy="5"
         android:shadowRadius="0.5"

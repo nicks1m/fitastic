@@ -30,7 +30,7 @@
                 android:layout_width="200dp"
                 android:layout_height="80dp"
                 android:layout_marginTop="7dp"
-                android:fontFamily="sans-serif-light"
+                android:fontFamily="sans-serif-thin"
                 android:text="Diets"
                 android:textSize="60dp"
                 app:layout_constraintBottom_toTopOf="@+id/cardSearch"
@@ -94,8 +94,9 @@
                 android:layout_marginEnd="128dp"
                 android:layout_marginRight="128dp"
                 android:layout_marginBottom="1dp"
+                android:fontFamily="sans-serif-light"
                 android:text="Favorites"
-                android:textColor="#778899"
+                android:textColor="#000000"
                 app:layout_constraintBottom_toTopOf="@+id/buttonIngredientSearch"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -110,8 +111,9 @@
                 android:layout_marginLeft="32dp"
                 android:layout_marginEnd="128dp"
                 android:layout_marginRight="128dp"
+                android:fontFamily="sans-serif-light"
                 android:text="Ingredients"
-                android:textColor="#778899"
+                android:textColor="#000000"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -130,9 +132,10 @@
             style="?android:attr/buttonBarButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:background="#F3F3F3"
             android:layout_margin="10dp"
             android:layout_weight="1"
+            android:background="#F3F3F3"
+            android:fontFamily="sans-serif-light"
             android:text="breakfast"
             android:textColor="@android:color/darker_gray" />
 
@@ -144,6 +147,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="#F3F3F3"
+            android:fontFamily="sans-serif-light"
             android:text="lunch"
             android:textColor="@android:color/darker_gray" />
 
@@ -155,6 +159,7 @@
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:background="#F3F3F3"
+            android:fontFamily="sans-serif-light"
             android:text="dinner"
             android:textColor="@android:color/darker_gray" />
 
