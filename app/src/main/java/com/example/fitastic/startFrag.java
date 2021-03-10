@@ -77,6 +77,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
 
     // debug
     private static String TAG = "StartFrag";
+    int x = 0;
 
     // if fragment is tracking or not
     private boolean isTracking = false;
@@ -84,6 +85,8 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     // calculate distance/speed whilst on run
     private float distanceWhilstRunning = 0.0f;
     private double lastTime;
+    final float distanceInterval = 1000.0f;
+    int count = 1;
 
     // permissions
     private final int LOCATION_PERMISSION_CODE = 1;
@@ -100,6 +103,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     private Button statsBtn;
     private Button endRunBtn;
     private Button mpBtn;
+
 
     // map
     private GoogleMap map;
@@ -137,6 +141,8 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.d(TAG, "onCreate: ");
+
         // get corresponding view model for start frag
         mViewModel = new ViewModelProvider(requireActivity()).get(StartFragViewModel.class);
 
@@ -157,6 +163,9 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
                     Log.d(TAG, "unbound from service ");
                     // otherwise destroy instance if unbound
                     mService = null;
+
+                    if (localConnection != null)
+                        requireContext().unbindService(localConnection);
                 }
             }
         });
@@ -166,6 +175,8 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Log.d(TAG, "onCreateView: ");
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_start, container, false);
 
@@ -189,6 +200,8 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Log.d(TAG, "onViewCreated: ");
         // initialise map fragment
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
@@ -229,10 +242,6 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         getActivity().bindService(serviceIntent, localConnection, Context.BIND_AUTO_CREATE);
     }
 
-    private void unBindService() {
-        requireContext().unbindService(localConnection);
-    }
-
     // opens run history fragment
     private void openLogs() {
         controller.navigate(R.id.action_startFrag_to_runHistoryFragment);
@@ -257,10 +266,6 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
             requestLocation();
         }
     };
-
-    int x = 0;
-    final float distanceInterval = 1000.0f;
-    int count = 1;
 
     // begins tracking user location using service
     @SuppressLint("MissingPermission")
@@ -300,6 +305,9 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
 
                     distanceView.setText(String.valueOf(distanceWhilstRunning) + "m");
                     averagePaceView.setText(String.valueOf(speed) + "m/s");
+
+                    if (count == 1)
+                        mViewModel.initialiseStatLabel();
 
                     if (distanceWhilstRunning > (distanceInterval * count)) {
                         mViewModel.saveStat(distanceInterval * count, thisTime);
@@ -341,7 +349,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     // move camera to last point in list
     private void moveCameraToUser() {
         if (!polyline.isEmpty() && polyline.size() > 2) {
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(polyline.get(polyline.size()-1), 20f));
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(polyline.get(polyline.size()-1), 17f));
         }
     }
 
@@ -411,10 +419,9 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
             mViewModel.insertRun(r);
         });
 
-
-        unBindService();
         // remove location variables to reset fragment
         mService = null;
+        mViewModel.destroyBinder();
         polylines = new ArrayList<ArrayList<LatLng>>();
         polyline = new ArrayList<LatLng>();
         distanceWhilstRunning = 0.0f;
@@ -428,6 +435,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG, "onResume: ");
         if (mService != null)
             mService.removeLocationUpdates();
     }

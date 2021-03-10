@@ -121,11 +121,9 @@ public class MainRepository {
                 ArrayList<String> a = new ArrayList<String>();
 
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-//                    if (snapshot1.getValue() instanceof Double) {
-//                        a.add(String.valueOf( snapshot1.getValue());
-//                    }
                     a.add((String.valueOf(snapshot1.getValue())));
                 }
+                a.add(epochTime);
 
                 recentRun.postValue(a);
             }
@@ -135,6 +133,12 @@ public class MainRepository {
 
             }
         });
+    }
 
+    public static void initStat(long label) {
+        DatabaseReference reference = mDatabase.child("Users")
+                .child(userId)
+                .child("Runs")
+                .child(String.valueOf(label));
     }
 }
