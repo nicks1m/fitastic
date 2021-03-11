@@ -23,6 +23,9 @@
             app:destination="@id/createCustomWorkout"
             app:enterAnim="@anim/enter_from_right"
             app:exitAnim="@anim/enter_from_left" />
+        <action
+            android:id="@+id/action_workoutFrag_to_workoutSearchFrag"
+            app:destination="@id/workoutSearchFrag" />
     </fragment>
     <fragment android:id="@+id/startFrag" android:name="com.example.fitastic.startFrag" android:label="fragment_start"
               tools:layout="@layout/fragment_start">
@@ -139,4 +142,9 @@
         android:name="com.example.fitastic.findFriends"
         android:label="activity_find_friends"
         tools:layout="@layout/activity_find_friends" />
+    <fragment
+        android:id="@+id/workoutSearchFrag"
+        android:name="com.example.fitastic.workoutSearchFrag"
+        android:label="fragment_workout_search"
+        tools:layout="@layout/fragment_workout_search" />
 </navigation>
