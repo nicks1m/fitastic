@@ -1,13 +1,18 @@
 package com.example.fitastic;
 
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fitastic.utility.RunDbUtility;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
@@ -17,12 +22,16 @@ public class RunHistAdapter extends FirebaseRecyclerAdapter<RunHistData, RunHist
         super(options);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onBindViewHolder(@NonNull myviewholder holder, int position, @NonNull RunHistData RunHistData) {
-
-        holder.distance.setText(String.valueOf(RunHistData.getDistance()));
-        holder.duration.setText(String.valueOf(RunHistData.getDuration()));
-        holder.speed.setText(String.valueOf(RunHistData.getSpeed()));
+        Bitmap bitmap = RunDbUtility.stringToBitmap(RunHistData.getBitmap());
+        holder.image.setImageBitmap(Bitmap.createScaledBitmap(bitmap,500,250,false));
+//        String dformat = String.valueOf(RunDbUtility.convertEpochToDate(Long.parseLong(RunHistData.getDate())));
+//        holder.date.setText((dformat.replaceAll("GMT","")));
+        holder.distance.setText(RunDbUtility.calculateDistance(String.valueOf(RunHistData.getDistance())));
+        holder.duration.setText(RunDbUtility.calculateDistance(String.valueOf(RunHistData.getDuration())));
+        holder.speed.setText(RunDbUtility.calculatePace(String.valueOf(RunHistData.getDistance()),String.valueOf(RunHistData.getDuration())));
 
 
     }
@@ -36,14 +45,17 @@ public class RunHistAdapter extends FirebaseRecyclerAdapter<RunHistData, RunHist
 
     class myviewholder extends RecyclerView.ViewHolder{
 
-        TextView distance,duration,speed;
+        TextView distance,duration,speed,date;
+        ImageView image;
 
 
         public myviewholder(@NonNull View itemView) {
             super(itemView);
-            distance=(TextView)itemView.findViewById(R.id.date_text);
-            duration=(TextView)itemView.findViewById(R.id.distance_text);
-            speed=(TextView)itemView.findViewById(R.id.pace_text);
+            image = itemView.findViewById(R.id.run_route);
+            date = itemView.findViewById(R.id.run_date);
+            distance=(TextView)itemView.findViewById(R.id.distance_text);
+            duration=(TextView)itemView.findViewById(R.id.duration_text);
+            speed=(TextView)itemView.findViewById(R.id.speed_text);
 
 
 
