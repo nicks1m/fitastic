@@ -130,4 +130,9 @@
         android:id="@+id/searchFragment"
         android:name="com.example.fitastic.diet.SearchFragment"
         android:label="SearchFragment" />
+    <activity
+        android:id="@+id/findFriends2"
+        android:name="com.example.fitastic.findFriends"
+        android:label="activity_find_friends"
+        tools:layout="@layout/activity_find_friends" />
 </navigation>

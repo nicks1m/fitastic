@@ -48,6 +48,7 @@ public class profileFrag extends Fragment {
     private TextView data_runs;
     private NavController controller;
     private Button runlogs;
+    private Button btn_friends;
 
     private ArrayList<Entry>distance_data;
 
@@ -95,6 +96,7 @@ public class profileFrag extends Fragment {
 
 
 
+
     }
 
     @Override
@@ -107,8 +109,12 @@ public class profileFrag extends Fragment {
         go_points = v.findViewById(R.id.btn_points);
         runlogs = v.findViewById(R.id.btn_runLog);
         data_runs = v.findViewById(R.id.data_7runs);
+        btn_friends = v.findViewById(R.id.btn_friends);
+
 
         controller = Navigation.findNavController(container);
+
+
 
         //Get display name associated with user id.
         auth = FirebaseAuth.getInstance();
@@ -150,6 +156,19 @@ public class profileFrag extends Fragment {
                 startActivity(intent);
             }
         });
+
+        btn_friends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), findFriends.class);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
 
 
         DatabaseReference dist_ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("Runs");

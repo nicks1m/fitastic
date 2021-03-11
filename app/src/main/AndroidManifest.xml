@@ -25,7 +25,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ShowDataActivity"></activity>
+        <activity android:name=".findFriends"
+            android:parentActivityName=""></activity>
+        <activity android:name=".ShowDataActivity" />
         <activity android:name=".SetupUserActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
