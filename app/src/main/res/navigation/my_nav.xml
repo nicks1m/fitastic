@@ -63,7 +63,11 @@
         android:id="@+id/pointsFrag"
         android:name="com.example.fitastic.pointsFrag"
         android:label="fragment_points"
-        tools:layout="@layout/fragment_points" />
+        tools:layout="@layout/fragment_points" >
+        <action
+            android:id="@+id/action_pointsFrag_to_rewardsFrag"
+            app:destination="@id/rewardsFrag" />
+    </fragment>
     <fragment
         android:id="@+id/createCustomWorkout"
         android:name="com.example.fitastic.createCustomWorkout"
@@ -139,4 +143,9 @@
         android:name="com.example.fitastic.findFriends"
         android:label="activity_find_friends"
         tools:layout="@layout/activity_find_friends" />
+    <fragment
+        android:id="@+id/rewardsFrag"
+        android:name="com.example.fitastic.rewardsFrag"
+        android:label="fragment_rewards"
+        tools:layout="@layout/fragment_rewards" />
 </navigation>

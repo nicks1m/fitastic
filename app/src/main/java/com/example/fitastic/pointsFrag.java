@@ -6,11 +6,13 @@ import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -54,6 +56,8 @@ public class pointsFrag extends Fragment {
                      qty_21k,
                      qty_42k;
     private TextView challenge_title, challenge_points;
+    private Button rewards_btn;
+
 
 
 
@@ -105,7 +109,7 @@ public class pointsFrag extends Fragment {
 
         View v = inflater.inflate(R.layout.fragment_points, container, false);
 
-
+        controller = Navigation.findNavController(container);
         prog_bar = v.findViewById(R.id.progress_bar_points);
         current_pts = v.findViewById(R.id.current_points);
         points_to_next_tier = v.findViewById(R.id.textview_progress);
@@ -116,6 +120,10 @@ public class pointsFrag extends Fragment {
         qty_21k = v.findViewById(R.id.qty_21k);
         qty_42k = v.findViewById(R.id.qty_42k);
         challenges_layout = v.findViewById(R.id.challenges_layout);
+        rewards_btn = v.findViewById(R.id.rewards_btn);
+        rewards_btn.setOnClickListener(v1->{
+            controller.navigate(R.id.action_pointsFrag_to_rewardsFrag);
+        });
 
         createChallenges();
 

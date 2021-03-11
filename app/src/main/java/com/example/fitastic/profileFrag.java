@@ -46,7 +46,7 @@ public class profileFrag extends Fragment {
     private Button logout;
     private String displayName;
     private TextView display_Name;
-    private TextView data_7runs,data_runs,data_longest,data_pace,data_dist;
+    private TextView data_7runs,data_7runs_pace,data_runs,data_longest,data_pace,data_dist;
     private NavController controller;
     private Button runlogs;
     private Button btn_friends;
@@ -116,6 +116,7 @@ public class profileFrag extends Fragment {
         go_points = v.findViewById(R.id.btn_points);
         runlogs = v.findViewById(R.id.btn_runLog);
         data_7runs = v.findViewById(R.id.data_7runs);
+        data_7runs_pace = v.findViewById(R.id.data_7runs_pace);
         btn_friends = v.findViewById(R.id.btn_friends);
 
         data_runs  = v.findViewById(R.id.data_runs);
@@ -209,19 +210,21 @@ public class profileFrag extends Fragment {
 
 
 
-
+        //TODO OPTIMIZE GRAPHS, ADD ANOTHER CHART FOR PACE
 
         DatabaseReference dist_ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("Runs");
         distance_data = new ArrayList();
         dist_ref.limitToLast(7).addValueEventListener(new ValueEventListener() {
             int counter = 0;
             double total_distance = 0;
+            double total_time = 0;
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot dist_snapshot : dataSnapshot.getChildren()) {
                     distance_data.add(new Entry(counter, Float.parseFloat(dist_snapshot.child("distance").getValue().toString())/1000));
                     counter += 1;
                     total_distance = total_distance + Double.parseDouble(dist_snapshot.child("distance").getValue().toString());
+                    total_time += Double.parseDouble(dist_snapshot.child("duration").getValue().toString());
 
                 }
 
@@ -247,7 +250,8 @@ public class profileFrag extends Fragment {
                 float td = (float)(total_distance/1000);
                 DecimalFormat df = new DecimalFormat("##.##");
                 df.setRoundingMode(RoundingMode.DOWN);
-                data_7runs.setText(df.format(td) + " km");
+                data_7runs.setText("total dist. " + df.format(td) + " km");
+                data_7runs_pace.setText("avg. pace " + RunDbUtility.calculatePace(String.valueOf(total_distance),String.valueOf(total_time)));
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
