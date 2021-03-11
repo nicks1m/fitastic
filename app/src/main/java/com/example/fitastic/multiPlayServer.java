@@ -57,6 +57,8 @@ public class multiPlayServer extends Fragment {
     private Button btn_ready;
     private Button btn_start;
 
+    private  int game_state;
+
     private LinearLayout players;
 
     public multiPlayServer() {
@@ -109,13 +111,32 @@ public class multiPlayServer extends Fragment {
         join.setOnClickListener(v1->{
             room_ref = mDatabase.child("Rooms").child(room_id.getText().toString());
             room_id_s = room_id.getText().toString();
-
+               room_ref.child("game_state").setValue("0");
                room_ref.child("players").child(auth.getCurrentUser().getUid()).child("isReady").setValue(false);
                room_ref.child("players").child(auth.getCurrentUser().getUid()).child("name").setValue(p_name);
                btn_ready.setVisibility(View.VISIBLE);
                btn_start.setVisibility(View.VISIBLE);
                join.setVisibility(View.GONE);
                room_id.setInputType(0);
+
+            DatabaseReference state_ref = mDatabase.child("Rooms")
+                    .child(room_id_s)
+                    .child("game_state");
+
+            state_ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.getValue().toString().equals("1")){
+                        controller.navigate(R.id.action_multiPlayServer_to_startFrag);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
 
             player_ref = mDatabase.child("Rooms").child(room_id_s).child("players");
             mListener = player_ref.addValueEventListener(new ValueEventListener() {
@@ -143,10 +164,11 @@ public class multiPlayServer extends Fragment {
             allReady();
             System.out.println(test);
             //if ready, proceed
-            if(test){
-                controller.navigate(R.id.action_multiPlayServer_to_startFrag);
-            }
+
         });
+
+
+
 
         return v;
     }
@@ -191,15 +213,19 @@ public class multiPlayServer extends Fragment {
                 .child(room_id_s)
                 .child("players");
 
+        DatabaseReference state_ref = mDatabase.child("Rooms")
+                .child(room_id_s)
+                .child("game_state");
+
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot player_snapshot : dataSnapshot.getChildren()){
                     if (player_snapshot.child("isReady").getValue().toString().equals("true")) {
                         // handle how start will function with multiplayer here
-                    test = true;
+                    state_ref.setValue(1);
                     } else
-                    test = false;
+                    state_ref.setValue(0);
                 }
             }
             @Override
