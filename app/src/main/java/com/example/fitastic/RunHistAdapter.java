@@ -26,7 +26,7 @@ public class RunHistAdapter extends FirebaseRecyclerAdapter<RunHistData, RunHist
     @Override
     protected void onBindViewHolder(@NonNull myviewholder holder, int position, @NonNull RunHistData RunHistData) {
         Bitmap bitmap = RunDbUtility.stringToBitmap(RunHistData.getBitmap());
-        holder.image.setImageBitmap(Bitmap.createScaledBitmap(bitmap,500,250,false));
+        holder.image.setImageBitmap(Bitmap.createScaledBitmap(bitmap,500,350,false));
 //        String dformat = String.valueOf(RunDbUtility.convertEpochToDate(Long.parseLong(RunHistData.getDate())));
 //        holder.date.setText((dformat.replaceAll("GMT","")));
         holder.distance.setText(RunDbUtility.calculateDistance(String.valueOf(RunHistData.getDistance())));
