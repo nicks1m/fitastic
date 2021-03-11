@@ -125,7 +125,11 @@
         android:id="@+id/multiPlayServer"
         android:name="com.example.fitastic.multiPlayServer"
         android:label="fragment_multi_play_server"
-        tools:layout="@layout/fragment_multi_play_server" />
+        tools:layout="@layout/fragment_multi_play_server" >
+        <action
+            android:id="@+id/action_multiPlayServer_to_startFrag"
+            app:destination="@id/startFrag" />
+    </fragment>
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.fitastic.diet.SearchFragment"

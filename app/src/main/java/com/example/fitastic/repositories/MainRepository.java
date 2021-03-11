@@ -43,9 +43,7 @@ public class MainRepository {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void insertRun(Run r) {
-        // stores time/date in epoch time (form 1614945287)
-        long label = Instant.now().toEpochMilli();
+    public static void insertRun(long label, Run r) {
 
         // reference runs
         DatabaseReference destination = mDatabase.child("Users")
@@ -63,11 +61,23 @@ public class MainRepository {
         // encode into base 64 string
         String image64 = Base64.getEncoder().encodeToString(runImgArray);
 
-
         destination.child(String.valueOf(label)).child("bitmap").setValue(image64);
         destination.child(String.valueOf(label)).child("distance").setValue(r.getDistance());
         destination.child(String.valueOf(label)).child("speed").setValue(r.getSpeed());
         destination.child(String.valueOf(label)).child("duration").setValue(r.getRunDuration());
+    }
+
+    public static void addStat(long label, int statNumber, Float[] statList) {
+        DatabaseReference destination = mDatabase.child("Users")
+                .child(userId)
+                .child("Runs")
+                .child(String.valueOf(label))
+                .child("statDump")
+                .child(String.valueOf(statNumber));
+
+        destination.child("Distance Interval (km)").setValue(String.valueOf(statList[0]));
+        destination.child("Time elapsed (min)").setValue(String.valueOf(statList[1]));
+        destination.child("Speed (min per km)").setValue(String.valueOf(statList[2]));
     }
 
     public static MutableLiveData<ArrayList<String>> epochTimes = new MutableLiveData<ArrayList<String>>();;
@@ -111,11 +121,9 @@ public class MainRepository {
                 ArrayList<String> a = new ArrayList<String>();
 
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
-//                    if (snapshot1.getValue() instanceof Double) {
-//                        a.add(String.valueOf( snapshot1.getValue());
-//                    }
                     a.add((String.valueOf(snapshot1.getValue())));
                 }
+                a.add(epochTime);
 
                 recentRun.postValue(a);
             }
@@ -125,6 +133,12 @@ public class MainRepository {
 
             }
         });
+    }
 
+    public static void initStat(long label) {
+        DatabaseReference reference = mDatabase.child("Users")
+                .child(userId)
+                .child("Runs")
+                .child(String.valueOf(label));
     }
 }

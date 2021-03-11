@@ -23,7 +23,7 @@ public class ShowDataActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-        recview= (RecyclerView)findViewById(R.id.recyclerview);
+        recview= findViewById(R.id.recyclerview);
         recview.setLayoutManager(new LinearLayoutManager(this));
 
 

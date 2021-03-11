@@ -3,7 +3,11 @@ package com.example.fitastic;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.Gravity;
@@ -11,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,8 +26,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link multiPlayServer#newInstance} factory method to
@@ -32,8 +33,13 @@ import org.w3c.dom.Text;
  */
 public class multiPlayServer extends Fragment {
 
+    // debug
+    private static String TAG = "multiPlayServer";
+
     private DatabaseReference mDatabase;
     private FirebaseAuth auth;
+
+    private NavController controller;
 
     private Button join;
     private EditText room_id;
@@ -45,41 +51,21 @@ public class multiPlayServer extends Fragment {
     private TextView playerName;
     private TextView isReady;
     private boolean check = false;
+    private boolean isStart = false;
     private String room_id_s;
-
+    boolean test = false;
     private Button btn_ready;
+    private Button btn_start;
 
     private LinearLayout players;
-
-
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     public multiPlayServer() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment multiPlayServer.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static multiPlayServer newInstance(String param1, String param2) {
+    public static multiPlayServer newInstance() {
         multiPlayServer fragment = new multiPlayServer();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -88,8 +74,6 @@ public class multiPlayServer extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -98,8 +82,11 @@ public class multiPlayServer extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_multi_play_server, container, false);
+
         btn_ready = v.findViewById(R.id.ready_btn);
         players = v.findViewById(R.id.playerlist);
+        btn_start = v.findViewById(R.id.start_btn);
+
 
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -118,7 +105,6 @@ public class multiPlayServer extends Fragment {
 
         room_id = v.findViewById(R.id.data_room_id);
 
-
         join = v.findViewById(R.id.join_room);
         join.setOnClickListener(v1->{
             room_ref = mDatabase.child("Rooms").child(room_id.getText().toString());
@@ -127,6 +113,7 @@ public class multiPlayServer extends Fragment {
                room_ref.child("players").child(auth.getCurrentUser().getUid()).child("isReady").setValue(false);
                room_ref.child("players").child(auth.getCurrentUser().getUid()).child("name").setValue(p_name);
                btn_ready.setVisibility(View.VISIBLE);
+               btn_start.setVisibility(View.VISIBLE);
                join.setVisibility(View.GONE);
                room_id.setInputType(0);
 
@@ -138,26 +125,37 @@ public class multiPlayServer extends Fragment {
                     for(DataSnapshot player_snapshot : dataSnapshot.getChildren()){
                         addPlayer(String.valueOf(player_snapshot.child("name").getValue()),String.valueOf(player_snapshot.child("isReady").getValue()));
                     }
-
                 }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Log.d("Reaad Fail", "Error");
+                    Log.d("Read Fail", "Error");
                 }
             });
         });
-
+        controller = Navigation.findNavController(container);
         btn_ready.setOnClickListener(v1->{
             check = !check;
             room_ref.child("players").child(auth.getCurrentUser().getUid()).child("isReady").setValue(check);
         });
 
-
+        btn_start.setOnClickListener(v2 -> {
+            //check if all players ready
+            allReady();
+            System.out.println(test);
+            //if ready, proceed
+            if(test){
+                controller.navigate(R.id.action_multiPlayServer_to_startFrag);
+            }
+        });
 
         return v;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+    }
 
     public void addPlayer(String name, String ready){
         LinearLayout layout_box = new LinearLayout(getActivity());
@@ -182,12 +180,42 @@ public class multiPlayServer extends Fragment {
         layout_box.addView(playerName);
         layout_box.addView(isReady);
         players.addView(layout_box);
-
-
        }
 
     public void removePlayers(){
         players.removeAllViews();
+    }
+
+    private void allReady(){
+        DatabaseReference reference = mDatabase.child("Rooms")
+                .child(room_id_s)
+                .child("players");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot player_snapshot : dataSnapshot.getChildren()){
+                    if (player_snapshot.child("isReady").getValue().toString().equals("true")) {
+                        // handle how start will function with multiplayer here
+                    test = true;
+                    } else
+                    test = false;
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Read Fail", "Error");
+            }
+        });
+    }
+
+    private boolean isAllReady(DataSnapshot snapshot) {
+        for (DataSnapshot sp : snapshot.getChildren()) {
+            if ( !((boolean) (sp.child("isReady").getValue()) )) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override

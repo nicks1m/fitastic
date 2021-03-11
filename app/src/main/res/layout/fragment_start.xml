@@ -70,7 +70,7 @@
         android:background="#FFFFFF"
         android:clickable="true"
         android:focusable="true"
-        android:fontFamily="sans-serif"
+        android:fontFamily="sans-serif-light"
         android:shadowDx="5"
         android:shadowDy="5"
         android:shadowRadius="0.5"
@@ -83,34 +83,10 @@
         app:layout_constraintVertical_bias="0.371"
         tools:fontFamily="sans-serif-light" />
 
-    <Button
-        android:id="@+id/runLogsBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:background="#FFFFFF"
-        android:clickable="true"
-        android:fontFamily="sans-serif-light"
-        android:shadowColor="#FFFFFF"
-        android:shadowDx="5"
-        android:shadowDy="5"
-        android:shadowRadius="0.5"
-        android:stateListAnimator="@null"
-        android:text="Logs"
-        android:textColor="#000000"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
         android:id="@+id/runTimerView"
-        android:layout_width="249dp"
-        android:layout_height="43dp"
+        android:layout_width="142dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:textColor="@color/colorPrimary"
@@ -119,6 +95,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.428" />
+
+    <TextView
+        android:id="@+id/distanceLabelRun"
+        android:layout_width="102dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="172dp"
+        android:layout_marginLeft="172dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20dp"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/map"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.423" />
+
+    <TextView
+        android:id="@+id/speedLabelRun"
+        android:layout_width="102dp"
+        android:layout_height="37dp"
+        android:layout_marginStart="292dp"
+        android:layout_marginLeft="292dp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20dp"
+        android:text=""
+        app:layout_constraintBottom_toTopOf="@+id/map"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.418" />
 
     <Button
         android:id="@+id/btn_mp"

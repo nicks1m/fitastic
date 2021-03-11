@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -159,11 +160,20 @@ public class createCustomWorkout extends Fragment {
         start_workout = v.findViewById(R.id.btn_start_workout);
         start_workout.setOnClickListener(v1->{
             passArray();
-            Bundle args = new Bundle();
-            args.putString("exercises", list_of_exercises.get(list_of_exercises.size() - 4));
-            args.putStringArrayList("array",list_of_exercises);
-            args.putString("custom_workout_title",edit_workout_title.getText().toString());
-          controller.navigate(R.id.action_createCustomWorkout_to_workout_in_prog_frag, args);
+            //Check if array is empty else throw Toast
+            if(list_of_exercises.size() < 4){
+                Toast.makeText(getContext(), "Add an exercise to proceed!", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                Bundle args = new Bundle();
+                //Pass number of exercises
+                args.putString("exercises", list_of_exercises.get(list_of_exercises.size() - 4));
+                //Pass array of exercises
+                args.putStringArrayList("array",list_of_exercises);
+                //Pass workout title
+                args.putString("custom_workout_title",edit_workout_title.getText().toString());
+                controller.navigate(R.id.action_createCustomWorkout_to_workout_in_prog_frag, args);
+            }
         });
 
         return v;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="110dp"
+    android:layout_height="80dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="8dp"
     app:cardCornerRadius="10dp"
@@ -23,13 +23,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date: "
+                android:text="Distance: "
                 android:textStyle="bold"
                 android:textSize="20sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date"
+                android:text="Distance"
                 android:textStyle="bold"
                 android:layout_marginStart="20dp"
                 android:id="@+id/date_text"
@@ -46,13 +46,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Distance: "
+                android:text="Duration: "
                 android:textStyle="bold"
                 android:textSize="20sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Distance"
+                android:text="Duration"
                 android:textStyle="bold"
                 android:layout_marginStart="20dp"
                 android:id="@+id/distance_text"
@@ -69,13 +69,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pace: "
+                android:text="Speed: "
                 android:textStyle="bold"
                 android:textSize="20sp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Pace"
+                android:text="Speed"
                 android:textStyle="bold"
                 android:layout_marginStart="20dp"
                 android:id="@+id/pace_text"
@@ -84,28 +84,7 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Time: "
-                android:textStyle="bold"
-                android:textSize="20sp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Time"
-                android:textStyle="bold"
-                android:layout_marginStart="20dp"
-                android:id="@+id/time_text"
-                android:textSize="20sp"
-                android:layout_marginLeft="20dp" />
-
-        </LinearLayout>
 
 </LinearLayout>
 

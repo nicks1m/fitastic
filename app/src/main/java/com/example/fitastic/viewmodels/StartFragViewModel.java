@@ -15,6 +15,11 @@ import com.example.fitastic.models.Run;
 import com.example.fitastic.repositories.MainRepository;
 import com.example.fitastic.services.TrackingService;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.Instant;
+import java.util.ArrayList;
+
 public class StartFragViewModel extends ViewModel {
 
     // debug
@@ -23,7 +28,7 @@ public class StartFragViewModel extends ViewModel {
     // observable boolean from start frag will be used to pause service
     private MutableLiveData<Boolean> isTracking = new MutableLiveData<Boolean>();
     // observable binder from start frag used to create connection to service
-    private MutableLiveData<TrackingService.myBinder> mBinder= new MutableLiveData<TrackingService.myBinder>();
+    private MutableLiveData<TrackingService.myBinder> mBinder = new MutableLiveData<TrackingService.myBinder>();
 
     // facilitates connection between client to service
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -47,7 +52,46 @@ public class StartFragViewModel extends ViewModel {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void insertRun(Run r) {
-        MainRepository.insertRun(r);
+        MainRepository.insertRun(label, r);
+        label = 0;
+        count = 0;
+    }
+
+    private long label = 0;
+    private int count = 0;
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void saveStat(float totalDistance, double time) {
+        int a = 0;
+        if (label == 0) {
+                label = Instant.now().toEpochMilli();
+        }
+
+        Float[] stat = new Float[3];
+        // km
+        totalDistance /= 1000;
+        BigDecimal db = new BigDecimal(totalDistance).setScale(2, RoundingMode.HALF_UP);
+        stat[0] = db.floatValue();
+
+        // min
+        time /= 60;
+        BigDecimal dba = new BigDecimal(time).setScale(2, RoundingMode.HALF_UP);
+        stat[1] = dba.floatValue();
+
+        // min/km
+        float speed = (float) (time / totalDistance);
+        BigDecimal d = new BigDecimal(speed).setScale(2, RoundingMode.HALF_UP);
+
+        stat[2] = d.floatValue();
+        MainRepository.addStat(label, count++, stat);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void initialiseStatLabel() {
+        if (label == 0) {
+            label = Instant.now().toEpochMilli();
+        }
+        MainRepository.initStat(label);
     }
 
     // get if tracking
@@ -62,6 +106,10 @@ public class StartFragViewModel extends ViewModel {
     // get service connection used to connect client to service
     public ServiceConnection getServiceConnection() {
         return serviceConnection;
+    }
+
+    public void destroyBinder() {
+        mBinder.postValue(null);
     }
 
     // get binder of tracking service binder

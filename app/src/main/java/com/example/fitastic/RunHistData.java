@@ -2,53 +2,39 @@ package com.example.fitastic;
 
 public class RunHistData {
 
-    private String dateHist;
-    private String distanceHist;
-    private String paceHist;
-    private String timeHist;
-
-
+    Long distance,duration,speed;
 
     RunHistData(){
 
     }
 
-    public RunHistData(String dateHist, String distanceHist, String paceHist, String timeHist) {
-        this.dateHist = dateHist;
-        this.distanceHist = distanceHist;
-        this.paceHist = paceHist;
-        this.timeHist = timeHist;
+    public RunHistData(Long distance, Long duration, Long speed) {
+        this.distance = distance;
+        this.duration = duration;
+        this.speed = speed;
     }
 
-    public String getDateHist() {
-        return dateHist;
+    public Long getDistance() {
+        return distance;
     }
 
-    public void setDateHist(String dateHist) {
-        this.dateHist = dateHist;
+    public void setDistance(Long distance) {
+        this.distance = distance;
     }
 
-    public String getDistanceHist() {
-        return distanceHist;
+    public Long getDuration() {
+        return duration;
     }
 
-    public void setDistanceHist(String distanceHist) {
-        this.distanceHist = distanceHist;
+    public void setDuration(Long duration) {
+        this.duration = duration;
     }
 
-    public String getPaceHist() {
-        return paceHist;
+    public Long getSpeed() {
+        return speed;
     }
 
-    public void setPaceHist(String paceHist) {
-        this.paceHist = paceHist;
-    }
-
-    public String getTimeHist() {
-        return timeHist;
-    }
-
-    public void setTimeHist(String timeHist) {
-        this.timeHist = timeHist;
+    public void setSpeed(Long speed) {
+        this.speed = speed;
     }
 }

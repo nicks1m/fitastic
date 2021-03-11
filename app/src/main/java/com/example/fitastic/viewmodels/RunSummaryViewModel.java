@@ -4,11 +4,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.fitastic.repositories.MainRepository;
-import com.example.fitastic.utility.EpochUtility;
+import com.example.fitastic.utility.RunDbUtility;
 
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 
 public class RunSummaryViewModel extends ViewModel {
 
@@ -27,7 +25,7 @@ public class RunSummaryViewModel extends ViewModel {
     public void getRecentRunStats(ArrayList<String> strings) {
         ArrayList<String> epochs = strings;
         // get most recent epoch
-        long value = EpochUtility.getMostRecentRun(epochs);
+        long value = RunDbUtility.getMostRecentRun(epochs);
         // get that run by epoch time
         MainRepository.getRunByEpoch(String.valueOf(value));
     }

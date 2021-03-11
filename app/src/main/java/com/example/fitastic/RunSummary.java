@@ -2,8 +2,10 @@ package com.example.fitastic;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +23,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import com.example.fitastic.repositories.MainRepository;
+import com.example.fitastic.utility.RunDbUtility;
 import com.example.fitastic.viewmodels.RunSummaryViewModel;
 import com.example.fitastic.viewmodels.StartFragViewModel;
 
@@ -37,7 +40,8 @@ import java.util.BitSet;
  */
 public class RunSummary extends Fragment {
 
-
+    private static String TAG = "RunSummary"; 
+    
     private RunSummaryViewModel mViewModel;
 
     private NavController controller;
@@ -48,6 +52,7 @@ public class RunSummary extends Fragment {
     private TextView distanceLabel;
     private TextView speedLabel;
     private TextView timeLabel;
+    private TextView dateLabel;
 
     public RunSummary() {
         // Required empty public constructor
@@ -61,6 +66,7 @@ public class RunSummary extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate: ");
         mViewModel = new ViewModelProvider(requireActivity()).get(RunSummaryViewModel.class);
 
         // callback for when main repo gets all epoch times for this user
@@ -99,7 +105,7 @@ public class RunSummary extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        Log.d(TAG, "onCreateView: ");
         View root = inflater.inflate(R.layout.fragment_run_summary, container, false);
 
         // initialise gui components
@@ -108,6 +114,7 @@ public class RunSummary extends Fragment {
         distanceLabel = root.findViewById(R.id.distanceLabel);
         speedLabel = root.findViewById(R.id.paceLabel);
         timeLabel = root.findViewById(R.id.timeLabel);
+        dateLabel = root.findViewById(R.id.dateLabelRunSummary);
         mViewModel.initialiseEpochTimes();
 
         return root;
@@ -118,6 +125,7 @@ public class RunSummary extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d(TAG, "onViewCreated: ");
         controller = Navigation.findNavController(view);
 
 
@@ -133,29 +141,44 @@ public class RunSummary extends Fragment {
     // adds stats to run summary
     private void addStats() {
         // convert distance to 2 decimal places
-        double dist = Double.parseDouble(recentRun.get(1));
-        BigDecimal db = new BigDecimal(dist).setScale(2, RoundingMode.HALF_UP);
-        dist = db.doubleValue();
+        double dist = Double.parseDouble(recentRun.get(1)) / 1000;
+        double time = Double.parseDouble(recentRun.get(2)) / 60;
 
+        BigDecimal dba = new BigDecimal(dist).setScale(2, RoundingMode.HALF_UP);
+        dist = dba.floatValue();
+
+        BigDecimal db = new BigDecimal(time).setScale(2, RoundingMode.HALF_UP);
+        time = db.floatValue();
+
+        // date
+        if (recentRun.size() == 5)
+            dateLabel.setText(RunDbUtility.convertEpochToDate(Long.valueOf(recentRun.get(4))).toString());
+        else
+            dateLabel.setText(RunDbUtility.convertEpochToDate(Long.valueOf(recentRun.get(3))).toString());
         // set text to corresponding stat
-        distanceLabel.setText(dist + "m");
-        timeLabel.setText(recentRun.get(2) + "s");
-        speedLabel.setText(recentRun.get(3) + "m/s");
+        distanceLabel.setText(String.valueOf(dist));
+        timeLabel.setText(String.valueOf(time));
+        speedLabel.setText(String.valueOf(dist/time) + "m/s");
     }
 
     // sets image on run summary
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setImage() {
-        // convert coded string to byte array
-        byte[] data = Base64.getDecoder().decode(recentRun.get(0));
-        // decode byte array to bitmap
-        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
+        Log.d(TAG, "setImage: ");
+        Bitmap bitmap = null;
+        if (!recentRun.isEmpty()) {
+            bitmap = RunDbUtility.stringToBitmap(recentRun.get(0));
 
-        // scale bitmap to image view so whole route can be seen
-        imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap,
-                (int) (imageView.getMeasuredWidth() - (imageView.getMeasuredWidth() * 0.25)),
-                (int) (imageView.getMeasuredHeight() - (imageView.getMeasuredHeight() * 0.25)),
-                false));
+            if (imageView.getMeasuredHeight() <= 0 || imageView.getMeasuredWidth() <= 0) {
+                Log.d(TAG, "setImage: " + imageView.getMeasuredWidth());
+            } else {
+                // scale bitmap to image view so whole route can be seen
+                imageView.setImageBitmap(Bitmap.createScaledBitmap(bitmap,
+                        (int) (imageView.getMeasuredWidth() - (imageView.getMeasuredWidth() * 0.5)),
+                        (int) (imageView.getMeasuredHeight() - (imageView.getMeasuredHeight() * 0.5)),
+                        false));
+            }
+        }
     }
 
     public void exitSummary() {

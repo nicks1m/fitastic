@@ -37,6 +37,7 @@ import android.widget.TextView;
 import com.example.fitastic.models.Run;
 import com.example.fitastic.services.TrackingService;
 import com.example.fitastic.utility.PermissionUtility;
+import com.example.fitastic.utility.RunDbUtility;
 import com.example.fitastic.viewmodels.StartFragViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -49,7 +50,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -71,9 +78,16 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
 
     // debug
     private static String TAG = "StartFrag";
+    int x = 0;
 
     // if fragment is tracking or not
     private boolean isTracking = false;
+
+    // calculate distance/speed whilst on run
+    private float distanceWhilstRunning = 0.0f;
+    private double lastTime;
+    final float distanceInterval = 1000.0f;
+    int count = 1;
 
     // permissions
     private final int LOCATION_PERMISSION_CODE = 1;
@@ -90,6 +104,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     private Button statsBtn;
     private Button endRunBtn;
     private Button mpBtn;
+
 
     // map
     private GoogleMap map;
@@ -127,6 +142,8 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Log.d(TAG, "onCreate: ");
+
         // get corresponding view model for start frag
         mViewModel = new ViewModelProvider(requireActivity()).get(StartFragViewModel.class);
 
@@ -147,6 +164,9 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
                     Log.d(TAG, "unbound from service ");
                     // otherwise destroy instance if unbound
                     mService = null;
+
+                    if (localConnection != null)
+                        requireContext().unbindService(localConnection);
                 }
             }
         });
@@ -156,14 +176,15 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        Log.d(TAG, "onCreateView: ");
         // Inflate the layout for this fragment
         View root = inflater.inflate(R.layout.fragment_start, container, false);
 
         // initialise graphical components
         startBtn = root.findViewById(R.id.runStartBtn);
-        logsBtn = root.findViewById(R.id.runLogsBtn);
-        distanceView = root.findViewById(R.id.distanceData);
-        averagePaceView = root.findViewById(R.id.averagePaceData);
+        distanceView = root.findViewById(R.id.distanceLabelRun);
+        averagePaceView = root.findViewById(R.id.speedLabelRun);
         timerView = root.findViewById(R.id.runTimerView);
         startBtn = root.findViewById(R.id.runStartBtn);
         statsBtn = root.findViewById(R.id.runStatBtn);
@@ -180,6 +201,8 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Log.d(TAG, "onViewCreated: ");
         // initialise map fragment
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
@@ -201,10 +224,6 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         endRunBtn.setOnClickListener(v -> {
             endRun();
         });
-
-        logsBtn.setOnClickListener(v -> {
-            openLogs();
-        });
     }
 
 
@@ -222,10 +241,6 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         Intent serviceIntent = new Intent(requireContext(), TrackingService.class);
         localConnection = mViewModel.getServiceConnection();
         getActivity().bindService(serviceIntent, localConnection, Context.BIND_AUTO_CREATE);
-    }
-
-    private void unBindService() {
-        requireContext().unbindService(localConnection);
     }
 
     // opens run history fragment
@@ -259,13 +274,50 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         // will obtain user location and place marker on map
         if (mService != null) {
             mService.getPathPoints().observe(getViewLifecycleOwner(), new Observer<ArrayList<ArrayList<LatLng>>>() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onChanged(ArrayList<ArrayList<LatLng>> arrayLists) {
                     Log.d(TAG, "pathPoint change");
 
+                    if (x > 20)
+                        x++;
+
+                    double thisTime = getTimeInSeconds();
+
                     polyline.add(new LatLng(arrayLists.get(arrayLists.size()-1).get(arrayLists.get(arrayLists.size() -1).size() -1).latitude,
                             arrayLists.get(arrayLists.size()-1).get(arrayLists.get(arrayLists.size() -1).size() -1).longitude));
 
+                    float distance = calculatePenultimateLastPolylineDistance(polyline);
+
+                    BigDecimal d = new BigDecimal(distance).setScale(2, RoundingMode.HALF_UP);
+                    distance = d.floatValue();
+
+                    distanceWhilstRunning += distance;
+
+                    BigDecimal db = new BigDecimal(distanceWhilstRunning).setScale(2, RoundingMode.HALF_UP);
+                    distanceWhilstRunning = db.floatValue();
+
+                    float speed = 0;
+                    if (lastTime > 0)
+                        speed = (float) (distance / (thisTime - lastTime));
+
+                    BigDecimal dba = new BigDecimal(speed).setScale(2, RoundingMode.HALF_UP);
+                    speed = dba.floatValue();
+
+                    distanceView.setText(RunDbUtility.calculateDistance(String.valueOf(distanceWhilstRunning)));
+                    averagePaceView.setText(RunDbUtility.calculatePace(String.valueOf(distanceWhilstRunning), String.valueOf(getTimeInSeconds())));
+
+                    if (count == 1)
+                        mViewModel.initialiseStatLabel();
+
+                    if (distanceWhilstRunning > (distanceInterval * count)) {
+                        mViewModel.saveStat(distanceInterval * count, thisTime);
+                        count++;
+                    }
+
+                    x++;
+
+                    lastTime = thisTime;
                     drawLatestPolyline();
                     moveCameraToUser();
                 }
@@ -298,7 +350,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     // move camera to last point in list
     private void moveCameraToUser() {
         if (!polyline.isEmpty() && polyline.size() > 2) {
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(polyline.get(polyline.size()-1), 20f));
+            map.animateCamera(CameraUpdateFactory.newLatLngZoom(polyline.get(polyline.size()-1), 17f));
         }
     }
 
@@ -310,7 +362,6 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
             isTracking = true;
             isPaused = false;
             startBtn.setText("Stop");
-            logsBtn.setVisibility(View.INVISIBLE);
             startTimer();
             startService();
         } else { /* else pause/resume location updates */
@@ -359,28 +410,57 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         // speed in m/s
         float avgSpeed = Math.round(distance/time);
 
+        double realTime = time;
         float finalDistance = distance;
         // create a snapshot of the map, bmp is the bitmap image of the zoomed out route
         map.snapshot(bmp -> {
             // create a run using bitmap and run information
-            Run r = new Run(bmp, finalDistance, time, avgSpeed);
+            Run r = new Run(bmp, finalDistance, realTime, avgSpeed);
             // insert run to database
             mViewModel.insertRun(r);
         });
 
-
-        unBindService();
         // remove location variables to reset fragment
         mService = null;
+        mViewModel.destroyBinder();
         polylines = new ArrayList<ArrayList<LatLng>>();
         polyline = new ArrayList<LatLng>();
+        distanceWhilstRunning = 0.0f;
+        lastTime = 0.0;
+        count = 1;
 
         // navigate to next frag
         controller.navigate(R.id.action_startFrag_to_runSummary);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: ");
+        if (mService != null)
+            mService.removeLocationUpdates();
+    }
+
     public ArrayList<ArrayList<LatLng>> getPolylines() {
         return polylines;
+    }
+
+    // get distance whilst on run, between penultimate/last latlng's
+    private float calculatePenultimateLastPolylineDistance(ArrayList<LatLng> polyline) {
+        if (polyline.size() <= 1)
+            return 0.0f;
+        LatLng penultimate = new LatLng(polyline.get(polyline.size() - 2).latitude,
+                polyline.get(polyline.size() - 2).longitude);
+
+        LatLng last = new LatLng(polyline.get(polyline.size() - 1).latitude,
+                polyline.get(polyline.size() - 1).longitude);
+
+        float[] result = new float[1];
+
+        Location.distanceBetween(penultimate.latitude, penultimate.longitude,
+                last.latitude, last.longitude, result);
+
+        return result[0];
     }
 
     private float calculatePolylineDistance(ArrayList<LatLng> polyline) {
@@ -403,10 +483,6 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
                 distance += result[0];
             }
             return distance;
-        //} catch (IndexOutOfBoundsException e) {
-
-        //}
-       // return -1;
     }
 
     // zooms out to entire route of run to take an image
@@ -448,16 +524,29 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         timer.scheduleAtFixedRate(timerTask, 0, 1000);
     }
 
+    int seconds;
+    int minutes;
+    int hours;
+
     private String getTimerText() {
         int rounded = (int) Math.round(time);
 
-        int seconds = ((rounded % 86400) % 3600) % 60;
-        int minutes = ((rounded % 86400) % 3600) / 60;
-        int hours = (rounded % 86400) / 3600;
+        seconds = ((rounded % 86400) % 3600) % 60;
+        minutes = ((rounded % 86400) % 3600) / 60;
+        hours = (rounded % 86400) / 3600;
 
         return  String.format("%02d", hours) + ":" +
                 String.format("%02d", minutes) + ":" +
                 String.format("%02d", seconds);
+    }
+
+    private int getTimeInSeconds() {
+        String string = (String) timerView.getText();
+        String[] times = string.split(":");
+
+        return ((Integer.parseInt(times[0]) * 60) * 60) +
+                (Integer.parseInt(times[1]) * 60) +
+                Integer.parseInt(times[2]);
     }
 
     public void pauseTimer() {
@@ -518,4 +607,5 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     private boolean isTracking() {
         return this.isTracking;
     }
+
 }
