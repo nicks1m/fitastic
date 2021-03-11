@@ -248,7 +248,7 @@ public class multiPlayServer extends Fragment {
     public void onDestroy() {
         //Remove event listener when frag is inactive to prevent async callbacks and unnecessary data changes
         super.onDestroy();
-        player_ref.removeEventListener(mListener);
+//        player_ref.removeEventListener(mListener);
 
     }
 
