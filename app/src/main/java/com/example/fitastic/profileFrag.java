@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.fitastic.utility.RunDbUtility;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -45,10 +46,16 @@ public class profileFrag extends Fragment {
     private Button logout;
     private String displayName;
     private TextView display_Name;
-    private TextView data_runs;
+    private TextView data_7runs,data_7runs_pace,data_runs,data_longest,data_pace,data_dist;
     private NavController controller;
     private Button runlogs;
     private Button btn_friends;
+
+    private int total_runs = 0;
+    private double total_dist = 0;
+    private double total_duration = 0;
+    private double total_speed = 0;
+    private double longest_run = 0;
 
     private ArrayList<Entry>distance_data;
 
@@ -108,8 +115,16 @@ public class profileFrag extends Fragment {
         logout = v.findViewById(R.id.btn_logout);
         go_points = v.findViewById(R.id.btn_points);
         runlogs = v.findViewById(R.id.btn_runLog);
-        data_runs = v.findViewById(R.id.data_7runs);
+        data_7runs = v.findViewById(R.id.data_7runs);
+        data_7runs_pace = v.findViewById(R.id.data_7runs_pace);
         btn_friends = v.findViewById(R.id.btn_friends);
+
+        data_runs  = v.findViewById(R.id.data_runs);
+        data_dist  = v.findViewById(R.id.data_dist);
+        data_longest  = v.findViewById(R.id.data_longest);
+        data_pace  = v.findViewById(R.id.data_pace);
+
+
 
 
         controller = Navigation.findNavController(container);
@@ -119,6 +134,32 @@ public class profileFrag extends Fragment {
         //Get display name associated with user id.
         auth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        //Get Stats of User
+        DatabaseReference stats_ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("Runs");
+        stats_ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot stat : snapshot.getChildren()){
+                 total_runs += 1;
+                 total_dist += Double.parseDouble(stat.child("distance").getValue().toString());
+                 total_duration += Double.parseDouble(stat.child("duration").getValue().toString());
+                 total_speed += Double.parseDouble(stat.child("speed").getValue().toString());
+                 if(Double.parseDouble(stat.child("distance").getValue().toString()) > longest_run){
+                     longest_run = Double.parseDouble(stat.child("distance").getValue().toString());
+                 }
+                }
+                data_runs.setText(String.valueOf(total_runs));
+                data_dist.setText(RunDbUtility.calculateDistance(String.valueOf(total_dist)));
+                data_longest.setText((RunDbUtility.calculateDistance(String.valueOf(longest_run))));
+                data_pace.setText(RunDbUtility.calculatePace(String.valueOf(total_dist),String.valueOf(total_duration)));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         DatabaseReference ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("display name");
         ref.addValueEventListener(new ValueEventListener() {
@@ -169,19 +210,21 @@ public class profileFrag extends Fragment {
 
 
 
-
+        //TODO OPTIMIZE GRAPHS, ADD ANOTHER CHART FOR PACE
 
         DatabaseReference dist_ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("Runs");
         distance_data = new ArrayList();
         dist_ref.limitToLast(7).addValueEventListener(new ValueEventListener() {
             int counter = 0;
             double total_distance = 0;
+            double total_time = 0;
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot dist_snapshot : dataSnapshot.getChildren()) {
                     distance_data.add(new Entry(counter, Float.parseFloat(dist_snapshot.child("distance").getValue().toString())/1000));
                     counter += 1;
                     total_distance = total_distance + Double.parseDouble(dist_snapshot.child("distance").getValue().toString());
+                    total_time += Double.parseDouble(dist_snapshot.child("duration").getValue().toString());
 
                 }
 
@@ -207,7 +250,8 @@ public class profileFrag extends Fragment {
                 float td = (float)(total_distance/1000);
                 DecimalFormat df = new DecimalFormat("##.##");
                 df.setRoundingMode(RoundingMode.DOWN);
-                data_runs.setText(df.format(td) + " km");
+                data_7runs.setText("total dist. " + df.format(td) + " km");
+                data_7runs_pace.setText("avg. pace " + RunDbUtility.calculatePace(String.valueOf(total_distance),String.valueOf(total_time)));
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

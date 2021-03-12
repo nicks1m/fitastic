@@ -42,6 +42,14 @@ public class workoutFrag extends Fragment {
     private ValueEventListener mListener;
     private Button remove_workout;
 
+    private Button btn_chest;
+    private Button btn_arms;
+    private Button btn_legs;
+    private Button btn_shoulders;
+    private Button btn_back;
+    private Button btn_core;
+
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -102,6 +110,47 @@ public class workoutFrag extends Fragment {
 
         loadCustomWorkout();
 
+        btn_core = v.findViewById(R.id.btn_core);
+        btn_core.setOnClickListener(v1 -> {
+            Bundle args = new Bundle();
+            args.putString("ex", "Core");
+            controller.navigate(R.id.action_workoutFrag_to_workoutSearchFrag, args);
+        });
+
+        btn_arms = v.findViewById(R.id.btn_arms);
+        btn_arms.setOnClickListener(v1 -> {
+            Bundle args = new Bundle();
+            args.putString("ex", "Arms");
+            controller.navigate(R.id.action_workoutFrag_to_workoutSearchFrag, args);
+        });
+
+        btn_back = v.findViewById(R.id.btn_back);
+        btn_back.setOnClickListener(v1 -> {
+            Bundle args = new Bundle();
+            args.putString("ex", "Back");
+            controller.navigate(R.id.action_workoutFrag_to_workoutSearchFrag, args);
+        });
+
+        btn_chest = v.findViewById(R.id.btn_chest);
+        btn_chest.setOnClickListener(v1 -> {
+            Bundle args = new Bundle();
+            args.putString("ex", "Chest");
+            controller.navigate(R.id.action_workoutFrag_to_workoutSearchFrag, args);
+        });
+
+        btn_shoulders = v.findViewById(R.id.btn_shoulder);
+        btn_shoulders.setOnClickListener(v1 -> {
+            Bundle args = new Bundle();
+            args.putString("ex", "Shoulder");
+            controller.navigate(R.id.action_workoutFrag_to_workoutSearchFrag, args);
+        });
+
+        btn_legs = v.findViewById(R.id.btn_legs);
+        btn_legs.setOnClickListener(v1 -> {
+            Bundle args = new Bundle();
+            args.putString("ex", "Legs");
+            controller.navigate(R.id.action_workoutFrag_to_workoutSearchFrag, args);
+        });
 
         btn_add =  v.findViewById(R.id.add_workout);
         btn_add.setOnClickListener(v1 -> {

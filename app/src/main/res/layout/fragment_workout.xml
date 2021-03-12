@@ -23,6 +23,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
             <TextView
                 android:id="@+id/workout_msg"
                 android:layout_width="wrap_content"
@@ -35,8 +38,23 @@
                 android:textSize="24sp" />
 
             <SearchView
+                android:layout_width="280dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="120dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"/>
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/btn_chest"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="75dp"
+                android:fontFamily="sans-serif-thin"
+                android:shadowDx="5"
+                android:shadowDy="5"
+                android:shadowRadius="10"
+                android:text="CHEST"
+                android:textColor="#000000" />
 
             <Button
                 android:id="@+id/btn_shoulder"

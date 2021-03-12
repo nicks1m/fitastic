@@ -96,8 +96,6 @@ public class createCustomWorkout extends Fragment {
             Bundle b = getArguments();
             custom_workout_title = b.getString("custom_workout_title");
         }
-
-
     }
 
     @Override
@@ -182,7 +180,7 @@ public class createCustomWorkout extends Fragment {
     public void passArray(){
 
         list_of_exercises = new ArrayList<>();
-        for(int i = 0; i <custom_workout_edt.size(); i ++){
+        for(int i = 0; i < custom_workout_edt.size(); i++){
             list_of_exercises.add(custom_workout_edt.get(i).getText().toString());
         }
 
