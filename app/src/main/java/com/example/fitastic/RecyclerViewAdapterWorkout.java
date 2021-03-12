@@ -20,9 +20,9 @@ import java.util.List;
 public class RecyclerViewAdapterWorkout extends RecyclerView.Adapter<RecyclerViewAdapterWorkout.MyViewHolder> {
 
     private Context mContext ;
-    private ArrayList<String> mData ;
+    private ArrayList<Workout> mData ;
 
-    public RecyclerViewAdapterWorkout(Context mContext, ArrayList<String> mData) {
+    public RecyclerViewAdapterWorkout(Context mContext, ArrayList<Workout> mData) {
         this.mContext = mContext;
         this.mData = mData;
     }
@@ -37,7 +37,8 @@ public class RecyclerViewAdapterWorkout extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.title.setText(mData.get(position));
+        holder.title.setText(mData.get(position).getName());
+        holder.btn.setText("Start");
         holder.btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +50,7 @@ public class RecyclerViewAdapterWorkout extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mData.size();
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {

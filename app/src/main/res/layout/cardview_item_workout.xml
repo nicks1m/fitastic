@@ -24,7 +24,7 @@
             android:padding="10dp"
             android:text="workoutName"
             android:textColor="#2d2d2d"
-            android:textSize="30dp"
+            android:textSize="15dp"
             cardview:layout_constraintBottom_toBottomOf="parent"
             cardview:layout_constraintStart_toStartOf="parent"
             cardview:layout_constraintTop_toTopOf="parent" />

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.fitastic.diet.Recipe;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -37,7 +40,7 @@ public class workoutSearchFrag extends Fragment {
     private TextView header;
     private DatabaseReference ref;
     private ValueEventListener mListener;
-    private ArrayList<String> list = new ArrayList<String>();
+    private ArrayList<Workout> list;
 
 
 
@@ -101,10 +104,32 @@ public class workoutSearchFrag extends Fragment {
 
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                System.out.println("does it get here?");
-                for(DataSnapshot workout_snapshot : snapshot.getChildren()){
-                    System.out.println(workout_snapshot.getKey());
-                    list.add(workout_snapshot.getKey());
+//                list = new ArrayList<Workout>();
+//                System.out.println("does it get here?");
+//                for(DataSnapshot workout_snapshot : snapshot.getChildren()){
+//                    System.out.println(workout_snapshot.getKey());
+//                    list.add(w);
+//                }
+
+                list = new ArrayList<>();
+                HashMap favorites = (HashMap) snapshot.getValue();
+                if (favorites != null) {
+                    for (Object workout : favorites.keySet()) {
+                        String title = (String) snapshot.child(workout.toString()).getKey().toString();
+                        Long sets = (Long) snapshot.child(workout.toString()).child("Sets").getValue();
+                        Long reps = (Long) snapshot.child(workout.toString()).child("Reps").getValue();
+                        list.add(new Workout(sets, reps, title));
+                    }
+                }
+
+                recyclerView = v.findViewById(R.id.recyclerViewWorkout);
+
+                if(list.isEmpty()){
+                    System.out.println("DB ERR");
+                } else {
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                    RecyclerViewAdapterWorkout adapter = new RecyclerViewAdapterWorkout((getContext()), list);
+                    recyclerView.setAdapter(adapter);
                 }
             }
 
@@ -113,14 +138,6 @@ public class workoutSearchFrag extends Fragment {
                 Log.d("Workout read Fail", "Error workout");
             }
         });
-
-        recyclerView = v.findViewById(R.id.recyclerViewWorkout);
-
-        if(list.isEmpty()){
-            System.out.println("DB ERR");
-        } else {
-            recyclerView.setAdapter(new RecyclerViewAdapterWorkout(getContext(), list));
-        }
 
         return v;
     }
