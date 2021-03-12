@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout6"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".rewardsFrag">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="300dp">
+
+                <TextView
+                    android:id="@+id/rewards_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:text="Rewards"
+                    android:textColor="#000000"
+                    android:textSize="36sp"
+                    app:layout_constraintEnd_toEndOf="@+id/textView30"
+                    app:layout_constraintStart_toStartOf="@+id/textView30"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView30"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="84dp"
+                    android:layout_marginBottom="85dp"
+                    android:text="Available Points"
+                    app:layout_constraintBottom_toTopOf="@+id/textView29"
+                    app:layout_constraintEnd_toEndOf="@+id/textView29"
+                    app:layout_constraintHorizontal_bias="0.47"
+                    app:layout_constraintStart_toStartOf="@+id/textView29"
+                    app:layout_constraintTop_toTopOf="@+id/rewards_title" />
+
+                <TextView
+                    android:id="@+id/textView29"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="1dp"
+                    android:text="You are eligible for"
+                    app:layout_constraintBottom_toTopOf="@+id/textView25"
+                    app:layout_constraintEnd_toEndOf="@+id/textView25"
+                    app:layout_constraintHorizontal_bias="0.478"
+                    app:layout_constraintStart_toStartOf="@+id/textView25" />
+
+                <TextView
+                    android:id="@+id/textView25"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="44dp"
+                    android:text="Tier 0 Rewards"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/textView31"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="38dp"
+                    android:layout_marginLeft="38dp"
+                    android:layout_marginTop="9dp"
+                    android:text="000"
+                    app:layout_constraintStart_toStartOf="@+id/textView30"
+                    app:layout_constraintTop_toBottomOf="@+id/textView30" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/available_rewards"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:orientation="vertical" >
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView33"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center"
+                android:text="Claim History"
+                android:textSize="24sp"
+                tools:textColor="#000000" />
+
+            <LinearLayout
+                android:id="@+id/claim_history"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:orientation="vertical"></LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

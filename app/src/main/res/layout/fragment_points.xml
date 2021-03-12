@@ -9,7 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollViewPoints"
     android:layout_width="match_parent"
-    android:layout_height="1000dp"
+    android:layout_height="wrap_content"
     android:background="#FFFFFF"
     tools:context=".pointsFrag"
     tools:layout_editor_absoluteX="0dp"
@@ -250,7 +250,7 @@
             android:id="@+id/label_accolades"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="118dp"
             android:layout_marginRight="118dp"
             android:fontFamily="sans-serif-light"
@@ -259,7 +259,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.082"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/current_points" />
+            app:layout_constraintTop_toBottomOf="@+id/rewards_btn" />
 
         <TextView
             android:id="@+id/current_points"
@@ -323,6 +323,19 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/progress_bar_points"
             tools:textColor="#000000" />
+
+        <Button
+            android:id="@+id/rewards_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="29dp"
+            android:background="#FFFFFF"
+            android:fontFamily="sans-serif-light"
+            android:shadowColor="#FFFFFF"
+            android:text="Rewards"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/current_points" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
