@@ -2,11 +2,19 @@ package com.example.fitastic;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +22,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class rewardsFrag extends Fragment {
+
+    private FirebaseAuth auth;
+    private DatabaseReference mDatabase;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,15 +71,41 @@ public class rewardsFrag extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 //        rewardsGenerator.
-        rewardsGenerator.generate();
+
+        View v = inflater.inflate(R.layout.fragment_rewards, container, false);
+
+        auth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("points").child("unclaimed");
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //while loop to check, generate rewards accordingly
+                if(snapshot.getChildrenCount() < 5){
+                    Object a = new rewardsGenerator(1);
+                    ref.push().setValue(a);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        //generate, Push data to firebase, check if the amount of rewards is less < 5. if true, push new reward to fill missing slots
+        rewardsGenerator.generate(1);
         for(int i = 0; i < rewardsGenerator.rewards.size(); i++){
-            System.out.println("Brand: " + rewardsGenerator.rewards.get(i).getBrands() +
-                            "Type: " + rewardsGenerator.rewards.get(i).getType() +
+            System.out.println(
+                    "Brand: " + rewardsGenerator.rewards.get(i).getBrands() +
+                    "Type: " + rewardsGenerator.rewards.get(i).getType() +
                     "Discount: " + rewardsGenerator.rewards.get(i).getDiscount() +
                     "Points Required: " + rewardsGenerator.rewards.get(i).getPoints());
 
         }
 
-        return inflater.inflate(R.layout.fragment_rewards, container, false);
+        return v;
     }
 }

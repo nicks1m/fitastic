@@ -23,7 +23,7 @@ public class rewardsGenerator {
 
         discountList = new ArrayList<>();
         pointsList = new ArrayList<>();
-addBrandsandTypes();
+        addBrandsandTypes();
 
         switch(tier){
             case 1:
@@ -72,12 +72,11 @@ addBrandsandTypes();
         typeList.add("Footwear");
     }
 
+
+
     //Generate Rewards
-    public static ArrayList generate(){
+    public static ArrayList generate(int tier){
         rewards = new ArrayList<>();
-        rewards.add(new rewardsGenerator(1));
-        rewards.add(new rewardsGenerator(1));
-        rewards.add(new rewardsGenerator(1));
         rewards.add(new rewardsGenerator(1));
 
         return rewards;
