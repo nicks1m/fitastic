@@ -52,13 +52,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="1dp"
                     android:text="You are eligible for"
-                    app:layout_constraintBottom_toTopOf="@+id/textView25"
-                    app:layout_constraintEnd_toEndOf="@+id/textView25"
+                    app:layout_constraintBottom_toTopOf="@+id/tier_level"
+                    app:layout_constraintEnd_toEndOf="@+id/tier_level"
                     app:layout_constraintHorizontal_bias="0.478"
-                    app:layout_constraintStart_toStartOf="@+id/textView25" />
+                    app:layout_constraintStart_toStartOf="@+id/tier_level" />
 
                 <TextView
-                    android:id="@+id/textView25"
+                    android:id="@+id/tier_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="44dp"
@@ -68,7 +68,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView31"
+                    android:id="@+id/spending_pts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="38dp"
