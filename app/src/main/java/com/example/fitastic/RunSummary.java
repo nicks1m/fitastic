@@ -1,8 +1,6 @@
 package com.example.fitastic;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,8 +28,6 @@ import com.example.fitastic.viewmodels.StartFragViewModel;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Base64;
-import java.util.BitSet;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,6 +49,7 @@ public class RunSummary extends Fragment {
     private TextView speedLabel;
     private TextView timeLabel;
     private TextView dateLabel;
+    private TextView pointsLabel;
 
     public RunSummary() {
         // Required empty public constructor
@@ -115,6 +112,7 @@ public class RunSummary extends Fragment {
         speedLabel = root.findViewById(R.id.paceLabel);
         timeLabel = root.findViewById(R.id.timeLabel);
         dateLabel = root.findViewById(R.id.dateLabelRunSummary);
+        pointsLabel = root.findViewById(R.id.pointsTextViewSummary);
         mViewModel.initialiseEpochTimes();
 
         return root;
@@ -159,6 +157,14 @@ public class RunSummary extends Fragment {
         distanceLabel.setText(String.valueOf(dist));
         timeLabel.setText(String.valueOf(time));
         speedLabel.setText(String.valueOf(dist/time) + "m/s");
+
+        int points = calculatePointsForRun((int) dist);
+        int rewards = calculateRewardsForRun((int) dist);
+
+        MainRepository.addPointsForRun(points);
+        MainRepository.addRewardsForRun(rewards);
+
+        pointsLabel.setText("Points: " + points);
     }
 
     // sets image on run summary
@@ -180,6 +186,40 @@ public class RunSummary extends Fragment {
             }
         }
     }
+
+    // points for run depending on distance add to avail points and tierpoints
+    // +1 reward for every 5km
+
+    private int calculatePointsForRun(int distance) {
+        int distanceInMeters = distance * 1000;
+        int maxPoints = 500, minPoints = 100, points = 0;
+        int maxDivisor = 40, minDivisor = 25, divisor;
+        double maxMultiplier = 1.6, minMultiplier = 1.1, multiplier;
+
+        divisor = (int) (Math.random() * (maxDivisor - minDivisor)) + minDivisor;
+        multiplier = (Math.random() * (maxMultiplier - minMultiplier)) + minMultiplier;
+
+        points = (int) ((distanceInMeters / divisor) * multiplier);
+
+        if (points > 500)
+            points = maxPoints;
+
+        return points < minPoints ? minPoints : points;
+    }
+
+    private int calculateRewardsForRun(int distance) {
+        int rewards = 0;
+        if (distance > 5)
+            rewards = 5;
+        if(distance > 10)
+            rewards = 10;
+        if (distance > 15)
+            rewards = 15;
+        if (distance > 20)
+            rewards = 21;
+        return rewards;
+    }
+
 
     public void exitSummary() {
         controller.navigate(R.id.action_runSummary_to_startFrag);

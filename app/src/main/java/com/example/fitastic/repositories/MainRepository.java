@@ -141,4 +141,63 @@ public class MainRepository {
                 .child("Runs")
                 .child(String.valueOf(label));
     }
+
+    public static void addPointsForRun(int points) {
+        DatabaseReference reference = mDatabase.child("Users")
+                .child(userId)
+                .child("points");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot sp : snapshot.getChildren()) {
+                    if (sp.getKey().equals("availpoints")) {
+                        int spValue = 0;
+                        if (sp.getValue().getClass() == Long.class) {
+                            String spValueStr = sp.getValue().toString();
+                            spValue = Integer.valueOf(spValueStr);
+                        }
+                        reference.child("availpoints").setValue(spValue + points);
+                    }
+                    else if (sp.getKey().equals("tierpoints")) {
+                        int spValue = 0;
+                        if (sp.getValue().getClass() == Long.class) {
+                            String spValueStr = sp.getValue().toString();
+                            spValue = Integer.valueOf(spValueStr);
+                        }
+                        reference.child("tierpoints").setValue(spValue + points);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public static void addRewardsForRun(int reward) {
+        DatabaseReference reference = mDatabase.child("Users")
+                .child(userId)
+                .child("points")
+                .child("awards");
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String rewardStr = reward + "k";
+                for (DataSnapshot sp : snapshot.getChildren()) {
+                    if (sp.getKey().equals(rewardStr)) {
+                        reference.child(rewardStr).setValue(1);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 }
