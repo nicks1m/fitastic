@@ -48,6 +48,9 @@
         <action
             android:id="@+id/action_profileFrag_to_pointsFrag"
             app:destination="@id/pointsFrag" />
+        <action
+            android:id="@+id/action_profileFrag_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/runHistoryFragment"
@@ -156,4 +159,8 @@
         android:name="com.example.fitastic.workoutSearchFrag"
         android:label="fragment_workout_search"
         tools:layout="@layout/fragment_workout_search" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.fitastic.SettingsFragment"
+        android:label="SettingsFragment" />
 </navigation>

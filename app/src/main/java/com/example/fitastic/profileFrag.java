@@ -50,6 +50,7 @@ public class profileFrag extends Fragment {
     private NavController controller;
     private Button runlogs;
     private Button btn_friends;
+    private Button go_settings;
 
     private int total_runs = 0;
     private double total_dist = 0;
@@ -118,6 +119,7 @@ public class profileFrag extends Fragment {
         data_7runs = v.findViewById(R.id.data_7runs);
         data_7runs_pace = v.findViewById(R.id.data_7runs_pace);
         btn_friends = v.findViewById(R.id.btn_friends);
+        go_settings = v.findViewById(R.id.btn_settings);
 
         data_runs  = v.findViewById(R.id.data_runs);
         data_dist  = v.findViewById(R.id.data_dist);
@@ -180,6 +182,11 @@ public class profileFrag extends Fragment {
             openPoints(v1);
         });
 
+        go_settings.setOnClickListener(v1 -> {
+            SettingsFragment settings = new SettingsFragment();
+            openSettings(v1);
+        });
+
         //RUN LOG PAGE
         runlogs.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,6 +212,8 @@ public class profileFrag extends Fragment {
                 startActivity(intent);
             }
         });
+
+
 
 
 
@@ -277,6 +286,10 @@ public class profileFrag extends Fragment {
 
     public void openPoints(View v) {
         controller.navigate(R.id.action_profileFrag_to_pointsFrag);
+    }
+
+    public void openSettings(View v) {
+        controller.navigate(R.id.action_profileFrag_to_settingsFragment);
     }
 
     private void signOut() {
