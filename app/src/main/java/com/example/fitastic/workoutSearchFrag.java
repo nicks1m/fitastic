@@ -112,6 +112,7 @@ public class workoutSearchFrag extends Fragment {
 //                }
 
                 list = new ArrayList<>();
+
                 HashMap favorites = (HashMap) snapshot.getValue();
                 if (favorites != null) {
                     for (Object workout : favorites.keySet()) {
@@ -122,14 +123,18 @@ public class workoutSearchFrag extends Fragment {
                     }
                 }
 
-                recyclerView = v.findViewById(R.id.recyclerViewWorkout);
+                recyclerView = v.findViewById(R.id.recyclerViewWorkout11);
 
                 if(list.isEmpty()){
                     System.out.println("DB ERR");
                 } else {
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                    RecyclerViewAdapterWorkout adapter = new RecyclerViewAdapterWorkout((getContext()), list);
-                    recyclerView.setAdapter(adapter);
+                    if (getContext() == null) {
+                        System.out.println("muie");
+                    } else {
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                        RecyclerViewAdapterWorkout adapter = new RecyclerViewAdapterWorkout((getContext()), list);
+                        recyclerView.setAdapter(adapter);
+                    }
                 }
             }
 
@@ -141,4 +146,6 @@ public class workoutSearchFrag extends Fragment {
 
         return v;
     }
+
+
 }
