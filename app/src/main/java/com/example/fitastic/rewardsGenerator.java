@@ -26,17 +26,13 @@ public class rewardsGenerator {
         addBrandsandTypes();
 
         switch(tier){
-            case 1:
+            case 0:
                 for(int i = 0; i < 5; i++){
                     //Generate 5-10% discounts
                     int disc = (int)((Math.random() * (10-5)) + 5);
                     discountList.add(String.valueOf(disc));
-
                     int p = (int)((Math.random()*(500-100)) + 100);
                     pointsList.add(String.valueOf(p));
-
-
-
                 }
 
                 setDiscount(getDiscount(discountList));
@@ -44,8 +40,36 @@ public class rewardsGenerator {
                 setBrands(getBrand(brandsList));
                 setType(getType(typeList));
                 break;
+
+            case 1:
+                for(int i = 0; i < 5; i++){
+                    //Generate 5-10% discounts
+                    int disc = (int)((Math.random() * (12-5)) + 5);
+                    discountList.add(String.valueOf(disc));
+                    int p = (int)((Math.random()*(700-300)) + 300);
+                    pointsList.add(String.valueOf(p));
+                }
+
+                setDiscount(getDiscount(discountList));
+                setPoints(getPoints(pointsList));
+                setBrands(getBrand(brandsList));
+                setType(getType(typeList));
+                break;
+
             case 2:
-                System.out.println("Hi");
+
+                for(int i = 0; i < 5; i++){
+                    //Generate 5-10% discounts
+                    int disc = (int)((Math.random() * (15-5)) + 5);
+                    discountList.add(String.valueOf(disc));
+                    int p = (int)((Math.random()*(1000-500)) + 500);
+                    pointsList.add(String.valueOf(p));
+                }
+
+                setDiscount(getDiscount(discountList));
+                setPoints(getPoints(pointsList));
+                setBrands(getBrand(brandsList));
+                setType(getType(typeList));
                 break;
         }
     }
