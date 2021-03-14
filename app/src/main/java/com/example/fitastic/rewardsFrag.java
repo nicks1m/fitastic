@@ -1,5 +1,6 @@
 package com.example.fitastic;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -44,6 +45,7 @@ public class rewardsFrag extends Fragment {
     private TextView discount;
     private TextView points;
     private Button claim;
+    private Button view_code;
     private String spendingPoints;
     private TextView spending_pts;
     private TextView tierLevel;
@@ -91,8 +93,7 @@ public class rewardsFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-//        rewardsGenerator.
+
 
         View v = inflater.inflate(R.layout.fragment_rewards, container, false);
         avail_rewards = v.findViewById(R.id.available_rewards);
@@ -107,11 +108,16 @@ public class rewardsFrag extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference ref = mDatabase.child("Users").child(auth.getCurrentUser().getUid()).child("points");
 
+        //sumamry : generate, Push data to firebase, check if the amount of rewards is less < 5. if true, push new reward to fill missing slots
 
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                //Remove views if not duplicates will be seen
                 removeViews();
+
+                //Initialize some data, e.g tier level and points
                 int tierPoints = Integer.parseInt(snapshot.child("tierpoints").getValue().toString());
                 spendingPoints = snapshot.child("availpoints").getValue().toString();
                 spending_pts.setText(spendingPoints);
@@ -124,7 +130,6 @@ public class rewardsFrag extends Fragment {
                 }
                 //generate views
                 for(DataSnapshot r : snapshot.child("unclaimed").getChildren()){
-//                    DataSnapshot r = snapshot.child("unclaimed");
                     addRewards(r.getKey(),
                             r.child("brands").getValue().toString(),
                             r.child("type").getValue().toString(),
@@ -138,6 +143,7 @@ public class rewardsFrag extends Fragment {
                             r.child("type").getValue().toString(),
                             r.child("discount").getValue().toString(),
                             r.child("points").getValue().toString());
+
                 }
 
 
@@ -149,22 +155,15 @@ public class rewardsFrag extends Fragment {
             }
         });
 
-        //generate, Push data to firebase, check if the amount of rewards is less < 5. if true, push new reward to fill missing slots
-//        rewardsGenerator.generate(1);
-//        for(int i = 0; i < rewardsGenerator.rewards.size(); i++){
-//            System.out.println(
-//                    "Brand: " + rewardsGenerator.rewards.get(i).getBrands() +
-//                    "Type: " + rewardsGenerator.rewards.get(i).getType() +
-//                    "Discount: " + rewardsGenerator.rewards.get(i).getDiscount() +
-//                    "Points Required: " + rewardsGenerator.rewards.get(i).getPoints());
-//
-//        }
+
 
         return v;
     }
     private void addClaimedRewards(String id, String brand_name, String type_item, String discount_amt, String points_req) {
+
         String key = id;
 
+        //Initialize various textviews and set parameters
         claim_box = new LinearLayout(getContext());
         claim_box.setMinimumHeight(100);
         claim_box.setBackgroundColor(getResources().getColor(R.color.cardGrey));
@@ -172,7 +171,7 @@ public class rewardsFrag extends Fragment {
         brand = new TextView(getContext());
         brand.setText(brand_name);
         brand.setPadding(50,0,0,0);
-        brand.setEms(10);
+        brand.setEms(8);
 
         type = new TextView(getContext());
         type.setText(type_item);
@@ -188,10 +187,30 @@ public class rewardsFrag extends Fragment {
         points.setText(points_req);
         points.setEms(4);
 
+
+        view_code = new Button(getContext());
+        view_code.setText("View");
+        view_code.setBackgroundColor(getResources().getColor(R.color.pageBG));
+        view_code.setOnClickListener(v->{
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+            builder.setTitle("Redemption Code");
+            builder.setMessage("Your discount code is " + brand_name.substring(0,3).toUpperCase() + discount_amt + points_req);
+
+            // add a button
+            builder.setPositiveButton("OK", null);
+
+            // create and show the alert dialog
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        });
+
         claim_box.addView(brand);
         claim_box.addView(type);
         claim_box.addView(discount);
         claim_box.addView(points);
+        claim_box.addView(view_code);
 
 
         claim_history.addView(claim_box);
@@ -199,8 +218,10 @@ public class rewardsFrag extends Fragment {
 
     private void addRewards(String id, String brand_name, String type_item, String discount_amt, String points_req){
 
+        //key to be stored for reward removal later on
         String key = id;
 
+        //Initialize various textviews and set parameters
         reward_box = new LinearLayout(getContext());
         reward_box.setMinimumHeight(100);
 
@@ -223,6 +244,7 @@ public class rewardsFrag extends Fragment {
         points.setText(points_req);
         points.setEms(3);
 
+
         claim = new Button(getContext());
         claim.setText("claim");
         claim.setTextSize(12);
@@ -235,13 +257,15 @@ public class rewardsFrag extends Fragment {
                     //calculate new amt of points
                     if(Integer.parseInt(snapshot.child("availpoints").getValue().toString()) < Integer.parseInt(points_req)){
                         Toast.makeText(getContext(), "Not enough Points", Toast.LENGTH_SHORT).show();
-                        return;
+//                        return;
 
                     } else {
+                        //Prevent balance points from hitting negative.
                         int newPoints = Integer.parseInt(snapshot.child("availpoints").getValue().toString()) - Integer.parseInt(points_req);
                         if(newPoints < 0){
                             newPoints = 0;
                         }
+                        //Set post-deduction balance points
                         ref.child("availpoints").setValue(String.valueOf(newPoints));
 
                         //create hashmap to store details
@@ -250,11 +274,12 @@ public class rewardsFrag extends Fragment {
                         reward.put("type", type_item);
                         reward.put("discount", discount_amt);
                         reward.put("points", points_req);
-                        //move data to claimed history
+
+                        //move data to claimed history node
                         ref.child("claimed").push().setValue(reward);
 
+                        //Remove from unclaimed view, and db
                         reward_box.setVisibility(View.GONE);
-
                         ref.child("unclaimed").child(key).removeValue();
                     }
                 }
@@ -266,6 +291,7 @@ public class rewardsFrag extends Fragment {
             });
         });
 
+        //Add elements to views
         reward_box.addView(brand);
         reward_box.addView(type);
         reward_box.addView(discount);
@@ -286,6 +312,7 @@ public class rewardsFrag extends Fragment {
     }
 
     private int calculateTier(int points){
+        //calculate current tier
         int tier = 0;
         for(int i = 0; i <tierLevels.size(); i ++){
             if(points < tierLevels.get(i)) {

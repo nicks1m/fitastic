@@ -25,6 +25,7 @@ public class rewardsGenerator {
         pointsList = new ArrayList<>();
         addBrandsandTypes();
 
+        //Create arraylist and fill them with points and discount based on tier level.
         switch(tier){
             case 0:
                 for(int i = 0; i < 5; i++){
@@ -43,8 +44,8 @@ public class rewardsGenerator {
 
             case 1:
                 for(int i = 0; i < 5; i++){
-                    //Generate 5-10% discounts
-                    int disc = (int)((Math.random() * (12-5)) + 5);
+                    //Generate 7-12% discounts
+                    int disc = (int)((Math.random() * (12-5)) + 7);
                     discountList.add(String.valueOf(disc));
                     int p = (int)((Math.random()*(700-300)) + 300);
                     pointsList.add(String.valueOf(p));
@@ -59,10 +60,42 @@ public class rewardsGenerator {
             case 2:
 
                 for(int i = 0; i < 5; i++){
-                    //Generate 5-10% discounts
-                    int disc = (int)((Math.random() * (15-5)) + 5);
+                    //Generate 10-15% discounts
+                    int disc = (int)((Math.random() * (15-5)) + 10);
                     discountList.add(String.valueOf(disc));
                     int p = (int)((Math.random()*(1000-500)) + 500);
+                    pointsList.add(String.valueOf(p));
+                }
+
+                setDiscount(getDiscount(discountList));
+                setPoints(getPoints(pointsList));
+                setBrands(getBrand(brandsList));
+                setType(getType(typeList));
+                break;
+
+                case 3:
+
+                for(int i = 0; i < 5; i++){
+                    //Generate 13-17% discounts
+                    int disc = (int)((Math.random() * (17-5)) + 12);
+                    discountList.add(String.valueOf(disc));
+                    int p = (int)((Math.random()*(1200-500)) + 700);
+                    pointsList.add(String.valueOf(p));
+                }
+
+                setDiscount(getDiscount(discountList));
+                setPoints(getPoints(pointsList));
+                setBrands(getBrand(brandsList));
+                setType(getType(typeList));
+                break;
+
+                case 4:
+
+                for(int i = 0; i < 5; i++){
+                    //Generate 13-18% discounts
+                    int disc = (int)((Math.random() * (18-5)) + 13);
+                    discountList.add(String.valueOf(disc));
+                    int p = (int)((Math.random()*(1400-500)) + 900);
                     pointsList.add(String.valueOf(p));
                 }
 
@@ -75,6 +108,8 @@ public class rewardsGenerator {
     }
 
     public void addBrandsandTypes(){
+
+        //Generate brands and types to arraylist
         brandsList = new ArrayList<>();
 
         typeList = new ArrayList<>();
@@ -101,7 +136,7 @@ public class rewardsGenerator {
     //Generate Rewards
     public static ArrayList generate(int tier){
         rewards = new ArrayList<>();
-        rewards.add(new rewardsGenerator(1));
+//        rewards.add(new rewardsGenerator(1));
 
         return rewards;
     }

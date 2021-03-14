@@ -59,6 +59,9 @@ public class homeFrag extends Fragment {
     private TextView homemsg;
 
     private LinearLayout layoutcontainer;
+    private LinearLayout layout_box;
+    private LinearLayout layout_date;
+    private LinearLayout layout_image_stats;
 
     private TextView recentDate;
     private ImageView recentRoute;
@@ -220,9 +223,9 @@ public class homeFrag extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void addRun(String date, String image, String distance, String duration, String pace){
 
-        LinearLayout layout_box = new LinearLayout(getActivity());
-        LinearLayout layout_date = new LinearLayout(getActivity());
-        LinearLayout layout_image_stats = new LinearLayout(getActivity());
+        layout_box = new LinearLayout(getActivity());
+        layout_date = new LinearLayout(getActivity());
+        layout_image_stats = new LinearLayout(getActivity());
         layout_image_stats.setOrientation(LinearLayout.HORIZONTAL);
 
         layout_box.setMinimumHeight(500);

@@ -55,7 +55,7 @@ public class pointsFrag extends Fragment {
                      qty_15k,
                      qty_21k,
                      qty_42k;
-    private TextView challenge_title, challenge_points;
+    private TextView challenge_title, challenge_points, unfinished;
     private Button rewards_btn;
 
 
@@ -152,9 +152,7 @@ public class pointsFrag extends Fragment {
             }
         });
 
-        //Create Progress Bar
-        //Check accolades progression
-        //Calculate total points to next tier and represent as circular bar around tier level
+
 
         return v;
     }
@@ -202,16 +200,23 @@ public class pointsFrag extends Fragment {
         LinearLayout layout_box = new LinearLayout(getContext());
         challenge_title = new TextView(getContext());
         challenge_title.setText(title);
-        challenge_title.setWidth(300);
+        challenge_title.setEms(10);
+        challenge_title.setPadding(50,0,0,0);
         challenge_points = new TextView(getContext());
         challenge_points.setText(String.valueOf(points));
-        challenge_points.setWidth(300);
+        challenge_points.setEms(5);
+        challenge_points.setPadding(80,0,0,0);
+        unfinished = new TextView(getContext());
+        unfinished.setText("Unfinished");
+        unfinished.setEms(8);
+        unfinished.setPadding(80,0,0,0);
 
         layout_box.setBackgroundColor(getResources().getColor(R.color.challengeGrey));
-        layout_box.setMinimumHeight(200);
+        layout_box.setMinimumHeight(150);
         layout_box.setDividerPadding(50);
         layout_box.addView(challenge_title);
         layout_box.addView(challenge_points);
+        layout_box.addView(unfinished);
 
         challenges_layout.addView(layout_box);
 

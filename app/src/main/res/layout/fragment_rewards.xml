@@ -83,8 +83,9 @@
             <LinearLayout
                 android:id="@+id/available_rewards"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:orientation="vertical" >
+                android:layout_height="wrap_content"
+                android:background="@color/cardGrey"
+                android:orientation="vertical">
 
             </LinearLayout>
 
@@ -92,6 +93,8 @@
                 android:id="@+id/textView33"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="44dp"
+                android:layout_marginBottom="44dp"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center"
                 android:text="Claim History"
@@ -101,7 +104,8 @@
             <LinearLayout
                 android:id="@+id/claim_history"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="wrap_content"
+                android:background="@color/cardGrey"
                 android:orientation="vertical"></LinearLayout>
 
         </LinearLayout>
