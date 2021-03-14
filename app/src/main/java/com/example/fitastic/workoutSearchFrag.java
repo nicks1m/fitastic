@@ -144,6 +144,8 @@ public class workoutSearchFrag extends Fragment {
             }
         });
 
+
+
         return v;
     }
 

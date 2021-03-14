@@ -158,7 +158,11 @@
         android:id="@+id/workoutSearchFrag"
         android:name="com.example.fitastic.workoutSearchFrag"
         android:label="fragment_workout_search"
-        tools:layout="@layout/fragment_workout_search" />
+        tools:layout="@layout/fragment_workout_search" >
+        <action
+            android:id="@+id/action_workoutSearchFrag_to_createCustomWorkout"
+            app:destination="@id/createCustomWorkout" />
+    </fragment>
     <fragment
         android:id="@+id/settingsFragment"
         android:name="com.example.fitastic.SettingsFragment"
