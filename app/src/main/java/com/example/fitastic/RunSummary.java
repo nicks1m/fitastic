@@ -143,7 +143,7 @@ public class RunSummary extends Fragment {
         double time = Double.parseDouble(recentRun.get(2)) / 60;
 
         BigDecimal dba = new BigDecimal(dist).setScale(2, RoundingMode.HALF_UP);
-        dist = dba.floatValue();
+
 
         BigDecimal db = new BigDecimal(time).setScale(2, RoundingMode.HALF_UP);
         time = db.floatValue();
@@ -154,12 +154,15 @@ public class RunSummary extends Fragment {
         else
             dateLabel.setText(RunDbUtility.convertEpochToDate(Long.valueOf(recentRun.get(3))).toString());
         // set text to corresponding stat
-        distanceLabel.setText(String.valueOf(dist));
-        timeLabel.setText(String.valueOf(time));
-        speedLabel.setText(String.valueOf(dist/time) + "m/s");
+        distanceLabel.setText(String.valueOf(dba.floatValue()) + "km");
+        timeLabel.setText(String.valueOf(db.floatValue()) + "min");
+
+        String speed = RunDbUtility.calculatePace(String.valueOf(dist), (String.valueOf(time)));
+
+        speedLabel.setText(String.valueOf(speed));
 
         int points = calculatePointsForRun((int) dist);
-        int rewards = calculateRewardsForRun((int) dist);
+        int rewards = calculateRewardsForRun(dist);
 
         MainRepository.addPointsForRun(points);
         MainRepository.addRewardsForRun(rewards);
@@ -188,7 +191,6 @@ public class RunSummary extends Fragment {
     }
 
     // points for run depending on distance add to avail points and tierpoints
-    // +1 reward for every 5km
 
     private int calculatePointsForRun(int distance) {
         int distanceInMeters = distance * 1000;
@@ -207,7 +209,8 @@ public class RunSummary extends Fragment {
         return points < minPoints ? minPoints : points;
     }
 
-    private int calculateRewardsForRun(int distance) {
+    // +1 reward for every 5km
+    private int calculateRewardsForRun(double distance) {
         int rewards = 0;
         if (distance > 5)
             rewards = 5;

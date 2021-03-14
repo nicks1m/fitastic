@@ -17,21 +17,30 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 
 import java.io.ByteArrayOutputStream;
-import java.lang.reflect.Array;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Map;
 
 public class MainRepository {
 
+    /* MainRepository is designed to facilitate data communication between the app and firebase
+    *  this involves the input and output of data. However this class is mainly used to complete
+    *  operations needed from StartFrag and RunSummary.
+    *
+    *  All methods are static so they can be accessed from any class without an instance required.
+    *  This saves having to reinitialise firebase variables whenever a database operation is required.
+    */
+
+    // firebase variables
     public static DatabaseReference mDatabase;
     public static FirebaseAuth mAuth;
     public static FirebaseDatabase mFirebaseDatabase;
     public static FirebaseStorage mStorage;
+    // userID
     public static String userId;
-
-    // access point for epochTimes on each run
+    // holds the most recent run stats used by runSummary
+    public static MutableLiveData<ArrayList<String>> recentRun = new MutableLiveData<ArrayList<String>>();
+    // gets all times run in epoch format
+    public static MutableLiveData<ArrayList<String>> epochTimes = new MutableLiveData<ArrayList<String>>();
 
     // constructor for static members
     static {
@@ -42,9 +51,9 @@ public class MainRepository {
         userId = mAuth.getCurrentUser().getUid();
     }
 
+    // insert run to firebase
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void insertRun(long label, Run r) {
-
         // reference runs
         DatabaseReference destination = mDatabase.child("Users")
                 .child(userId)
@@ -61,13 +70,16 @@ public class MainRepository {
         // encode into base 64 string
         String image64 = Base64.getEncoder().encodeToString(runImgArray);
 
+        // saved run values to firebase destination
         destination.child(String.valueOf(label)).child("bitmap").setValue(image64);
         destination.child(String.valueOf(label)).child("distance").setValue(r.getDistance());
         destination.child(String.valueOf(label)).child("speed").setValue(r.getSpeed());
         destination.child(String.valueOf(label)).child("duration").setValue(r.getRunDuration());
     }
 
+    // adds a stat to firebase
     public static void addStat(long label, int statNumber, Float[] statList) {
+        // reference stat location in firebase
         DatabaseReference destination = mDatabase.child("Users")
                 .child(userId)
                 .child("Runs")
@@ -75,29 +87,31 @@ public class MainRepository {
                 .child("statDump")
                 .child(String.valueOf(statNumber));
 
+        // save stats to firebase
         destination.child("Distance Interval (km)").setValue(String.valueOf(statList[0]));
         destination.child("Time elapsed (min)").setValue(String.valueOf(statList[1]));
         destination.child("Speed (min per km)").setValue(String.valueOf(statList[2]));
     }
 
-    public static MutableLiveData<ArrayList<String>> epochTimes = new MutableLiveData<ArrayList<String>>();;
-
+    // gets all run epoch times and saves it to epochTimes
     public static void updateRunEpochTimes() {
+        // reference run destination
         DatabaseReference reference = mDatabase.child("Users")
                 .child(userId)
                 .child("Runs");
 
+        // used to retrieve all children from reference location in fb
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // holds all epoch times
                 ArrayList<String> a = new ArrayList<String>();
-
+                // add all epoch times to Arraylist
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     a.add(snapshot1.getKey());
                 }
-
+                // post epoch times to epochtimes allows observers of this to detect changes
                 epochTimes.postValue(a);
-                int x = 5;
             }
 
             @Override
@@ -107,24 +121,27 @@ public class MainRepository {
         });
     }
 
-    public static MutableLiveData<ArrayList<String>> recentRun = new MutableLiveData<ArrayList<String>>();
-
+    // gets a run by the epoch time param
     public static void getRunByEpoch(String epochTime) {
+        // reference the epoch time
         DatabaseReference reference = mDatabase.child("Users")
                 .child(userId)
                 .child("Runs")
                 .child(epochTime);
 
+        // gets all children from the individual run
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // holds all stats
                 ArrayList<String> a = new ArrayList<String>();
-
+                // add all stats to ArrayList
                 for (DataSnapshot snapshot1 : snapshot.getChildren()) {
                     a.add((String.valueOf(snapshot1.getValue())));
                 }
+                // adds the epoch time with stats as an identifier
                 a.add(epochTime);
-
+                // post stats to recent run so observers can detect changes to it
                 recentRun.postValue(a);
             }
 
@@ -135,6 +152,7 @@ public class MainRepository {
         });
     }
 
+    // inits stats used for saving stats whilst on run
     public static void initStat(long label) {
         DatabaseReference reference = mDatabase.child("Users")
                 .child(userId)
@@ -142,29 +160,36 @@ public class MainRepository {
                 .child(String.valueOf(label));
     }
 
+    // adds points to profile from points param
     public static void addPointsForRun(int points) {
         DatabaseReference reference = mDatabase.child("Users")
                 .child(userId)
                 .child("points");
 
+        // gets elements needed for points
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot sp : snapshot.getChildren()) {
+                    // if key equal any field needed
                     if (sp.getKey().equals("availpoints")) {
+                        // get existing value
                         int spValue = 0;
                         if (sp.getValue().getClass() == Long.class) {
                             String spValueStr = sp.getValue().toString();
                             spValue = Integer.valueOf(spValueStr);
                         }
+                        // increment values by points added
                         reference.child("availpoints").setValue(spValue + points);
                     }
                     else if (sp.getKey().equals("tierpoints")) {
+                        // get existing value
                         int spValue = 0;
                         if (sp.getValue().getClass() == Long.class) {
                             String spValueStr = sp.getValue().toString();
                             spValue = Integer.valueOf(spValueStr);
                         }
+                        // increment values by points added
                         reference.child("tierpoints").setValue(spValue + points);
                     }
                 }
@@ -177,19 +202,31 @@ public class MainRepository {
         });
     }
 
+    // adds rewards for run
     public static void addRewardsForRun(int reward) {
+        // get awards reference
         DatabaseReference reference = mDatabase.child("Users")
                 .child(userId)
                 .child("points")
                 .child("awards");
 
+        // gets awards children
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // convert rewards to string
                 String rewardStr = reward + "k";
                 for (DataSnapshot sp : snapshot.getChildren()) {
+                    // get the existing value for reward
                     if (sp.getKey().equals(rewardStr)) {
-                        reference.child(rewardStr).setValue(1);
+                        // init existing reward
+                        int existingReward = 0;
+                        if (sp.getValue().getClass() == Long.class) {
+                            String spValueStr = sp.getValue().toString();
+                            existingReward = Integer.valueOf(spValueStr);
+                        }
+                        // increment value by reward
+                        reference.child(rewardStr).setValue(++existingReward);
                     }
                 }
             }
