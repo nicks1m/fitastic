@@ -10,12 +10,17 @@ import java.util.ArrayList;
 
 public class RunSummaryViewModel extends ViewModel {
 
+    /* RunSummaryViewModel handles logic of getting most recent run stats and image. Utilises main
+    *  repository to achieve this
+    */
+
     // debug
     private static String TAG = "RunSummaryViewModel";
 
     // post changes of the most recent run stats
     public MutableLiveData<ArrayList<String>> stats = new MutableLiveData<ArrayList<String>>();
 
+    // initialises MainRepository epoch times
     public void initialiseEpochTimes() {
         // update epoch times on main repo
         MainRepository.updateRunEpochTimes();
@@ -30,9 +35,10 @@ public class RunSummaryViewModel extends ViewModel {
         MainRepository.getRunByEpoch(String.valueOf(value));
     }
 
-    // post stats
+    // post stats to this.stats allows observers to listen to changes to this
     public void handleRecentRun(ArrayList<String> strings) {
         ArrayList<String> recentRun = strings;
+        // post stats
         stats.postValue(recentRun);
     }
 }

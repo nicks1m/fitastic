@@ -8,7 +8,9 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public class PermissionUtility {
 
-    /* Provides a central class to track which permissions are used by the app */
+    /* Provides a central class to track which permissions are used by the app. Methods are all
+    *  static so they can be accessed by any other class without an instance
+    */
 
     // check if location permissions has been accepted already on device
     public static boolean hasLocationPermission(Context context) {
