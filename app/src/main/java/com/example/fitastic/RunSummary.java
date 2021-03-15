@@ -23,17 +23,11 @@ import androidx.navigation.Navigation;
 import com.example.fitastic.repositories.MainRepository;
 import com.example.fitastic.utility.RunDbUtility;
 import com.example.fitastic.viewmodels.RunSummaryViewModel;
-import com.example.fitastic.viewmodels.StartFragViewModel;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link RunSummary#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class RunSummary extends Fragment {
 
     private static String TAG = "RunSummary"; 
@@ -144,7 +138,6 @@ public class RunSummary extends Fragment {
 
         BigDecimal dba = new BigDecimal(dist).setScale(2, RoundingMode.HALF_UP);
 
-
         BigDecimal db = new BigDecimal(time).setScale(2, RoundingMode.HALF_UP);
         time = db.floatValue();
 
@@ -190,8 +183,7 @@ public class RunSummary extends Fragment {
         }
     }
 
-    // points for run depending on distance add to avail points and tierpoints
-
+    // points for run depending on distance add to avail points and tier points
     private int calculatePointsForRun(int distance) {
         int distanceInMeters = distance * 1000;
         int maxPoints = 500, minPoints = 100, points = 0;
@@ -218,8 +210,10 @@ public class RunSummary extends Fragment {
             rewards = 10;
         if (distance > 15)
             rewards = 15;
-        if (distance > 20)
+        if (distance > 21)
             rewards = 21;
+        if (distance > 42)
+            rewards = 42;
         return rewards;
     }
 

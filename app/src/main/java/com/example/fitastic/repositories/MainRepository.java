@@ -27,7 +27,8 @@ public class MainRepository {
     *  operations needed from StartFrag and RunSummary.
     *
     *  All methods are static so they can be accessed from any class without an instance required.
-    *  This saves having to reinitialise firebase variables whenever a database operation is required.
+    *  Using this class saves having to reinitialise firebase variables whenever a database operation
+    *  is required.
     */
 
     // firebase variables
