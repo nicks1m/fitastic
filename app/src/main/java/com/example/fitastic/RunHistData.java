@@ -1,16 +1,23 @@
 package com.example.fitastic;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import java.time.Instant;
+
 public class RunHistData {
 
     Long distance,duration,speed;
-    String bitmap, date;
+    String bitmap;
+    long date;
 
     RunHistData(){
 
     }
 
-    public RunHistData(String date, String bitmap, Long distance, Long duration, Long speed) {
-        this.date = date;
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public RunHistData(String bitmap, Long distance, Long duration, Long speed) {
         this.bitmap = bitmap;
         this.distance = distance;
         this.duration = duration;
@@ -49,11 +56,11 @@ public class RunHistData {
         this.bitmap = image;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 }
