@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +44,7 @@ public class createCustomWorkout extends Fragment {
     private EditText exercise_title;
     private EditText exercise_reps;
     private EditText exercise_set;
+    private EditText exercise_kg;
     private EditText exercise_id;
     private Button add_exercise;
     private Button save_exercise;
@@ -104,12 +106,47 @@ public class createCustomWorkout extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_create_custom_workout, container, false);
 
-
         layout_container = v.findViewById(R.id.layout_container);
         controller = Navigation.findNavController(container);
-
         //Initialize array to store EditTexts
         custom_workout_edt = new ArrayList<>();
+
+        if(custom_workout_title.contains("/")) {
+            System.out.println("AND HERE");
+            String[] s = custom_workout_title.split("/");
+            for (int i = 0; i < s.length; i++) {
+                System.out.println(s[i]);
+            }
+
+            custom_workout_title = s[0];
+
+            String sets = "sets";
+            String reps = "reps";
+            String kg = "kg";
+            for (int i = 0; i < s.length; i++) {
+                System.out.println(s[i]);
+            }
+            if(!s[1].equals("0")) {
+                sets = s[1];
+            }
+            if(!s[2].equals("0")) {
+                reps = s[2];
+            }
+            if(!s[3].equals("0")) {
+                kg = s[3];
+            }
+
+            System.out.println(custom_workout_title + "*" + sets + "*" + reps + "*" + kg + "*");
+
+//            Random r = new Random();
+//            int i = r.nextInt();
+//            String index = Integer.toString(i);
+
+            String index =  String.valueOf(custom_workout_edt.size()/5);
+
+            addExercise(index, custom_workout_title, sets, reps, kg);
+            Toast.makeText(getContext(), "Please select save before beggining the workout", Toast.LENGTH_SHORT).show();
+        }
 
         //Firebase Init
         auth = FirebaseAuth.getInstance();
@@ -127,8 +164,8 @@ public class createCustomWorkout extends Fragment {
                    addExercise(workout_snapshot.getKey(),
                                workout_snapshot.child("title").getValue().toString(),
                                workout_snapshot.child("set").getValue().toString(),
-                               workout_snapshot.child("reps").getValue().toString());
-
+                               workout_snapshot.child("reps").getValue().toString(),
+                               workout_snapshot.child("kg").getValue().toString());
                 }
             }
 
@@ -151,21 +188,21 @@ public class createCustomWorkout extends Fragment {
 
         add_exercise = v.findViewById(R.id.btn_add_exercise);
         add_exercise.setOnClickListener(v1->{
-            String index =  String.valueOf(custom_workout_edt.size()/4);
-            addExercise(index, "Title","Set","Reps");
+            String index =  String.valueOf(custom_workout_edt.size()/5);
+            addExercise(index, "Title","Set","Reps", "Kg");
         });
 
         start_workout = v.findViewById(R.id.btn_start_workout);
         start_workout.setOnClickListener(v1->{
             passArray();
             //Check if array is empty else throw Toast
-            if(list_of_exercises.size() < 4){
+            if(list_of_exercises.size() < 5){
                 Toast.makeText(getContext(), "Add an exercise to proceed!", Toast.LENGTH_SHORT).show();
                 return;
             } else {
                 Bundle args = new Bundle();
                 //Pass number of exercises
-                args.putString("exercises", list_of_exercises.get(list_of_exercises.size() - 4));
+                args.putString("exercises", list_of_exercises.get(list_of_exercises.size() - 5));
                 //Pass array of exercises
                 args.putStringArrayList("array",list_of_exercises);
                 //Pass workout title
@@ -192,7 +229,7 @@ public class createCustomWorkout extends Fragment {
             //Find specific exercise based on the index it was given,
             if(custom_workout_edt.get(i).getText().toString().equals(key)){
                 //Remove i, i+1,i+2,i+3 when key is found
-                for(int y = 0 ; y < 4; y++){
+                for(int y = 0 ; y < 5; y++){
                     custom_workout_edt.remove(i);
                 }
             }
@@ -200,7 +237,7 @@ public class createCustomWorkout extends Fragment {
         System.out.println("New Length of Array" + custom_workout_edt.size());
     }
 
-    public void addExercise(String index, String title, String set, String reps){
+    public void addExercise(String index, String title, String set, String reps, String kg){
          //use array list to store EDTs and iterate to get values and push to firebasere
 
         //Create layout container for the three fields ( title, set, reps )
@@ -221,8 +258,14 @@ public class createCustomWorkout extends Fragment {
         exercise_set = new EditText(getContext());
         exercise_set.setInputType(2);
         exercise_set.setText(set);
-        exercise_set.setEms(5);
+        exercise_set.setEms(3);
         exercise_set.setTextColor(getResources().getColor(R.color.colorPrimary));
+
+        exercise_kg = new EditText(getContext());
+        exercise_kg.setInputType(2);
+        exercise_kg.setText(kg);
+        exercise_kg.setEms(3);
+        exercise_kg.setTextColor(getResources().getColor(R.color.colorPrimary));
 
         exercise_reps = new EditText(getContext());
         exercise_reps.setInputType(2);
@@ -246,16 +289,17 @@ public class createCustomWorkout extends Fragment {
         custom_workout_edt.add(exercise_title);
         custom_workout_edt.add(exercise_set);
         custom_workout_edt.add(exercise_reps);
+        custom_workout_edt.add(exercise_kg);
 
         //Add the EditTexts to the Layout container we created earlier
         layout_box.addView(exercise_title);
         layout_box.addView(exercise_set);
         layout_box.addView(exercise_reps);
+        layout_box.addView(exercise_kg);
         layout_box.addView(remove);
 
         //Add to parent layout container
         layout_container.addView(layout_box);
-
     }
 
     public void saveExercises(){
@@ -265,9 +309,10 @@ public class createCustomWorkout extends Fragment {
             String workout_title = custom_workout_edt.get(i+1).getText().toString();
             String workout_set = custom_workout_edt.get(i+2).getText().toString();
             String workout_reps = custom_workout_edt.get(i+3).getText().toString();
-            Exercise newExercise = new Exercise(workout_title,workout_set,workout_reps);
+            String workout_kg = custom_workout_edt.get(i+4).getText().toString();
+            Exercise newExercise = new Exercise(workout_title,workout_set,workout_reps, workout_kg);
             custom_workout.add(newExercise);
-            i = i + 3;
+            i = i + 4;
         }
         System.out.println(custom_workout);
         //Push this list to the Firebase DB, for e.g if there are 3 exercises, there will be 3 child nodes, starting from 0 , 1 , 2.

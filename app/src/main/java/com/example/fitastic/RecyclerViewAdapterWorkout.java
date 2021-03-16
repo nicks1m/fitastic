@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,18 +45,50 @@ public class RecyclerViewAdapterWorkout extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        String text = mData.get(position).getName();
-        holder.title.setText(text);
+        final String[] text = {mData.get(position).getName()};
+        holder.title.setText(text[0]);
         holder.btn.setText("Start");
+
         holder.btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String sl = "/";
+                String p1;
+                String p2;
+                String p3;
+                if(holder.sets.getText().equals("sets")) {
+                    p1 = sl;
+                } else {
+                    p1 = holder.sets.getText().toString() + "/";
+                }
+                if(holder.reps.getText().equals("reps")) {
+                    p2 = sl;
+                } else {
+                    p2 = holder.reps.getText().toString() + "/";
+                }
+                if(holder.kg.getText().equals("kg")) {
+                    p3 = sl;
+                } else {
+                    p3 = holder.kg.getText().toString() + "/";
+                }
+
+                text[0] = text[0].concat(sl + p1 + p2 + p3);
+
+                System.out.println(text[0]);
+
                 Bundle args = new Bundle();
-                args.putString("custom_workout_title", text);
+                args.putString("custom_workout_title", text[0]);
                 controller.navigate(R.id.action_workoutSearchFrag_to_createCustomWorkout, args);
                 System.out.println("test");
             }
         });
+
+
+//        exercise_kg = new EditText(getContext());
+//        exercise_kg.setInputType(2);
+//        exercise_kg.setText(kg);
+//        exercise_kg.setEms(3);
+//        exercise_kg.setTextColor(getResources().getColor(R.color.colorPrimary));
     }
 
     @Override
@@ -66,6 +99,9 @@ public class RecyclerViewAdapterWorkout extends RecyclerView.Adapter<RecyclerVie
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         CardView cardView;
+        EditText sets;
+        EditText reps;
+        EditText kg;
         Button btn;
 
         public MyViewHolder(View itemView){
@@ -73,6 +109,9 @@ public class RecyclerViewAdapterWorkout extends RecyclerView.Adapter<RecyclerVie
             title = itemView.findViewById(R.id.workout_title);
             cardView = itemView.findViewById(R.id.workout_cardview);
             btn = itemView.findViewById(R.id.btn_start_workout1);
+            sets = itemView.findViewById(R.id.workout_sets);
+            reps = itemView.findViewById(R.id.workout_reps);
+            kg = itemView.findViewById(R.id.workout_kg);
         }
     }
 }

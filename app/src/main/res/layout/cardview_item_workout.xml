@@ -16,10 +16,33 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <EditText
+            android:id="@+id/workout_kg"
+            android:layout_width="71dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:ems="10"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:inputType="numberSigned"
+            android:text="kg"
+            android:textColor="#0C0C0C"
+            android:textSize="15dp"
+            cardview:layout_constraintBottom_toBottomOf="parent"
+            cardview:layout_constraintStart_toEndOf="@+id/workout_reps"
+            cardview:layout_constraintTop_toBottomOf="@+id/workout_title" />
+
         <TextView
             android:id="@+id/workout_title"
-            android:layout_width="250dp"
-            android:layout_height="100dp"
+            android:layout_width="260dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="45dp"
             android:gravity="center"
             android:padding="10dp"
             android:text="workoutName"
@@ -27,7 +50,46 @@
             android:textSize="15dp"
             cardview:layout_constraintBottom_toBottomOf="parent"
             cardview:layout_constraintStart_toStartOf="parent"
-            cardview:layout_constraintTop_toTopOf="parent" />
+            cardview:layout_constraintTop_toTopOf="parent"
+            cardview:layout_constraintVertical_bias="0.777" />
+
+        <EditText
+            android:id="@+id/workout_sets"
+            android:layout_width="71dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:ems="10"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:inputType="numberSigned"
+            android:text="sets"
+            android:textColor="#0C0C0C"
+            android:textSize="15dp"
+            cardview:layout_constraintBottom_toBottomOf="parent"
+            cardview:layout_constraintStart_toStartOf="parent"
+            cardview:layout_constraintTop_toBottomOf="@+id/workout_title" />
+
+        <EditText
+            android:id="@+id/workout_reps"
+            android:layout_width="71dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginBottom="1dp"
+            android:ems="10"
+            android:fontFamily="sans-serif-thin"
+            android:gravity="center"
+            android:inputType="numberSigned"
+            android:text="reps"
+            android:textColor="#0C0C0C"
+            android:textSize="15dp"
+            cardview:layout_constraintBottom_toBottomOf="parent"
+            cardview:layout_constraintStart_toEndOf="@+id/workout_sets"
+            cardview:layout_constraintTop_toBottomOf="@+id/workout_title" />
 
         <Button
             android:id="@+id/btn_start_workout1"

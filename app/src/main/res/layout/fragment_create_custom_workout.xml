@@ -102,7 +102,7 @@
 
                 <TextView
                     android:id="@+id/exercise_title"
-                    android:layout_width="150dp"
+                    android:layout_width="95dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="4dp"
                     android:layout_marginLeft="4dp"
@@ -115,7 +115,7 @@
 
                 <TextView
                     android:id="@+id/exercise_set"
-                    android:layout_width="96dp"
+                    android:layout_width="95dp"
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:fontFamily="sans-serif-thin"
@@ -132,6 +132,17 @@
                     android:fontFamily="sans-serif-thin"
                     android:inputType="numberSigned"
                     android:text="Reps"
+                    android:textColor="#0C0C0C"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/exercise_kg"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:fontFamily="sans-serif-thin"
+                    android:inputType="numberSigned"
+                    android:text="Kg"
                     android:textColor="#0C0C0C"
                     android:textSize="18sp" />
             </LinearLayout>

@@ -32,6 +32,7 @@ public class workout_in_prog_frag extends Fragment {
     private TextView workout_title;
     private TextView ex_name;
     private TextView ex_reps;
+    private TextView ex_kg;
     private EditText countdown;
     private Button start_countdown;
     private Button next_ex;
@@ -115,6 +116,9 @@ public class workout_in_prog_frag extends Fragment {
         ex_reps = v.findViewById(R.id.label_reps);
         ex_reps.setText("REPS: " + list_of_exercises.get(3));
 
+        ex_kg = v.findViewById(R.id.label_kg);
+        ex_kg.setText("KGs: " + list_of_exercises.get(4));
+
         current_exs = list_of_exercises.get(0);
         current_ex = Integer.parseInt(current_exs) + 1;
         label_ex = v.findViewById(R.id.label_exercise);
@@ -156,6 +160,7 @@ public class workout_in_prog_frag extends Fragment {
                     label_set.setVisibility(View.INVISIBLE);
                     label_ex.setVisibility(View.INVISIBLE);
                     ex_reps.setVisibility(View.INVISIBLE);
+                    ex_kg.setVisibility(View.INVISIBLE);
                     start_countdown.setVisibility(View.INVISIBLE);
                     next_ex.setVisibility(View.VISIBLE);
                     next_ex.setOnClickListener(v->{
@@ -166,7 +171,7 @@ public class workout_in_prog_frag extends Fragment {
                         } else {
                             System.out.println("Moving to next exercise");
                             Bundle args = new Bundle();
-                            args.putString("exercises", list_of_exercises.get(list_of_exercises.size() - 4));
+                            args.putString("exercises", list_of_exercises.get(list_of_exercises.size() - 5));
                             args.putStringArrayList("array", prepArray);
                             args.putString("custom_workout_title", custom_workout_title);
                             controller.navigate(R.id.action_workout_in_prog_frag_self, args);

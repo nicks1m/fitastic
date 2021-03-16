@@ -15,6 +15,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.fitastic.diet.Recipe;
+//import com.google.firebase.auth.ExportedUserRecord;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+//import com.google.firebase.auth.ListUsersPage;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -94,11 +98,29 @@ public class workoutSearchFrag extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_workout_search, container, false);
 
-
         header = v.findViewById(R.id.textViewRelated);
         header.setText("" + title + " related workouts");
 
         ref = FirebaseDatabase.getInstance().getReference().child("Workout").child(title);
+
+
+//        ListUsersPage list = null;
+//        try {
+//            list = FirebaseAuth.getInstance().listUsers(null);
+//        } catch (FirebaseAuthException e) {
+//            e.printStackTrace();
+//        }
+//        while(list != null) {
+//            int i = 0;
+//            for (ExportedUserRecord user : list.getValues()) {
+//                s[i] = user.getUid();
+//                i++;
+//            }
+//            list = list.getNextPage();
+//        }
+//
+//        ref = FirebaseDatabase.getInstance().getReference().child("Users").child(s[1]);
+
 
         mListener = ref.addValueEventListener(new ValueEventListener() {
 
@@ -116,10 +138,14 @@ public class workoutSearchFrag extends Fragment {
                 HashMap favorites = (HashMap) snapshot.getValue();
                 if (favorites != null) {
                     for (Object workout : favorites.keySet()) {
-                        String title = (String) snapshot.child(workout.toString()).getKey().toString();
-                        Long sets = (Long) snapshot.child(workout.toString()).child("Sets").getValue();
-                        Long reps = (Long) snapshot.child(workout.toString()).child("Reps").getValue();
-                        list.add(new Workout(sets, reps, title));
+                        try {
+                            String title = (String) snapshot.child(workout.toString()).getKey().toString();
+                            Long sets = (Long) snapshot.child(workout.toString()).child("Sets").getValue();
+                            Long reps = (Long) snapshot.child(workout.toString()).child("Reps").getValue();
+                            list.add(new Workout(sets, reps, title));
+                        } catch(NullPointerException e) {
+                            System.out.println("DB ERR");
+                        }
                     }
                 }
 

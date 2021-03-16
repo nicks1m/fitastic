@@ -6,13 +6,13 @@ public class Exercise {
     private String reps;
     private String set;
     private String time;
+    private String kg;
 
-    public Exercise(String title,String set, String reps){
+    public Exercise(String title,String set, String reps, String kg){
         this.title = title;
         this.set = set;
         this.reps = reps;
-
-
+        this.kg = kg;
     }
 
     public String getTitle() {
@@ -47,4 +47,11 @@ public class Exercise {
         this.time = time;
     }
 
+    public String getKg() {
+        return kg;
+    }
+
+    public void setKg(String kg) {
+        this.kg = kg;
+    }
 }
