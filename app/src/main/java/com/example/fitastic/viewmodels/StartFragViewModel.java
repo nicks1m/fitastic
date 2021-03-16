@@ -18,17 +18,26 @@ import com.example.fitastic.services.TrackingService;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.Instant;
-import java.util.ArrayList;
 
 public class StartFragViewModel extends ViewModel {
+
+    /* StartFragViewModel facilitates inputting run information to Firebase. Furthermore, it bind
+    *  StartFrag to TrackingService so it can receive the users location. To achieve this, it stores
+    *  the TrackingService binder, and creates a ServiceConnection which StartFrag can access.
+    */
 
     // debug
     public static String TAG = "StartFragViewModel";
 
     // observable boolean from start frag will be used to pause service
     private MutableLiveData<Boolean> isTracking = new MutableLiveData<Boolean>();
+
     // observable binder from start frag used to create connection to service
     private MutableLiveData<TrackingService.myBinder> mBinder = new MutableLiveData<TrackingService.myBinder>();
+
+    // store epoch label and stat count
+    private long label = 0;
+    private int count = 0;
 
     // facilitates connection between client to service
     private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -50,6 +59,7 @@ public class StartFragViewModel extends ViewModel {
         }
     };
 
+    // inserts run to firebase
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void insertRun(Run r) {
         MainRepository.insertRun(label, r);
@@ -57,50 +67,51 @@ public class StartFragViewModel extends ViewModel {
         count = 0;
     }
 
-    private long label = 0;
-    private int count = 0;
-
+    // saves stat to database whilst on run, used to look at information regarding the stats at
+    // certain points on the run
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void saveStat(float totalDistance, double time) {
-        int a = 0;
+        // if no label has been created yet
         if (label == 0) {
-                label = Instant.now().toEpochMilli();
+            // get epoch time
+            label = Instant.now().toEpochMilli();
         }
 
+        // hold stats
         Float[] stat = new Float[3];
-        // km
+        // get distance in km
         totalDistance /= 1000;
+        // convert distance to two decimal places
         BigDecimal db = new BigDecimal(totalDistance).setScale(2, RoundingMode.HALF_UP);
+        // write distance
         stat[0] = db.floatValue();
 
-        // min
+        // convert time to seconds
         time /= 60;
+        // convert time to two decimal places
         BigDecimal dba = new BigDecimal(time).setScale(2, RoundingMode.HALF_UP);
+        // write time
         stat[1] = dba.floatValue();
 
-        // min/km
+        // calculate speed in min per km
         float speed = (float) (time / totalDistance);
+        // convert speed to 2 decimal places
         BigDecimal d = new BigDecimal(speed).setScale(2, RoundingMode.HALF_UP);
-
+        // write speed
         stat[2] = d.floatValue();
+        // save stat to firebase
         MainRepository.addStat(label, count++, stat);
     }
 
+    // creates an epoch time for run if none is detected
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void initialiseStatLabel() {
+        // if no label exists create one
         if (label == 0) {
             label = Instant.now().toEpochMilli();
         }
+        // save label to firebase
         MainRepository.initStat(label);
-    }
-
-    // get if tracking
-    public LiveData<Boolean> isTracking() {
-        return isTracking;
-    }
-
-    public void setIsTracking(MutableLiveData<Boolean> isTracking) {
-        this.isTracking = isTracking;
     }
 
     // get service connection used to connect client to service
@@ -108,12 +119,23 @@ public class StartFragViewModel extends ViewModel {
         return serviceConnection;
     }
 
+    // get binder of tracking service binder allows StartFrag to get this binder
+    public MutableLiveData<TrackingService.myBinder> getBinder() {
+        return mBinder;
+    }
+
+    // destroys binder
     public void destroyBinder() {
         mBinder.postValue(null);
     }
 
-    // get binder of tracking service binder
-    public MutableLiveData<TrackingService.myBinder> getBinder() {
-        return mBinder;
+    // isTracking
+    public LiveData<Boolean> isTracking() {
+        return isTracking;
+    }
+
+    // isTracking setter
+    public void setIsTracking(MutableLiveData<Boolean> isTracking) {
+        this.isTracking = isTracking;
     }
 }

@@ -61,7 +61,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     *  StartFrag just listens to changes from the service. Additionally StartFragViewModel aids
     *  in binding StartFrag to TrackingService so start frag can access the service's location
     *  variables and listen for changes to them. Furthermore StartFragViewModel also aids
-    *  in sending run data to firebase.
+    *  in sending run data to firebase by parsing it to MainRepository.
     */
 
     // debug
@@ -388,6 +388,8 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
                 mService.locationRequest();
                 // set end run btn to invisible
                 endRunBtn.setVisibility(View.INVISIBLE);
+                // set mp button to invisible
+                mpBtn.setVisibility(View.INVISIBLE);
             }
             else {
                 isPaused = true;
@@ -404,6 +406,8 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
                 polyline = new ArrayList<LatLng>();
                 // set end run to visible
                 endRunBtn.setVisibility(View.VISIBLE);
+                // set mp button to visible
+                mpBtn.setVisibility(View.VISIBLE);
             }
         }
     }

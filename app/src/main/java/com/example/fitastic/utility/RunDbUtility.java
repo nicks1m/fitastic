@@ -16,28 +16,45 @@ import java.util.TimeZone;
 
 public class RunDbUtility {
 
+    /* RunDbUtility is a class which adds utility methods for storing and receiving runs from
+    *  firebase like decoding the Base64 string back to an bitmap image. Also adds methods to get
+    *  distance, speed, time in correct formatting.
+    */
+
+    // gets most recent run from a list of epoch times
     public static long getMostRecentRun(ArrayList<String> epochs) {
+        // assume largest is first index and convert it to date object
         Date largest = convertEpochToDate(Long.valueOf(epochs.get(0)));
+        // saved largest index
         int largestIndex = 0;
+        // iterate through list
         for (int i = 0; i < epochs.size(); i++) {
+            // convert temp to date
             Date temp = convertEpochToDate(Long.valueOf(epochs.get(i)));
+            // test if temp is before largest
             if (largest.before(temp)) {
+                // copy index and date
                 largest = temp;
                 largestIndex = i;
             }
         }
-
+        // return largest
         return Long.valueOf(epochs.get(largestIndex));
     }
 
+    // convert epoch time to date object
     public static Date convertEpochToDate(long epochTime) {
+        // create date with epoch
         Date date = new Date(epochTime);
+        // format date
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         format.setTimeZone(TimeZone.getDefault());
         String formatted = format.format(date);
+        // return date
         return date;
     }
 
+    // decodes Base64 string to a bitmap
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static Bitmap stringToBitmap(String input) {
         // convert coded string to byte array
@@ -46,27 +63,35 @@ public class RunDbUtility {
         return BitmapFactory.decodeByteArray(data, 0, data.length);
     }
 
-    public static String calculatePace(String dist, String time){
+    // calculate pace
+    public static String calculatePace(String dist, String time) {
+        // distance in km
         double distkm = Double.parseDouble(dist)/1000;
+        // time in min
         double runtime = Double.parseDouble(time) / 60;
+        // calculate pace
         double dpace = runtime / distkm;
         int mpace = (int)dpace;
         int space = (int)((dpace - mpace) * 60);
 //        String sspace = new DecimalFormat("#.##").format(dpace);
         String pace = mpace + "'" + space;
         return pace;
-
     }
 
-    public static String calculateDistance(String dist){
+    // calculate distance
+    public static String calculateDistance(String dist) {
+        // get distance in km
         double ddist = Double.parseDouble(dist)/1000;
+        // format distance
         String dist1 = new DecimalFormat("#.##").format(ddist) + " km";
         return dist1;
     }
 
-    public static String calculateDuration(String time){
-
+    // calculate duration
+    public static String calculateDuration(String time) {
+        // time in s
         int totalSecs = Integer.parseInt(time);
+        // work out hours, minutes, seconds
         int hours = totalSecs / 3600;
         int minutes = (totalSecs % 3600) / 60;
         int seconds = totalSecs % 60;
