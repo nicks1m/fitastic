@@ -114,6 +114,11 @@ public class StartFragViewModel extends ViewModel {
         MainRepository.initStat(label);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void addInitialRunDirectory() {
+        MainRepository.insertRunDirectory();
+    }
+
     // get service connection used to connect client to service
     public ServiceConnection getServiceConnection() {
         return serviceConnection;
