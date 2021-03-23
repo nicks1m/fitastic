@@ -52,6 +52,12 @@ public class MainRepository {
         userId = mAuth.getCurrentUser().getUid();
     }
 
+    public static void insertRunDirectory() {
+        DatabaseReference destination = mDatabase.child("Users")
+                .child(userId)
+                .child("Runs");
+    }
+
     // insert run to firebase
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void insertRun(long label, Run r) {

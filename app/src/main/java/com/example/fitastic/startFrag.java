@@ -376,6 +376,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
             startBtn.setText("Stop");
             startTimer();
             startService();
+            mViewModel.addInitialRunDirectory();
         } else { /* else pause/resume location updates */
             isTracking = !isTracking;
             if (isTracking()) {
@@ -447,6 +448,7 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
             Run r = new Run(bmp, d.floatValue(), realTime, s.floatValue());
             // insert run to database
             mViewModel.insertRun(r);
+            navigateToRunSummary();
         });
 
         // remove location variables to reset fragment
@@ -458,7 +460,10 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         lastTime = 0.0;
         count = 1;
 
-        // navigate to next frag
+    }
+
+    // navigate to next frag
+    private void navigateToRunSummary() {
         controller.navigate(R.id.action_startFrag_to_runSummary);
     }
 
@@ -530,21 +535,26 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
         if (size == 1) {
             size = 2;
         }
+        // used to verify bound builder has a point
+        int count = 0;
         // iterate through lat/lng and include them in the bound
         for (int i = 0; i < size - 1; i++) {
             for (int j = 0; j < polylines.get(i).size() - 1; j++) {
                 // add all locations to bounds
                 boundBuilder.include(polylines.get(i).get(j));
+                count++;
             }
         }
 
         // zoom out camera, the camera is moved to a way that ensures all locations within the bound can be
         // seen
-        map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundBuilder.build(),
-                mapView.getMeasuredWidth(),
-                mapView.getMeasuredHeight(),
-                (int) (mapView.getMeasuredHeight() * 0.05f)
-                ));
+        if (count > 0) {
+            map.moveCamera(CameraUpdateFactory.newLatLngBounds(boundBuilder.build(),
+                    mapView.getMeasuredWidth(),
+                    mapView.getMeasuredHeight(),
+                    (int) (mapView.getMeasuredHeight() * 0.05f)
+            ));
+        }
     }
 
     // starts the timer
