@@ -40,10 +40,14 @@ public class RecyclerViewAdapterFavorites extends RecyclerView.Adapter<RecyclerV
     @Override
     public void onBindViewHolder(RecyclerViewAdapterFavorites.MyViewHolder holder, final int position) {
         holder.tv_recipe_title.setText(mData.get(position).getTitle());
-        if (mData.get(position).getThumbnail().isEmpty()) {
-            holder.img_recipe_thumbnail.setImageResource(R.drawable.nopicture);
-        } else{
-            Picasso.get().load(mData.get(position).getThumbnail()).into(holder.img_recipe_thumbnail);
+        System.out.println(mData.get(position).getTitle());
+        try {
+            if (mData.get(position).getThumbnail().isEmpty()) {
+                holder.img_recipe_thumbnail.setImageResource(R.drawable.nopicture);
+            } else {
+                Picasso.get().load(mData.get(position).getThumbnail()).into(holder.img_recipe_thumbnail);
+            }
+        } catch (NullPointerException ne) {
         }
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
