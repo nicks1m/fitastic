@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModel;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -28,10 +27,10 @@ import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link multiPlayServer#newInstance} factory method to
+ * Use the {@link MultiPlayServer#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class multiPlayServer extends Fragment {
+public class MultiPlayServer extends Fragment {
 
     // debug
     private static String TAG = "multiPlayServer";
@@ -61,12 +60,12 @@ public class multiPlayServer extends Fragment {
 
     private LinearLayout players;
 
-    public multiPlayServer() {
+    public MultiPlayServer() {
         // Required empty public constructor
     }
 
-    public static multiPlayServer newInstance() {
-        multiPlayServer fragment = new multiPlayServer();
+    public static MultiPlayServer newInstance() {
+        MultiPlayServer fragment = new MultiPlayServer();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;

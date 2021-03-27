@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 
 
-public class findFriends extends AppCompatActivity {
+public class FindFriends extends AppCompatActivity {
 
     private Toolbar mToolbar;
 

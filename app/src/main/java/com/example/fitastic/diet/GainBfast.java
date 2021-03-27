@@ -3,28 +3,20 @@ package com.example.fitastic.diet;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.fitastic.R;
-import com.google.firebase.database.DatabaseReference;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link gainBfast#newInstance} factory method to
+ * Use the {@link GainBfast#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class gainBfast extends Fragment {
+public class GainBfast extends Fragment {
 
 //    private FirebaseRecyclerOptions<dietModel> options;
 //    private TextView title;
@@ -39,7 +31,7 @@ public class gainBfast extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public gainBfast() {
+    public GainBfast() {
         // Required empty public constructor
     }
 
@@ -52,8 +44,8 @@ public class gainBfast extends Fragment {
      * @return A new instance of fragment gainBfast.
      */
     // TODO: Rename and change types and number of parameters
-    public static gainBfast newInstance(String param1, String param2) {
-        gainBfast fragment = new gainBfast();
+    public static GainBfast newInstance(String param1, String param2) {
+        GainBfast fragment = new GainBfast();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

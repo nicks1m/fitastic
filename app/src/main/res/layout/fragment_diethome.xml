@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="ltr"
     android:orientation="vertical"
-    tools:context=".diet.dietFrag">
+    tools:context=".diet.DietFrag">
 
 
     <androidx.appcompat.widget.Toolbar

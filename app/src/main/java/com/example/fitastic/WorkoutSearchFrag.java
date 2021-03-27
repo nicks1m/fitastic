@@ -3,7 +3,6 @@ package com.example.fitastic;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.fitastic.diet.Recipe;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,18 +20,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link workoutSearchFrag#newInstance} factory method to
+ * Use the {@link WorkoutSearchFrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class workoutSearchFrag extends Fragment {
+public class WorkoutSearchFrag extends Fragment {
 
     private RecyclerView recyclerView;
     private String title;
@@ -53,7 +47,7 @@ public class workoutSearchFrag extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public workoutSearchFrag() {
+    public WorkoutSearchFrag() {
         // Required empty public constructor
     }
 
@@ -66,8 +60,8 @@ public class workoutSearchFrag extends Fragment {
      * @return A new instance of fragment workoutSearchFrag.
      */
     // TODO: Rename and change types and number of parameters
-    public static workoutSearchFrag newInstance(String param1, String param2) {
-        workoutSearchFrag fragment = new workoutSearchFrag();
+    public static WorkoutSearchFrag newInstance(String param1, String param2) {
+        WorkoutSearchFrag fragment = new WorkoutSearchFrag();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

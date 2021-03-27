@@ -49,7 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class dietFrag extends Fragment implements View.OnClickListener {
+public class DietFrag extends Fragment implements View.OnClickListener {
     private List<Recipe> lstRecipe = new ArrayList<>();
     private List<Recipe> searchRecipe;
     private JSONArray testArr;

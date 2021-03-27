@@ -2,9 +2,9 @@ package com.example.fitastic;
 
 import java.util.ArrayList;
 
-public class rewardsGenerator {
+public class RewardsGenerator {
 
-    public static ArrayList<rewardsGenerator> rewards;
+    public static ArrayList<RewardsGenerator> rewards;
     //Arraylist to hold brands
     private ArrayList<String> brandsList;
     //Arraylist to hold amount of discount
@@ -19,7 +19,7 @@ public class rewardsGenerator {
     private String points;
     private String type;
 
-    rewardsGenerator(int tier){
+    RewardsGenerator(int tier){
 
         discountList = new ArrayList<>();
         pointsList = new ArrayList<>();
@@ -101,7 +101,7 @@ public class rewardsGenerator {
     //Generate Rewards
     public static ArrayList generate(int tier){
         rewards = new ArrayList<>();
-        rewards.add(new rewardsGenerator(1));
+        rewards.add(new RewardsGenerator(1));
 
         return rewards;
     }

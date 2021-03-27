@@ -10,7 +10,7 @@
 
     <activity android:id="@+id/loginActivity" android:name="com.example.fitastic.RegisterActivity"
               android:label="activity_main" tools:layout="@layout/activity_register"/>
-    <fragment android:id="@+id/homeFrag" android:name="com.example.fitastic.homeFrag" android:label="fragment_home"
+    <fragment android:id="@+id/homeFrag" android:name="com.example.fitastic.HomeFrag" android:label="fragment_home"
               tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFrag_to_runStatsFrag"
@@ -27,15 +27,11 @@
             android:id="@+id/action_workoutFrag_to_workoutSearchFrag"
             app:destination="@id/workoutSearchFrag" />
     </fragment>
-    <fragment android:id="@+id/startFrag" android:name="com.example.fitastic.startFrag" android:label="fragment_start"
+    <fragment android:id="@+id/startFrag" android:name="com.example.fitastic.StartFrag" android:label="fragment_start"
               tools:layout="@layout/fragment_start">
         <action
             android:id="@+id/action_startFrag_to_runHistoryFragment"
             app:destination="@id/runHistoryFragment" />
-        <action
-            android:id="@+id/action_startFrag_to_onRunFrag"
-            app:destination="@id/onRunFrag"
-            app:enterAnim="@anim/fragment_open_enter" />
         <action
             android:id="@+id/action_startFrag_to_runSummary"
             app:destination="@id/runSummary" />
@@ -43,7 +39,7 @@
             android:id="@+id/action_startFrag_to_multiPlayServer"
             app:destination="@id/multiPlayServer" />
     </fragment>
-    <fragment android:id="@+id/profileFrag" android:name="com.example.fitastic.profileFrag"
+    <fragment android:id="@+id/profileFrag" android:name="com.example.fitastic.ProfileFrag"
               android:label="fragment_profile" tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_profileFrag_to_pointsFrag"
@@ -62,12 +58,8 @@
             app:destination="@id/startFrag" />
     </fragment>
     <fragment
-        android:id="@+id/onRunFrag"
-        android:name="com.example.fitastic.onRunFrag"
-        android:label="onRunFrag" />
-    <fragment
         android:id="@+id/pointsFrag"
-        android:name="com.example.fitastic.pointsFrag"
+        android:name="com.example.fitastic.PointsFrag"
         android:label="fragment_points"
         tools:layout="@layout/fragment_points" >
         <action
@@ -76,7 +68,7 @@
     </fragment>
     <fragment
         android:id="@+id/createCustomWorkout"
-        android:name="com.example.fitastic.createCustomWorkout"
+        android:name="com.example.fitastic.CreateCustomWorkout"
         android:label="fragment_create_custom_workout"
         tools:layout="@layout/fragment_create_custom_workout" >
         <action
@@ -94,7 +86,7 @@
     </fragment>
     <fragment
         android:id="@+id/workout_in_prog_frag"
-        android:name="com.example.fitastic.workout_in_prog_frag"
+        android:name="com.example.fitastic.WorkoutInProgFrag"
         android:label="fragment_workout_in_prog_frag"
         tools:layout="@layout/fragment_workout_in_prog_frag" >
         <argument android:name="exercise_list" />
@@ -107,7 +99,7 @@
     </fragment>
     <fragment
         android:id="@+id/dietFrag"
-        android:name="com.example.fitastic.diet.dietFrag"
+        android:name="com.example.fitastic.diet.DietFrag"
         android:label="fragment_diethome"
         tools:layout="@layout/fragment_diethome" >
         <action
@@ -123,7 +115,7 @@
         android:label="FavoritesFragment" />
     <fragment
         android:id="@+id/runStatsFrag"
-        android:name="com.example.fitastic.runStatsFrag"
+        android:name="com.example.fitastic.RunStatsFrag"
         android:label="fragment_run_stats"
         tools:layout="@layout/fragment_run_stats" >
         <argument android:name="runID" />
@@ -133,7 +125,7 @@
     </fragment>
     <fragment
         android:id="@+id/multiPlayServer"
-        android:name="com.example.fitastic.multiPlayServer"
+        android:name="com.example.fitastic.MultiPlayServer"
         android:label="fragment_multi_play_server"
         tools:layout="@layout/fragment_multi_play_server" >
         <action
@@ -146,17 +138,17 @@
         android:label="SearchFragment" />
     <activity
         android:id="@+id/findFriends2"
-        android:name="com.example.fitastic.findFriends"
+        android:name="com.example.fitastic.FindFriends"
         android:label="activity_find_friends"
         tools:layout="@layout/activity_find_friends" />
     <fragment
         android:id="@+id/rewardsFrag"
-        android:name="com.example.fitastic.rewardsFrag"
+        android:name="com.example.fitastic.RewardsFrag"
         android:label="fragment_rewards"
         tools:layout="@layout/fragment_rewards" />
     <fragment
         android:id="@+id/workoutSearchFrag"
-        android:name="com.example.fitastic.workoutSearchFrag"
+        android:name="com.example.fitastic.WorkoutSearchFrag"
         android:label="fragment_workout_search"
         tools:layout="@layout/fragment_workout_search" />
     <fragment

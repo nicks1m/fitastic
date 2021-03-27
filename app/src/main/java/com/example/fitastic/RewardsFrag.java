@@ -20,17 +20,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link rewardsFrag#newInstance} factory method to
+ * Use the {@link RewardsFrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class rewardsFrag extends Fragment {
+public class RewardsFrag extends Fragment {
 
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
@@ -57,7 +55,7 @@ public class rewardsFrag extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public rewardsFrag() {
+    public RewardsFrag() {
         // Required empty public constructor
     }
 
@@ -70,8 +68,8 @@ public class rewardsFrag extends Fragment {
      * @return A new instance of fragment rewardsFrag.
      */
     // TODO: Rename and change types and number of parameters
-    public static rewardsFrag newInstance(String param1, String param2) {
-        rewardsFrag fragment = new rewardsFrag();
+    public static RewardsFrag newInstance(String param1, String param2) {
+        RewardsFrag fragment = new RewardsFrag();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -119,7 +117,7 @@ public class rewardsFrag extends Fragment {
 
                 //if rewards < 5 in list, update with new rewards
                 if(snapshot.child("unclaimed").getChildrenCount() < 5){
-                    Object a = new rewardsGenerator(calculateTier(tierPoints));
+                    Object a = new RewardsGenerator(calculateTier(tierPoints));
                     ref.child("unclaimed").push().setValue(a);
                 }
                 //generate views

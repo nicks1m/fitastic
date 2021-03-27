@@ -1,4 +1,6 @@
-package com.example.fitastic;
+package com.example.fitastic.models;
+
+import com.example.fitastic.models.Exercise;
 
 import java.util.ArrayList;
 import java.util.List;

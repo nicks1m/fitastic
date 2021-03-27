@@ -31,19 +31,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link runStatsFrag#newInstance} factory method to
+ * Use the {@link RunStatsFrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class runStatsFrag extends Fragment {
+public class RunStatsFrag extends Fragment {
 
     private DatabaseReference mDatabase;
     private FirebaseAuth auth;
@@ -79,7 +74,7 @@ public class runStatsFrag extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public runStatsFrag() {
+    public RunStatsFrag() {
         // Required empty public constructor
     }
 
@@ -92,8 +87,8 @@ public class runStatsFrag extends Fragment {
      * @return A new instance of fragment runStatsFrag.
      */
     // TODO: Rename and change types and number of parameters
-    public static runStatsFrag newInstance(String param1, String param2) {
-        runStatsFrag fragment = new runStatsFrag();
+    public static RunStatsFrag newInstance(String param1, String param2) {
+        RunStatsFrag fragment = new RunStatsFrag();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

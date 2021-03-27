@@ -28,17 +28,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link profileFrag#newInstance} factory method to
+ * Use the {@link ProfileFrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class profileFrag extends Fragment {
+public class ProfileFrag extends Fragment {
 
     private DatabaseReference mDatabase;
     private FirebaseAuth auth;
@@ -71,7 +70,7 @@ public class profileFrag extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public profileFrag() {
+    public ProfileFrag() {
         // Required empty public constructor
     }
 
@@ -84,8 +83,8 @@ public class profileFrag extends Fragment {
      * @return A new instance of fragment profileFrag.
      */
     // TODO: Rename and change types and number of parameters
-    public static profileFrag newInstance(String param1, String param2) {
-        profileFrag fragment = new profileFrag();
+    public static ProfileFrag newInstance(String param1, String param2) {
+        ProfileFrag fragment = new ProfileFrag();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -178,7 +177,7 @@ public class profileFrag extends Fragment {
         });
 
         go_points.setOnClickListener(v1 -> {
-            pointsFrag points = new pointsFrag();
+            PointsFrag points = new PointsFrag();
             openPoints(v1);
         });
 
@@ -191,7 +190,7 @@ public class profileFrag extends Fragment {
         runlogs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(profileFrag.this.getActivity(), ShowDataActivity.class));
+                startActivity(new Intent(ProfileFrag.this.getActivity(), ShowDataActivity.class));
             }
         });
         //END RUN LOG
@@ -208,7 +207,7 @@ public class profileFrag extends Fragment {
         btn_friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), findFriends.class);
+                Intent intent = new Intent(getActivity(), FindFriends.class);
                 startActivity(intent);
             }
         });

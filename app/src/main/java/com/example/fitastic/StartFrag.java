@@ -50,7 +50,7 @@ import pub.devrel.easypermissions.AppSettingsDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 
-public class startFrag extends Fragment implements EasyPermissions.PermissionCallbacks{
+public class StartFrag extends Fragment implements EasyPermissions.PermissionCallbacks{
 
     /* StartFrag fragment controls the run feature of the app. To achieve this it uses google maps
     *  to display locations and routes. Before a user can go on a run, location permissions also
@@ -117,12 +117,12 @@ public class startFrag extends Fragment implements EasyPermissions.PermissionCal
     private int minutes;
     private int hours;
 
-    public startFrag() {
+    public StartFrag() {
         // Required empty public constructor
     }
 
-    public static startFrag newInstance() {
-        startFrag fragment = new startFrag();
+    public static StartFrag newInstance() {
+        StartFrag fragment = new StartFrag();
         return fragment;
     }
 

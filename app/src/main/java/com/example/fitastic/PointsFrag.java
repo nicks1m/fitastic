@@ -2,18 +2,15 @@ package com.example.fitastic;
 
 import android.os.Bundle;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -31,10 +28,10 @@ import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link pointsFrag#newInstance} factory method to
+ * Use the {@link PointsFrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class pointsFrag extends Fragment {
+public class PointsFrag extends Fragment {
 
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
@@ -70,7 +67,7 @@ public class pointsFrag extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public pointsFrag() {
+    public PointsFrag() {
         // Required empty public constructor
     }
 
@@ -83,8 +80,8 @@ public class pointsFrag extends Fragment {
      * @return A new instance of fragment pointsFrag.
      */
     // TODO: Rename and change types and number of parameters
-    public static pointsFrag newInstance(String param1, String param2) {
-        pointsFrag fragment = new pointsFrag();
+    public static PointsFrag newInstance(String param1, String param2) {
+        PointsFrag fragment = new PointsFrag();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -191,9 +188,9 @@ public class pointsFrag extends Fragment {
     private void createChallenges(){
         //objects of challenges stored in arraylist
         //iterate through arraylist and create dynanimcally
-        challengeGenerator.generateChallenges();
+        ChallengeGenerator.generateChallenges();
         for(int i = 0; i < 4; i++){
-            addChallenge(challengeGenerator.challenges.get(i).getChallenge(),challengeGenerator.challenges.get(i).getPoints());
+            addChallenge(ChallengeGenerator.challenges.get(i).getChallenge(), ChallengeGenerator.challenges.get(i).getPoints());
         }
 
     }

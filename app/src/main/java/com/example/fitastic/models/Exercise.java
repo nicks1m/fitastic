@@ -1,4 +1,4 @@
-package com.example.fitastic;
+package com.example.fitastic.models;
 
 public class Exercise {
 

@@ -1,19 +1,15 @@
 package com.example.fitastic;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class challengeGenerator {
+public class ChallengeGenerator {
 
-    public static ArrayList<challengeGenerator> challenges;
+    public static ArrayList<ChallengeGenerator> challenges;
     public String challenge;
     public int points;
 
 
-   challengeGenerator(int index){
+   ChallengeGenerator(int index){
        switch(index){
            case 1:
                setChallenge("Beat your personal best pace");
@@ -39,10 +35,10 @@ public class challengeGenerator {
    }
 
    public static ArrayList generateChallenges(){
-       challenges = new ArrayList<challengeGenerator>();
+       challenges = new ArrayList<ChallengeGenerator>();
        for(int i = 0; i < 4; i++){
            int x = (int) (Math.random() * 4 - 1) + 1;
-           challenges.add(new challengeGenerator(x));
+           challenges.add(new ChallengeGenerator(x));
        }
        System.out.println(challenges.get(0).getChallenge());
        return challenges;

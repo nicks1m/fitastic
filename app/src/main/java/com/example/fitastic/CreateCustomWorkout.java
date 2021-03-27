@@ -3,7 +3,6 @@ package com.example.fitastic;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -15,10 +14,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.fitastic.models.Exercise;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,16 +24,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link createCustomWorkout#newInstance} factory method to
+ * Use the {@link CreateCustomWorkout#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class createCustomWorkout extends Fragment {
+public class CreateCustomWorkout extends Fragment {
 
     private FirebaseAuth auth;
     private DatabaseReference mDatabase;
@@ -65,7 +62,7 @@ public class createCustomWorkout extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public createCustomWorkout() {
+    public CreateCustomWorkout() {
         // Required empty public constructor
     }
 
@@ -78,8 +75,8 @@ public class createCustomWorkout extends Fragment {
      * @return A new instance of fragment createCustomWorkout.
      */
     // TODO: Rename and change types and number of parameters
-    public static createCustomWorkout newInstance(String param1, String param2) {
-        createCustomWorkout fragment = new createCustomWorkout();
+    public static CreateCustomWorkout newInstance(String param1, String param2) {
+        CreateCustomWorkout fragment = new CreateCustomWorkout();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

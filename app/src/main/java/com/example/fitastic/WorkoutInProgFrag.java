@@ -7,7 +7,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.os.CountDownTimer;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +15,14 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link workout_in_prog_frag#newInstance} factory method to
+ * Use the {@link WorkoutInProgFrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class workout_in_prog_frag extends Fragment {
+public class WorkoutInProgFrag extends Fragment {
 
     private String custom_workout_title;
     private TextView workout_title;
@@ -58,7 +54,7 @@ public class workout_in_prog_frag extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public workout_in_prog_frag() {
+    public WorkoutInProgFrag() {
         // Required empty public constructor
     }
 
@@ -71,8 +67,8 @@ public class workout_in_prog_frag extends Fragment {
      * @return A new instance of fragment workout_in_prog_frag.
      */
     // TODO: Rename and change types and number of parameters
-    public static workout_in_prog_frag newInstance(String param1, String param2) {
-        workout_in_prog_frag fragment = new workout_in_prog_frag();
+    public static WorkoutInProgFrag newInstance(String param1, String param2) {
+        WorkoutInProgFrag fragment = new WorkoutInProgFrag();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

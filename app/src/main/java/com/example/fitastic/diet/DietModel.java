@@ -1,13 +1,13 @@
 package com.example.fitastic.diet;
 
-public class dietModel {
+public class DietModel {
     private String name;
     private String cal;
 
-    public dietModel() {
+    public DietModel() {
     }
 
-    public dietModel(String name, String cal) {
+    public DietModel(String name, String cal) {
         this.name = name;
         this.cal = cal;
     }

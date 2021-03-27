@@ -1,20 +1,11 @@
 package com.example.fitastic;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.GpsStatus;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -23,15 +14,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.fitastic.utility.RunDbUtility;
-import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,19 +27,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link homeFrag#newInstance} factory method to
+ * Use the {@link HomeFrag#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class homeFrag extends Fragment {
+public class HomeFrag extends Fragment {
 
     private TextView time;
     private TextView date;
@@ -83,7 +68,7 @@ public class homeFrag extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public homeFrag() {
+    public HomeFrag() {
         // Required empty public constructor
     }
 
@@ -96,8 +81,8 @@ public class homeFrag extends Fragment {
      * @return A new instance of fragment FirstFrag.
      */
     // TODO: Rename and change types and number of parameters
-    public static homeFrag newInstance(String param1, String param2) {
-        homeFrag fragment = new homeFrag();
+    public static HomeFrag newInstance(String param1, String param2) {
+        HomeFrag fragment = new HomeFrag();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);

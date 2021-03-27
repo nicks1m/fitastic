@@ -25,8 +25,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".findFriends"
-            android:parentActivityName=""></activity>
+        <activity android:name=".FindFriends"
+            android:parentActivityName=".LoginActivity"></activity>
         <activity android:name=".ShowDataActivity" />
         <activity android:name=".SetupUserActivity" />
         <!--
