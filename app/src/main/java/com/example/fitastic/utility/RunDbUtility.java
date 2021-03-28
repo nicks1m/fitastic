@@ -6,6 +6,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
+import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -66,6 +67,7 @@ public class RunDbUtility {
     // calculate pace
     public static String calculatePace(String dist, String time) {
         // distance in km
+        String sspace = "";
         double distkm = Double.parseDouble(dist)/1000;
         // time in min
         double runtime = Double.parseDouble(time) / 60;
@@ -73,8 +75,11 @@ public class RunDbUtility {
         double dpace = runtime / distkm;
         int mpace = (int)dpace;
         int space = (int)((dpace - mpace) * 60);
+//        if(space < 10){
+//            sspace = "0" + space;
+//        }
 //        String sspace = new DecimalFormat("#.##").format(dpace);
-        String pace = mpace + "'" + space;
+        String pace = mpace + "\"" + space;
         return pace;
     }
 
@@ -83,7 +88,9 @@ public class RunDbUtility {
         // get distance in km
         double ddist = Double.parseDouble(dist)/1000;
         // format distance
-        String dist1 = new DecimalFormat("#.##").format(ddist) + " km";
+        DecimalFormat df = new DecimalFormat("0.00");
+        df.setRoundingMode(RoundingMode.DOWN);
+        String dist1 = df.format(ddist) + " km";
         return dist1;
     }
 
