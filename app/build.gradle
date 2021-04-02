@@ -95,4 +95,10 @@ dependencies {
     implementation 'pub.devrel:easypermissions:2.0.1'
     //charts
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
+    androidTestImplementation 'com.21buttons:fragment-test-rule:1.0.0'
 }
